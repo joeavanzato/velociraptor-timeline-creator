@@ -344,6 +344,28 @@ func SendRecordsToAppropriateBus(logger zerolog.Logger, records []string, record
 		} else if JSONFileName == "Windows Search Service_SystemIndex_PropertyStore.json" {
 			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_PropertyStore("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
 		}
+	} else if strings.HasPrefix(artifactName, "Windows.Sys.Drivers") {
+		if JSONFileName == "SignedDrivers.json" {
+			artifact_structs.Process_Windows_Sys_Drivers_SignedDrivers("Windows.Sys.Drivers", clientIdentifier, records, recordOutputChannel, arguments)
+		}
+	} else if artifactName == "Windows.System.Powershell.ModuleAnalysisCache" {
+		artifact_structs.Process_Windows_System_Powershell_ModuleAnalysisCache("Windows.System.Powershell.ModuleAnalysisCache", clientIdentifier, records, recordOutputChannel, arguments)
+	} else if strings.HasPrefix(artifactName, "Windows.Analysis.EvidenceOfExecution") {
+		if JSONFileName == "Amcache.json" {
+			artifact_structs.Process_Windows_Analysis_EvidenceOfExecution_Amcache("Windows.Analysis.EvidenceOfExecution", clientIdentifier, records, recordOutputChannel, arguments)
+		} else if JSONFileName == "UserAssist.json" {
+			artifact_structs.Process_Windows_Registry_UserAssist("Windows.Analysis.EvidenceOfExecution", clientIdentifier, records, recordOutputChannel, arguments)
+		}
+	} else if artifactName == "Windows.Analysis.EvidenceOfDownload" {
+		artifact_structs.Process_Windows_Analysis_EvidenceOfDownload("Windows.Analysis.EvidenceOfDownload", clientIdentifier, records, recordOutputChannel, arguments)
+	} else if artifactName == "Windows.EventLogs.Evtx" {
+		artifact_structs.Process_Windows_EventLogs_Evtx("Windows.EventLogs.Evtx", clientIdentifier, records, recordOutputChannel, arguments)
+	} else if artifactName == "Exchange.Windows.EventLogs.Chainsaw" {
+		artifact_structs.Process_Exchange_Windows_EventLogs_Chainsaw("Exchange.Windows.EventLogs.Chainsaw", clientIdentifier, records, recordOutputChannel, arguments)
+	} else if strings.HasPrefix(artifactName, "Exchange.Windows.Memory.InjectedThreadEx") {
+		if JSONFileName != "RawResults.json" {
+			artifact_structs.Process_Exchange_Windows_Memory_InjectedThreadEx("Exchange.Windows.Memory.InjectedThreadEx", clientIdentifier, records, recordOutputChannel, arguments)
+		}
 	}
 }
 

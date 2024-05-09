@@ -46,3 +46,43 @@ func Process_Windows_System_Amcache_InventoryApplicationFile(artifactName string
 		outputChannel <- tmp2.StringArray()
 	}
 }
+
+type Windows_Analysis_EvidenceOfExecution_Amcache struct {
+	HivePath         string    `json:"HivePath"`
+	EntryKey         string    `json:"EntryKey"`
+	KeyMTime         time.Time `json:"KeyMTime"`
+	EntryType        string    `json:"EntryType"`
+	SHA1             string    `json:"SHA1"`
+	EntryName        string    `json:"EntryName"`
+	EntryPath        string    `json:"EntryPath"`
+	Publisher        string    `json:"Publisher"`
+	OriginalFileName string    `json:"OriginalFileName"`
+	BinaryType       string    `json:"BinaryType"`
+	Source           string    `json:"_Source"`
+}
+
+func Process_Windows_Analysis_EvidenceOfExecution_Amcache(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
+	for _, line := range inputLines {
+		tmp := Windows_Analysis_EvidenceOfExecution_Amcache{}
+		err := json.Unmarshal([]byte(line), &tmp)
+		if err != nil {
+			fmt.Println(err.Error())
+			continue
+		}
+		tmp2 := vars.ShallowRecord{
+			Timestamp:        tmp.KeyMTime,
+			Computer:         clientIdentifier,
+			Artifact:         artifactName,
+			EventType:        "Amcache Entry Modified",
+			EventDescription: "",
+			SourceUser:       "",
+			SourceHost:       "",
+			DestinationUser:  "",
+			DestinationHost:  "",
+			SourceFile:       tmp.EntryPath,
+			MetaData:         fmt.Sprintf("Entry Type: %v, Publisher: %v, SHA1: %v", tmp.EntryType, tmp.Publisher, tmp.SHA1),
+		}
+		outputChannel <- tmp2.StringArray()
+	}
+}

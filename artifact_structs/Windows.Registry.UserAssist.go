@@ -29,7 +29,7 @@ func Process_Windows_Registry_UserAssist(artifactName string, clientIdentifier s
 			Timestamp:        tmp.LastExecution,
 			Computer:         clientIdentifier,
 			Artifact:         artifactName,
-			EventType:        vars.ImplementedArtifacts[artifactName],
+			EventType:        "UserAssist Last Execution",
 			EventDescription: "",
 			SourceUser:       tmp.User,
 			SourceHost:       "",
