@@ -11,6 +11,11 @@ type Custom_Windows_Eventlog_Evtx struct {
 	PayloadData1    string    `json:"PayloadData1"`
 	PayloadData2    string    `json:"PayloadData2"`
 	PayloadData3    string    `json:"PayloadData3"`
+	PayloadData4    string    `json:"PayloadData4"`
+	PayloadData5    string    `json:"PayloadData5"`
+	PayloadData6    string    `json:"PayloadData6"`
+	UserName        string    `json:"UserName"`
+	RemoteHost      string    `json:"RemoteHost"`
 	ExecutableInfo  string    `json:"ExecutableInfo"`
 	MapDescription  string    `json:"MapDescription"`
 	ChunkNumber     int       `json:"ChunkNumber"`
@@ -47,12 +52,12 @@ func Process_Custom_Windows_Eventlog_Evtx(artifactName string, clientIdentifier 
 			Artifact:         artifactName,
 			EventType:        vars.ImplementedArtifacts[artifactName],
 			EventDescription: tmp.MapDescription,
-			SourceUser:       tmp.UserID,
-			SourceHost:       tmp.Computer,
+			SourceUser:       tmp.UserName,
+			SourceHost:       tmp.RemoteHost,
 			DestinationUser:  "",
 			DestinationHost:  "",
-			SourceFile:       tmp.SourceFile,
-			MetaData:         fmt.Sprintf("EventID: %v, ExecutableInfo: %v, Data1: %v, Data2: %v, Data3: %v", tmp.EventID, tmp.ExecutableInfo, tmp.PayloadData1, tmp.PayloadData2, tmp.PayloadData3),
+			SourceFile:       tmp.Channel,
+			MetaData:         fmt.Sprintf("EventID: %v, ExecutableInfo: %v, Data1: %v, Data2: %v, Data3: %v, Data4: %v, Data5: %v, Data6: %v", tmp.EventID, tmp.ExecutableInfo, tmp.PayloadData1, tmp.PayloadData2, tmp.PayloadData3, tmp.PayloadData4, tmp.PayloadData5, tmp.PayloadData6),
 		}
 		outputChannel <- tmp2.StringArray()
 	}

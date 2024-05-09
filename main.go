@@ -296,6 +296,54 @@ func SendRecordsToAppropriateBus(logger zerolog.Logger, records []string, record
 		if arguments["mftlight"].(bool) || arguments["mftfull"].(bool) {
 			artifact_structs.Process_Custom_Windows_MFT("Custom.Windows.MFT", clientIdentifier, records, recordOutputChannel, arguments)
 		}
+	} else if strings.HasPrefix(artifactName, "Generic.Client.Info") {
+		if JSONFileName == "Users.json" {
+			artifact_structs.Process_Generic_Client_Info_Users("Generic.Client.Info", clientIdentifier, records, recordOutputChannel, arguments)
+		}
+	} else if artifactName == "Windows.Applications.Chrome.History" {
+		artifact_structs.Process_Windows_Applications_Chrome_History("Windows.Applications.Chrome.History", clientIdentifier, records, recordOutputChannel, arguments)
+	} else if artifactName == "Windows.Applications.Edge.History" {
+		artifact_structs.Process_Windows_Applications_Edge_History("Windows.Applications.Edge.History", clientIdentifier, records, recordOutputChannel, arguments)
+	} else if artifactName == "Windows.Applications.Firefox.Downloads" {
+		artifact_structs.Process_Windows_Applications_Firefox_Downloads("Windows.Applications.Firefox.Downloads", clientIdentifier, records, recordOutputChannel, arguments)
+	} else if artifactName == "Windows.Applications.Firefox.History" {
+		artifact_structs.Process_Windows_Applications_Firefox_History("Windows.Applications.Firefox.History", clientIdentifier, records, recordOutputChannel, arguments)
+	} else if artifactName == "Windows.Applications.NirsoftBrowserViewer" {
+		artifact_structs.Process_Windows_Applications_NirsoftBrowserViewer("Windows.Applications.NirsoftBrowserViewer", clientIdentifier, records, recordOutputChannel, arguments)
+	} else if artifactName == "Windows.EventLogs.PowershellScriptblock" {
+		artifact_structs.Process_Windows_EventLogs_PowerShellScriptblock("Windows.EventLogs.PowershellScriptblock", clientIdentifier, records, recordOutputChannel, arguments)
+	} else if artifactName == "Windows.EventLogs.RDPAuth" {
+		artifact_structs.Process_Windows_EventLogs_RDPAuth("Windows.EventLogs.RDPAuth", clientIdentifier, records, recordOutputChannel, arguments)
+	} else if strings.HasPrefix(artifactName, "Windows.Forensics.SAM") {
+		if JSONFileName == "CreateTimes.json" {
+			artifact_structs.Process_Windows_Forensics_SAM_CreateTimes("Windows.Forensics.SAM", clientIdentifier, records, recordOutputChannel, arguments)
+		} else if JSONFileName == "Parsed.json" {
+			artifact_structs.Process_Windows_Forensics_SAM_Parsed("Windows.Forensics.SAM", clientIdentifier, records, recordOutputChannel, arguments)
+		}
+	} else if strings.HasPrefix(artifactName, "Generic.Forensic.SQLiteHunter") {
+		if JSONFileName == "Chromium Browser Bookmarks.json" {
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Bookmarks("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+		} else if JSONFileName == "Chromium Browser Favicons.json" {
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Favicons("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+		} else if JSONFileName == "Chromium Browser History_Downloads.json" {
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Downloads("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+		} else if JSONFileName == "Chromium Browser History_Keywords.json" {
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Keywords("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+		} else if JSONFileName == "Chromium Browser History_Visits.json" {
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Visits("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+		} else if JSONFileName == "Chromium Browser Shortcuts.json" {
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Shortcuts("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+		} else if JSONFileName == "Firefox Cookies.json" {
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Firefox_Cookies("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+		} else if JSONFileName == "Firefox Form History.json" {
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Firefox_Form_History("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+		} else if JSONFileName == "IE or Edge WebCacheV01_All Data.json" {
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_All_Data("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+		} else if JSONFileName == "Windows Search Service_SystemIndex_Gthr.json" {
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Gthr("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+		} else if JSONFileName == "Windows Search Service_SystemIndex_PropertyStore.json" {
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_PropertyStore("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+		}
 	}
 }
 
