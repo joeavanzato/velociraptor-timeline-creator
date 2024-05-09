@@ -54,6 +54,7 @@ func CloseChannelWhenDone(c chan []string, wg *sync.WaitGroup) {
 func ListenOnWriteChannel(c chan []string, w *csv.Writer, logger zerolog.Logger, outputF *os.File, bufferSize int, wait *sync.WaitGroup) {
 	// TODO - Consider having pool of routines appending records to slice [][]string and a single reader drawing from this to avoid any bottle-necks
 	// TODO - Consider sending writer in a goroutine with wait group, refilling buffer, etc.
+	// TODO - Hash incoming records and throw out duplicates
 	defer outputF.Close()
 	defer wait.Done()
 	tempRecords := make([][]string, 0)

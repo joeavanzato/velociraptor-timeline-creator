@@ -366,6 +366,10 @@ func SendRecordsToAppropriateBus(logger zerolog.Logger, records []string, record
 		if JSONFileName != "RawResults.json" {
 			artifact_structs.Process_Exchange_Windows_Memory_InjectedThreadEx("Exchange.Windows.Memory.InjectedThreadEx", clientIdentifier, records, recordOutputChannel, arguments)
 		}
+	} else if strings.HasPrefix(artifactName, "Exchange.Windows.EventLogs.Hayabusa") {
+		if JSONFileName == "Results.json" {
+			artifact_structs.Process_Exchange_Windows_EventLogs_Hayabusa("Exchange.Windows.EventLogs.Hayabusa", clientIdentifier, records, recordOutputChannel, arguments)
+		}
 	}
 }
 
