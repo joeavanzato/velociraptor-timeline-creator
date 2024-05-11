@@ -3,11 +3,12 @@ package artifact_structs
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/joeavanzato/velo-timeline-creator/helpers"
 	"github.com/joeavanzato/velo-timeline-creator/vars"
 	"time"
 )
 
-type Windows_Forensics_AlternateLogon struct {
+type Windows_EventLogs_AlternateLogon struct {
 	EventTime        time.Time `json:"EventTime"`
 	IPAddress        string    `json:"IpAddress"`
 	Port             string    `json:"Port"`
@@ -19,13 +20,26 @@ type Windows_Forensics_AlternateLogon struct {
 	LogonTime        float64   `json:"LogonTime"`
 }
 
-func Process_Windows_Forensics_AlternateLogon(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func (s Windows_EventLogs_AlternateLogon) StringArray() []string {
+	return []string{s.EventTime.String(), s.IPAddress, s.Port, s.ProcessName, s.SubjectUserSid, s.SubjectUserName,
+		s.TargetUserName, s.TargetServerName, fmt.Sprint(s.LogonTime)}
+}
+
+func (s Windows_EventLogs_AlternateLogon) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
+}
+
+func Process_Windows_EventLogs_AlternateLogon(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
-		tmp := Windows_Forensics_AlternateLogon{}
+		tmp := Windows_EventLogs_AlternateLogon{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
 			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.EventTime.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
 			continue
 		}
 		tmp2 := vars.ShallowRecord{

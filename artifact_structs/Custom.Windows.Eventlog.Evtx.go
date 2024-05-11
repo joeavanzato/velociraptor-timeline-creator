@@ -3,7 +3,9 @@ package artifact_structs
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/joeavanzato/velo-timeline-creator/helpers"
 	"github.com/joeavanzato/velo-timeline-creator/vars"
+	"strconv"
 	"time"
 )
 
@@ -37,6 +39,18 @@ type Custom_Windows_Eventlog_Evtx struct {
 	RecordNumber    int       `json:"RecordNumber"`
 }
 
+func (s Custom_Windows_Eventlog_Evtx) StringArray() []string {
+	return []string{strconv.Itoa(s.RecordNumber), s.TimeCreated.String(), strconv.FormatBool(s.HiddenRecord), strconv.Itoa(s.ExtraDataOffset),
+		s.SourceFile, s.Keywords, s.Level, strconv.Itoa(s.ThreadID), strconv.Itoa(s.ProcessID), s.EventRecordID,
+		strconv.Itoa(s.EventID), s.Provider, s.Channel, s.UserID, s.Computer, s.MapDescription, s.UserName, s.RemoteHost, s.PayloadData1, s.PayloadData2, s.PayloadData3, s.PayloadData4, s.PayloadData5, s.PayloadData6,
+		s.ExecutableInfo, strconv.Itoa(s.ChunkNumber), s.Payload}
+}
+
+func (s Custom_Windows_Eventlog_Evtx) GetHeaders() []string {
+	return []string{"RecordNumber", "TimeCreated", "HiddenRecord", "ExtraDataOffset", "SourceFile", "Keywords", "Level", "ThreadID", "ProcessID", "EventRecordID", "EventID", "Provider", "Channel", "UserID", "Computer", "MapDescription", "UserName",
+		"RemoteHost", "PayloadData1", "PayloadData2", "PayloadData3", "PayloadData4", "PayloadData5", "PayloadData6", "ExecutableInfo", "ChunkNumber", "Payload"}
+}
+
 func Process_Custom_Windows_Eventlog_Evtx(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
@@ -44,6 +58,10 @@ func Process_Custom_Windows_Eventlog_Evtx(artifactName string, clientIdentifier 
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
 			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.TimeCreated.String(), clientIdentifier, tmp.Computer, tmp.StringArray(), outputChannel)
 			continue
 		}
 		tmp2 := vars.ShallowRecord{

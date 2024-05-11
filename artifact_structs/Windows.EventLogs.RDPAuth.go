@@ -3,7 +3,9 @@ package artifact_structs
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/joeavanzato/velo-timeline-creator/helpers"
 	"github.com/joeavanzato/velo-timeline-creator/vars"
+	"strconv"
 	"time"
 )
 
@@ -22,6 +24,14 @@ type Windows_EventLogs_RDPAuth struct {
 	OSPath        string    `json:"OSPath"`
 }
 
+func (s Windows_EventLogs_RDPAuth) StringArray() []string {
+	return []string{s.EventTime.String(), s.Computer, s.Channel, strconv.Itoa(s.EventID), s.DomainName, s.UserName, fmt.Sprint(s.LogonType), s.SourceIP, s.Description, s.Message, strconv.Itoa(s.EventRecordID), s.OSPath}
+}
+
+func (s Windows_EventLogs_RDPAuth) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
+}
+
 func Process_Windows_EventLogs_RDPAuth(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
@@ -29,6 +39,10 @@ func Process_Windows_EventLogs_RDPAuth(artifactName string, clientIdentifier str
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
 			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.EventTime.String(), clientIdentifier, tmp.Computer, tmp.StringArray(), outputChannel)
 			continue
 		}
 		tmp2 := vars.ShallowRecord{

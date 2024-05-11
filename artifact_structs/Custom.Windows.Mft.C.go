@@ -3,8 +3,10 @@ package artifact_structs
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/joeavanzato/velo-timeline-creator/helpers"
 	"github.com/joeavanzato/velo-timeline-creator/vars"
 	"slices"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -42,6 +44,18 @@ type Custom_Windows_MFT struct {
 	OtherAttributeID      int       `json:"OtherAttributeId"`
 }
 
+func (s Custom_Windows_MFT) StringArray() []string {
+	return []string{strconv.Itoa(s.EntryNumber), strconv.Itoa(s.SequenceNumber), strconv.Itoa(s.ParentEntryNumber), strconv.Itoa(s.ParentSequenceNumber), strconv.FormatBool(s.InUse), s.ParentPath, s.FileName, s.Extension,
+		strconv.FormatBool(s.IsDirectory), strconv.FormatBool(s.HasAds), strconv.FormatBool(s.IsAds), strconv.Itoa(s.FileSize), s.Created0X10.String(), s.LastModified0X10.String(), s.LastModified0X30.String(),
+		s.LastRecordChange0X10.String(), s.LastRecordChange0X30.String(), s.LastAccess0X10.String(), s.LastAccess0X30.String(), strconv.FormatInt(s.UpdateSequenceNumber, 10),
+		strconv.FormatInt(s.LogfileSequenceNumber, 10), strconv.Itoa(s.SecurityID), strconv.Itoa(s.SiFlags), strconv.Itoa(s.ReferenceCount), strconv.Itoa(s.NameType),
+		strconv.FormatBool(s.Timestomped), strconv.FormatBool(s.USecZeros), strconv.FormatBool(s.Copied), strconv.Itoa(s.FnAttributeID), strconv.Itoa(s.OtherAttributeID)}
+}
+
+func (s Custom_Windows_MFT) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
+}
+
 func Process_Custom_Windows_MFT(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
@@ -56,6 +70,12 @@ func Process_Custom_Windows_MFT(artifactName string, clientIdentifier string, in
 				continue
 			}
 		}
+
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.Created0X10.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
+			continue
+		}
+
 		tmp2 := vars.ShallowRecord{
 			Timestamp:        tmp.Created0X10,
 			Computer:         clientIdentifier,

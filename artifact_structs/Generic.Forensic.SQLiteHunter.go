@@ -3,7 +3,9 @@ package artifact_structs
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/joeavanzato/velo-timeline-creator/helpers"
 	"github.com/joeavanzato/velo-timeline-creator/vars"
+	"strconv"
 	"time"
 )
 
@@ -16,6 +18,14 @@ type Generic_Forensic_SQLiteHunter_Chromium_Browser_Bookmarks struct {
 	Type         string    `json:"Type"`
 }
 
+func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Bookmarks) StringArray() []string {
+	return []string{s.OSPath, s.Name, s.DateAdded.String(), s.DateLastUsed.String(), s.URL, s.Type}
+}
+
+func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Bookmarks) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
+}
+
 func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Bookmarks(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
@@ -23,6 +33,10 @@ func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Bookmarks(artifactNa
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
 			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.DateAdded.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
 			continue
 		}
 		tmp2 := vars.ShallowRecord{
@@ -61,6 +75,14 @@ type Generic_Forensic_SQLiteHunter_Chromium_Browser_Favicons struct {
 	OSPath string `json:"_OSPath"`
 }
 
+func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Favicons) StringArray() []string {
+	return []string{strconv.Itoa(s.ID), strconv.Itoa(s.IconID), s.LastUpdated.String(), s.PageURL, s.FaviconURL, s.Image.Path, strconv.Itoa(s.Image.Size), strconv.Itoa(s.Image.StoredSize), s.Image.Sha256, s.Image.Md5, s.Image.StoredName, fmt.Sprint(s.Image.Components), s.Image.Accessor, s.OSPath}
+}
+
+func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Favicons) GetHeaders() []string {
+	return []string{"ID", "IconID", "LastUpdated", "PageURL", "FaviconURL", "Image_Path", "Image_Size", "Image_StoredSize", "Image_SHA256", "Image_MD5", "Image_StoredName", "Image_Components", "Image_Accessor", "OSPath"}
+}
+
 func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Favicons(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
@@ -68,6 +90,10 @@ func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Favicons(artifactNam
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
 			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.LastUpdated.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
 			continue
 		}
 		tmp2 := vars.ShallowRecord{
@@ -111,6 +137,17 @@ type Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Downloads struct {
 	OSPath           string    `json:"OSPath"`
 }
 
+func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Downloads) StringArray() []string {
+	return []string{strconv.Itoa(s.ID), s.GUID, s.CurrentPath, s.TargetPath, s.OriginalMIMEType, strconv.Itoa(s.ReceivedBytes),
+		strconv.Itoa(s.TotalBytes), s.StartTime.String(), s.EndTime.String(), s.Opened.String(), s.LastAccessTime.String(),
+		s.LastModified.String(), s.State, s.DangerType, s.InterruptReason, s.ReferrerURL, s.SiteURL, s.TabURL,
+		s.TabReferrerURL, s.DownloadURL, s.OSPath}
+}
+
+func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Downloads) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
+}
+
 func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Downloads(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
@@ -118,6 +155,10 @@ func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Downloads(ar
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
 			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.StartTime.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
 			continue
 		}
 		tmp2 := vars.ShallowRecord{
@@ -147,6 +188,14 @@ type Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Keywords struct {
 	OSPath            string    `json:"OSPath"`
 }
 
+func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Keywords) StringArray() []string {
+	return []string{strconv.Itoa(s.KeywordID), strconv.Itoa(s.URLID), s.LastVisitedTime.String(), s.KeywordSearchTerm, s.Title, s.URL, s.OSPath}
+}
+
+func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Keywords) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
+}
+
 func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Keywords(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
@@ -154,6 +203,10 @@ func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Keywords(art
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
 			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.LastVisitedTime.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
 			continue
 		}
 		tmp2 := vars.ShallowRecord{
@@ -188,6 +241,14 @@ type Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Visits struct {
 	OSPath                 string    `json:"OSPath"`
 }
 
+func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Visits) StringArray() []string {
+	return []string{strconv.Itoa(s.ID), s.VisitTime.String(), s.LastVisitedTime.String(), s.URLTitle, s.URL, strconv.Itoa(s.VisitCount), strconv.Itoa(s.TypedCount), s.Hidden, strconv.Itoa(s.VisitID), strconv.Itoa(s.FromVisitID), fmt.Sprint(s.VisitDurationInSeconds), s.OSPath}
+}
+
+func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Visits) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
+}
+
 func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Visits(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
@@ -195,6 +256,10 @@ func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Visits(artif
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
 			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.VisitTime.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
 			continue
 		}
 		tmp2 := vars.ShallowRecord{
@@ -228,6 +293,14 @@ type Generic_Forensic_SQLiteHunter_Chromium_Browser_Shortcuts struct {
 	OSPath              string    `json:"OSPath"`
 }
 
+func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Shortcuts) StringArray() []string {
+	return []string{s.ID, s.LastAccessTime.String(), s.TextTyped, s.FillIntoEdit, s.URL, s.Contents, s.Description, strconv.Itoa(s.Type), s.Keyword, strconv.Itoa(s.TimesSelectedByUser), s.OSPath}
+}
+
+func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Shortcuts) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
+}
+
 func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Shortcuts(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
@@ -235,6 +308,10 @@ func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Shortcuts(artifactNa
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
 			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.LastAccessTime.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
 			continue
 		}
 		tmp2 := vars.ShallowRecord{
@@ -267,6 +344,14 @@ type Generic_Forensic_SQLiteHunter_Firefox_Cookies struct {
 	OSPath           string    `json:"OSPath"`
 }
 
+func (s Generic_Forensic_SQLiteHunter_Firefox_Cookies) StringArray() []string {
+	return []string{strconv.Itoa(s.ID), s.Host, s.Name, s.Value, s.CreationTime.String(), s.LastAccessedTime.String(), s.Expiration.String(), s.IsSecure, s.IsHTTPOnly, s.OSPath}
+}
+
+func (s Generic_Forensic_SQLiteHunter_Firefox_Cookies) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
+}
+
 func Process_Generic_Forensic_SQLiteHunter_Firefox_Cookies(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
@@ -274,6 +359,10 @@ func Process_Generic_Forensic_SQLiteHunter_Firefox_Cookies(artifactName string, 
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
 			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.LastAccessedTime.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
 			continue
 		}
 		tmp2 := vars.ShallowRecord{
@@ -304,6 +393,14 @@ type Generic_Forensic_SQLiteHunter_Firefox_Form_History struct {
 	OSPath    string    `json:"OSPath"`
 }
 
+func (s Generic_Forensic_SQLiteHunter_Firefox_Form_History) StringArray() []string {
+	return []string{strconv.Itoa(s.ID), s.FieldName, s.Value, strconv.Itoa(s.TimesUsed), s.FirstUsed.String(), s.LastUsed.String(), s.GUID, s.OSPath}
+}
+
+func (s Generic_Forensic_SQLiteHunter_Firefox_Form_History) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
+}
+
 func Process_Generic_Forensic_SQLiteHunter_Firefox_Form_History(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
@@ -311,6 +408,10 @@ func Process_Generic_Forensic_SQLiteHunter_Firefox_Form_History(artifactName str
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
 			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.LastUsed.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
 			continue
 		}
 		tmp2 := vars.ShallowRecord{
@@ -354,6 +455,17 @@ type Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_All_Data struct {
 	ResponseHeaders string    `json:"ResponseHeaders"`
 }
 
+func (s Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_All_Data) StringArray() []string {
+	return []string{s.ExpiryTime.String(), s.ModifiedTime.String(), s.AccessedTime.String(), s.URL, strconv.Itoa(s.EntryID),
+		strconv.Itoa(s.ContainerID), strconv.Itoa(s.CacheID), strconv.FormatInt(s.URLHash, 10), strconv.Itoa(s.SecureDirectory), strconv.Itoa(s.FileSize),
+		strconv.Itoa(s.Type), strconv.Itoa(s.Flags), strconv.Itoa(s.AccessCount), strconv.FormatInt(s.SyncTime, 10),
+		strconv.FormatInt(s.CreationTime, 10), strconv.Itoa(s.PostCheckTime), strconv.Itoa(s.SyncCount), strconv.Itoa(s.ExemptionDelta), s.Filename, s.RequestHeaders, s.ResponseHeaders}
+}
+
+func (s Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_All_Data) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
+}
+
 func Process_Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_All_Data(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
@@ -361,6 +473,10 @@ func Process_Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_All_Data(artifactNam
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
 			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.AccessedTime.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
 			continue
 		}
 		tmp2 := vars.ShallowRecord{
@@ -388,6 +504,14 @@ type Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Gthr struc
 	FileName     string    `json:"FileName"`
 }
 
+func (s Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Gthr) StringArray() []string {
+	return []string{strconv.Itoa(s.ScopeID), strconv.Itoa(s.DocumentID), strconv.Itoa(s.SDID), s.LastModified.String(), s.FileName}
+}
+
+func (s Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Gthr) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
+}
+
 func Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Gthr(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
@@ -395,6 +519,10 @@ func Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Gt
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
 			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.LastModified.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
 			continue
 		}
 		tmp2 := vars.ShallowRecord{
@@ -415,53 +543,68 @@ func Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Gt
 }
 
 type Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_PropertyStore struct {
-	WorkID                                int       `json:"WorkID"`
-	SystemSearchRank                      int       `json:"System_Search_Rank"`
-	SystemFileAttributes                  int       `json:"System_FileAttributes"`
-	InvertedOnlyMD5                       string    `json:"InvertedOnlyMD5"`
-	SystemIsFolder                        bool      `json:"System_IsFolder"`
-	SystemFilePlaceholderStatus           int       `json:"System_FilePlaceholderStatus"`
-	SystemSearchAccessCount               int       `json:"System_Search_AccessCount"`
-	SystemItemFolderPathDisplay           string    `json:"System_ItemFolderPathDisplay"`
-	SystemItemPathDisplay                 string    `json:"System_ItemPathDisplay"`
-	SystemSearchLastIndexedTotalTime      float64   `json:"System_Search_LastIndexedTotalTime"`
-	SystemItemURL                         string    `json:"System_ItemUrl"`
-	SystemFileOwner                       string    `json:"System_FileOwner"`
-	SystemDateImported                    string    `json:"System_DateImported"`
-	SystemLinkTargetParsingPath           string    `json:"System_Link_TargetParsingPath"`
-	SystemLinkTargetSFGAOFlags            int       `json:"System_Link_TargetSFGAOFlags"`
-	SystemNotUserContent                  bool      `json:"System_NotUserContent"`
-	SystemIsAttachment                    bool      `json:"System_IsAttachment"`
-	SystemSearchAutoSummary               string    `json:"System_Search_AutoSummary"`
-	SystemIsEncrypted                     bool      `json:"System_IsEncrypted"`
-	SystemItemDate                        string    `json:"System_ItemDate"`
-	SystemKind                            string    `json:"System_Kind"`
-	SystemThumbnailCacheID                string    `json:"System_ThumbnailCacheId"`
-	SystemVolumeID                        string    `json:"System_VolumeId"`
-	SystemSearchStore                     string    `json:"System_Search_Store"`
-	SystemItemFolderNameDisplay           string    `json:"System_ItemFolderNameDisplay"`
-	SystemItemTypeText                    string    `json:"System_ItemTypeText"`
-	SystemComment                         string    `json:"System_Comment"`
-	SystemItemNameDisplay                 string    `json:"System_ItemNameDisplay"`
-	SystemFileExtension                   string    `json:"System_FileExtension"`
-	SystemDocumentDateCreated             string    `json:"System_Document_DateCreated"`
-	SystemDocumentDateSaved               string    `json:"System_Document_DateSaved"`
-	SystemItemName                        string    `json:"System_ItemName"`
-	SystemKindText                        string    `json:"System_KindText"`
-	SystemItemFolderPathDisplayNarrow     string    `json:"System_ItemFolderPathDisplayNarrow"`
-	SystemItemNameDisplayWithoutExtension string    `json:"System_ItemNameDisplayWithoutExtension"`
-	SystemComputerName                    string    `json:"System_ComputerName"`
-	SystemItemPathDisplayNarrow           string    `json:"System_ItemPathDisplayNarrow"`
-	SystemItemType                        string    `json:"System_ItemType"`
-	SystemFileName                        string    `json:"System_FileName"`
-	SystemParsingName                     string    `json:"System_ParsingName"`
-	SystemSFGAOFlags                      int       `json:"System_SFGAOFlags"`
-	InvertedOnlyPids                      string    `json:"InvertedOnlyPids"`
-	SystemSearchGatherTime                time.Time `json:"System_Search_GatherTime"`
-	SystemSize                            int       `json:"System_Size"`
-	SystemDateModified                    time.Time `json:"System_DateModified"`
-	SystemDateAccessed                    time.Time `json:"System_DateAccessed"`
-	SystemDateCreated                     time.Time `json:"System_DateCreated"`
+	WorkID                          int       `json:"WorkID"`
+	SearchRank                      int       `json:"System_Search_Rank"`
+	FileAttributes                  int       `json:"System_FileAttributes"`
+	InvertedOnlyMD5                 string    `json:"InvertedOnlyMD5"`
+	IsFolder                        bool      `json:"System_IsFolder"`
+	FilePlaceholderStatus           int       `json:"System_FilePlaceholderStatus"`
+	SearchAccessCount               int       `json:"System_Search_AccessCount"`
+	ItemFolderPathDisplay           string    `json:"System_ItemFolderPathDisplay"`
+	ItemPathDisplay                 string    `json:"System_ItemPathDisplay"`
+	SearchLastIndexedTotalTime      float64   `json:"System_Search_LastIndexedTotalTime"`
+	ItemURL                         string    `json:"System_ItemUrl"`
+	FileOwner                       string    `json:"System_FileOwner"`
+	DateImported                    string    `json:"System_DateImported"`
+	LinkTargetParsingPath           string    `json:"System_Link_TargetParsingPath"`
+	LinkTargetSFGAOFlags            int       `json:"System_Link_TargetSFGAOFlags"`
+	NotUserContent                  bool      `json:"System_NotUserContent"`
+	IsAttachment                    bool      `json:"System_IsAttachment"`
+	SearchAutoSummary               string    `json:"System_Search_AutoSummary"`
+	IsEncrypted                     bool      `json:"System_IsEncrypted"`
+	ItemDate                        string    `json:"System_ItemDate"`
+	Kind                            string    `json:"System_Kind"`
+	ThumbnailCacheID                string    `json:"System_ThumbnailCacheId"`
+	VolumeID                        string    `json:"System_VolumeId"`
+	SearchStore                     string    `json:"System_Search_Store"`
+	ItemFolderNameDisplay           string    `json:"System_ItemFolderNameDisplay"`
+	ItemTypeText                    string    `json:"System_ItemTypeText"`
+	Comment                         string    `json:"System_Comment"`
+	ItemNameDisplay                 string    `json:"System_ItemNameDisplay"`
+	FileExtension                   string    `json:"System_FileExtension"`
+	DocumentDateCreated             string    `json:"System_Document_DateCreated"`
+	DocumentDateSaved               string    `json:"System_Document_DateSaved"`
+	ItemName                        string    `json:"System_ItemName"`
+	KindText                        string    `json:"System_KindText"`
+	ItemFolderPathDisplayNarrow     string    `json:"System_ItemFolderPathDisplayNarrow"`
+	ItemNameDisplayWithoutExtension string    `json:"System_ItemNameDisplayWithoutExtension"`
+	ComputerName                    string    `json:"System_ComputerName"`
+	ItemPathDisplayNarrow           string    `json:"System_ItemPathDisplayNarrow"`
+	ItemType                        string    `json:"System_ItemType"`
+	FileName                        string    `json:"System_FileName"`
+	ParsingName                     string    `json:"System_ParsingName"`
+	SFGAOFlags                      int       `json:"System_SFGAOFlags"`
+	InvertedOnlyPids                string    `json:"InvertedOnlyPids"`
+	SearchGatherTime                time.Time `json:"System_Search_GatherTime"`
+	Size                            int       `json:"System_Size"`
+	DateModified                    time.Time `json:"System_DateModified"`
+	DateAccessed                    time.Time `json:"System_DateAccessed"`
+	DateCreated                     time.Time `json:"System_DateCreated"`
+}
+
+func (s Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_PropertyStore) StringArray() []string {
+	return []string{strconv.Itoa(s.WorkID), strconv.Itoa(s.SearchRank), strconv.Itoa(s.FileAttributes), s.InvertedOnlyMD5, strconv.FormatBool(s.IsFolder), strconv.Itoa(s.FilePlaceholderStatus),
+		strconv.Itoa(s.SearchAccessCount), s.ItemFolderPathDisplay, s.ItemPathDisplay, fmt.Sprint(s.SearchLastIndexedTotalTime),
+		s.ItemURL, s.FileOwner, s.DateImported, s.LinkTargetParsingPath, strconv.Itoa(s.LinkTargetSFGAOFlags), strconv.FormatBool(s.NotUserContent),
+		strconv.FormatBool(s.IsAttachment), s.SearchAutoSummary, strconv.FormatBool(s.IsEncrypted), s.ItemDate, s.Kind,
+		s.ThumbnailCacheID, s.VolumeID, s.SearchStore, s.ItemFolderNameDisplay, s.ItemTypeText, s.Comment, s.ItemNameDisplay,
+		s.FileExtension, s.DocumentDateCreated, s.DocumentDateSaved, s.ItemName, s.KindText, s.ItemFolderPathDisplayNarrow,
+		s.ItemNameDisplayWithoutExtension, s.ComputerName, s.ItemPathDisplayNarrow, s.ItemType, s.FileName, s.ParsingName,
+		strconv.Itoa(s.SFGAOFlags), s.InvertedOnlyPids, s.SearchGatherTime.String(), strconv.Itoa(s.Size), s.DateModified.String(), s.DateAccessed.String(), s.DateCreated.String()}
+}
+
+func (s Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_PropertyStore) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
 }
 
 func Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_PropertyStore(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -473,8 +616,12 @@ func Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Pr
 			fmt.Println(err.Error())
 			continue
 		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.DateAccessed.String(), clientIdentifier, tmp.ComputerName, tmp.StringArray(), outputChannel)
+			continue
+		}
 		tmp2 := vars.ShallowRecord{
-			Timestamp:        tmp.SystemDateAccessed,
+			Timestamp:        tmp.DateAccessed,
 			Computer:         clientIdentifier,
 			Artifact:         artifactName,
 			EventType:        "Search Service Property Accessed",
@@ -483,8 +630,8 @@ func Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Pr
 			SourceHost:       "",
 			DestinationUser:  "",
 			DestinationHost:  "",
-			SourceFile:       tmp.SystemItemFolderPathDisplay,
-			MetaData:         fmt.Sprintf("Owner: %v, Created: %v", tmp.SystemFileOwner, tmp.SystemDateCreated),
+			SourceFile:       tmp.ItemFolderPathDisplay,
+			MetaData:         fmt.Sprintf("Owner: %v, Created: %v", tmp.FileOwner, tmp.DateCreated),
 		}
 		outputChannel <- tmp2.StringArray()
 	}

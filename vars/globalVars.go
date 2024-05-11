@@ -4,6 +4,7 @@ import (
 	"time"
 )
 
+// Tool Logging Output
 var LogFile = "velo_timeline_creator.log"
 
 type ShallowRecord struct {
@@ -24,17 +25,23 @@ func (sr ShallowRecord) StringArray() []string {
 	return []string{sr.Timestamp.String(), sr.Computer, sr.Artifact, sr.EventType, sr.EventDescription, sr.SourceUser, sr.SourceHost, sr.DestinationUser, sr.DestinationHost, sr.SourceFile, sr.MetaData}
 }
 
+// If we are parsing full artifacts to individual CSV, this will store a reference to the output channel - if one does not exist yet, we create a new channel and store it here
+var ArtifactToChannelMap = make(map[string]chan []string)
+
+// If we are doing a basic super timeline - these are the columns we will use (in order) for the output CSV
 var BaseHeaders = []string{"Timestamp", "Computer", "Artifact", "Event Type", "Event Description", "Source User", "Source Host", "Destination User", "Destination Host", "Source File", "Metadata"}
 
+// If we are doing -mftlight, these are the extensions of interest we will include in the super-timeline
 var LightMFTExtensionsOfInterest = []string{".ps1", ".exe", ".dll", ".hta", ".js", ".vba", ".cpl", ".wsf", ".vbs", ".bat",
 	".psm1", ".py", ".psd1", ".cmd", ".scr", ".lnk", ".jar", ".pdf", ".rtf", ".doc", ".xls", ".docx", ".xlsx", ".csv",
 	".jpeg", ".png", ".zip", ".gz", ".7z", ".com", ".ocx", ".ps1xml", ".ps2", ".msh", ".msh1", ".msh2", ".mshxml",
 	".msh1xml", ".msh2xml", ".jse", ".vb", ".vbe", ".inf", ".reg", ".pif", ".scf", ".msc", ".msi", ".pol", ".hlp",
-	".chm", ".ws", ".wsf", ".wsc", ".wsh", ".rar", ".z", ".bz2", ".cab", ".tar", ".ace", ".msp", ".mst", ".msu",
+	".chm", ".ws", ".wsf", ".wsc", ".wsh", ".rar", ".zip", ".bz2", ".cab", ".tar", ".ace", ".msp", ".mst", ".msu",
 	".ppkg", ".bak", ".tmp", ".ost", ".pst", ".pkg", ".iso", ".img", ".vhd", ".vhdx", ".application", ".lock", ".lck",
 	".sln", ".cs", ".csproj", ".rex", ".config", ".resources", ".pdb", ".manifest", ".wbk", ".xlt", ".xlm", ".xla",
 	".pot", ".pps", ".ade", ".adp", ".xlam", ".xll", ".xlw", ".ppam"}
 
+// Artifact Directories that have some type of parsing implemented - artifacts are skipped if not present in thsi list
 var ImplementedArtifacts = map[string]string{
 	"Windows.System.Services":                       "Service was Created",
 	"Windows.Timeline.Prefetch":                     "Prefetch Execution",
@@ -55,7 +62,7 @@ var ImplementedArtifacts = map[string]string{
 	"Windows.Forensics.Lnk":                         "LNK File Modified",
 	"Windows.Forensics.CertUtil":                    "Cert Downloaded",
 	"Windows.Forensics.Bam":                         "BAM Entry",
-	"Windows.Forensics.AlternateLogon":              "Alternate Logon",
+	"Windows.EventLogs.AlternateLogon":              "Alternate Logon",
 	"Exchange.Windows.Office.MRU":                   "Office MRU Entry",
 	"Exchange.Windows.EventLogs.RDPClientActivity":  "RDP Client Activity",
 	"Exchange.Windows.EventLogs.LogonSessions":      "Logon Session Started",

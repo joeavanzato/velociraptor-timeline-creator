@@ -3,7 +3,9 @@ package artifact_structs
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/joeavanzato/velo-timeline-creator/helpers"
 	"github.com/joeavanzato/velo-timeline-creator/vars"
+	"strconv"
 	"time"
 )
 
@@ -35,6 +37,21 @@ type Exchange_Windows_Memory_InjectedThreadEx struct {
 	Detections                    string `json:"Detections"`
 }
 
+func (s Exchange_Windows_Memory_InjectedThreadEx) StringArray() []string {
+	parsedTime, terr := time.Parse("1/2/2006 03:04:05 PM", s.ThreadStartTime)
+	if terr != nil {
+		parsedTime = time.Now()
+	}
+
+	return []string{s.ProcessID, s.Wow64, s.PathMismatch, s.ProcessIntegrity, s.ProcessLogonID, s.ProcessSecurityIdentifier, s.ProcessUserName,
+		s.ProcessLogonType, s.ProcessAuthenticationPackage, s.ThreadID, parsedTime.String(), s.BasePriority, s.WaitReason, s.IsUniqueThreadToken, s.AllocatedMemoryProtection,
+		s.MemoryProtection, s.MemoryState, s.MemoryType, s.Win32StartAddress, s.Win32StartAddressModuleSigned, s.Win32StartAddressPrivate, s.Size, s.TailBytes, s.StartBytes, s.Detections}
+}
+
+func (s Exchange_Windows_Memory_InjectedThreadEx) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
+}
+
 func Process_Exchange_Windows_Memory_InjectedThreadEx(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
@@ -49,6 +66,10 @@ func Process_Exchange_Windows_Memory_InjectedThreadEx(artifactName string, clien
 		parsedTime, terr := time.Parse("1/2/2006 03:04:05 PM", tmp.ThreadStartTime)
 		if terr != nil {
 			parsedTime = time.Now()
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(parsedTime.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
+			continue
 		}
 
 		tmp2 := vars.ShallowRecord{
@@ -65,5 +86,43 @@ func Process_Exchange_Windows_Memory_InjectedThreadEx(artifactName string, clien
 			MetaData:         fmt.Sprintf("ProcessID: %v, Process SID: %v, ProcessLogonType: %v, Detections: %v, Path Mismatch: %v", tmp.ProcessID, tmp.ProcessSecurityIdentifier, tmp.ProcessLogonType, tmp.Detections, tmp.PathMismatch),
 		}
 		outputChannel <- tmp2.StringArray()
+	}
+}
+
+type Exchange_Windows_Memory_InjectedThreadEx_RawResults struct {
+	Stdout       string `json:"Stdout"`
+	Stderr       string `json:"Stderr"`
+	ReturnCode   int    `json:"ReturnCode"`
+	Complete     bool   `json:"Complete"`
+	ScanSettings struct {
+		ScanType  string `json:"ScanType"`
+		PidTarget string `json:"PidTarget"`
+	} `json:"ScanSettings"`
+}
+
+func (s Exchange_Windows_Memory_InjectedThreadEx_RawResults) StringArray() []string {
+	return []string{s.Stdout, s.Stderr, strconv.Itoa(s.ReturnCode), strconv.FormatBool(s.Complete), s.ScanSettings.ScanType, s.ScanSettings.PidTarget}
+}
+
+func (s Exchange_Windows_Memory_InjectedThreadEx_RawResults) GetHeaders() []string {
+	return []string{"Stdout", "Stderr", "ReturnCode", "Complete", "ScanSettings_ScanType", "ScanSettings_PidTarget"}
+}
+
+func Process_Exchange_Windows_Memory_InjectedThreadEx_RawResults(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
+	// TODO There is some type of error here - I think due to the long lines maybe or weird whitespacing
+	for _, line := range inputLines {
+		tmp := Exchange_Windows_Memory_InjectedThreadEx_RawResults{}
+		err := json.Unmarshal([]byte(line), &tmp)
+		if err != nil {
+			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord("", clientIdentifier, "", tmp.StringArray(), outputChannel)
+			continue
+		}
+		continue
+
 	}
 }

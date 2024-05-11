@@ -3,7 +3,9 @@ package artifact_structs
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/joeavanzato/velo-timeline-creator/helpers"
 	"github.com/joeavanzato/velo-timeline-creator/vars"
+	"strconv"
 	"time"
 )
 
@@ -25,6 +27,14 @@ type Windows_Applications_NirsoftBrowserViewer struct {
 	Visited        time.Time `json:"Visited"`
 }
 
+func (s Windows_Applications_NirsoftBrowserViewer) StringArray() []string {
+	return []string{s.URL, fmt.Sprint(s.Title), s.VisitTime, strconv.Itoa(s.VisitCount), s.VisitedFrom, s.VisitType, s.VisitDuration, s.WebBrowser, s.UserProfile, s.BrowserProfile, strconv.Itoa(s.URLLength), fmt.Sprint(s.TypedCount), s.HistoryFile, strconv.Itoa(s.RecordID), s.Visited.String()}
+}
+
+func (s Windows_Applications_NirsoftBrowserViewer) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
+}
+
 func Process_Windows_Applications_NirsoftBrowserViewer(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
@@ -32,6 +42,10 @@ func Process_Windows_Applications_NirsoftBrowserViewer(artifactName string, clie
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
 			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.Visited.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
 			continue
 		}
 		tmp2 := vars.ShallowRecord{

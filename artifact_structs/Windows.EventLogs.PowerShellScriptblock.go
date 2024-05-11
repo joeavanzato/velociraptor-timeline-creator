@@ -3,7 +3,9 @@ package artifact_structs
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/joeavanzato/velo-timeline-creator/helpers"
 	"github.com/joeavanzato/velo-timeline-creator/vars"
+	"strconv"
 	"time"
 )
 
@@ -24,6 +26,15 @@ type Windows_EventLogs_PowerShellScriptblock struct {
 	OSPath          string    `json:"OSPath"`
 }
 
+func (s Windows_EventLogs_PowerShellScriptblock) StringArray() []string {
+	return []string{s.EventTime.String(), s.Computer, s.Channel, strconv.Itoa(s.EventID), s.SecurityID, s.Path,
+		s.ScriptBlockID, s.ScriptBlockText, s.Message, strconv.Itoa(s.EventRecordID), strconv.Itoa(s.Level), strconv.Itoa(s.Opcode), strconv.Itoa(s.Task), s.OSPath}
+}
+
+func (s Windows_EventLogs_PowerShellScriptblock) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
+}
+
 func Process_Windows_EventLogs_PowerShellScriptblock(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
@@ -33,6 +44,10 @@ func Process_Windows_EventLogs_PowerShellScriptblock(artifactName string, client
 			fmt.Println(err.Error())
 			continue
 		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.EventTime.String(), clientIdentifier, tmp.Computer, tmp.StringArray(), outputChannel)
+			continue
+		}
 		tmp2 := vars.ShallowRecord{
 			Timestamp:        tmp.EventTime,
 			Computer:         clientIdentifier,
@@ -40,7 +55,7 @@ func Process_Windows_EventLogs_PowerShellScriptblock(artifactName string, client
 			EventType:        vars.ImplementedArtifacts[artifactName],
 			EventDescription: "",
 			SourceUser:       "",
-			SourceHost:       "",
+			SourceHost:       tmp.Computer,
 			DestinationUser:  "",
 			DestinationHost:  "",
 			SourceFile:       tmp.Path,

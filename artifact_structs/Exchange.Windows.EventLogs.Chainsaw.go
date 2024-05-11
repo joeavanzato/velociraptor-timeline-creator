@@ -3,7 +3,9 @@ package artifact_structs
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/joeavanzato/velo-timeline-creator/helpers"
 	"github.com/joeavanzato/velo-timeline-creator/vars"
+	"strconv"
 	"time"
 )
 
@@ -33,6 +35,16 @@ type Exchange_Windows_EventLogs_Chainsaw struct {
 	Authors []string `json:"Authors"`
 }
 
+func (s Exchange_Windows_EventLogs_Chainsaw) StringArray() []string {
+	return []string{s.EventTime.String(), s.Detection, s.Severity, s.Status, s.RuleGroup, s.Computer, s.Channel, strconv.Itoa(s.EventID),
+		s.User, fmt.Sprint(s.SystemData), s.EventData.Domain, s.EventData.ProductName, s.EventData.ProductVersion, s.EventData.SID, s.EventData.ScanID, s.EventData.ScanParameters, s.EventData.ScanParametersIndex,
+		s.EventData.ScanType, s.EventData.ScanTypeIndex, s.EventData.User, fmt.Sprint(s.Authors)}
+}
+
+func (s Exchange_Windows_EventLogs_Chainsaw) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
+}
+
 func Process_Exchange_Windows_EventLogs_Chainsaw(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
@@ -42,7 +54,10 @@ func Process_Exchange_Windows_EventLogs_Chainsaw(artifactName string, clientIden
 			fmt.Println(err.Error())
 			continue
 		}
-		// TODO - Maybe pull description for the most common ones or use zimmerman maps?
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.EventTime.String(), clientIdentifier, tmp.Computer, tmp.StringArray(), outputChannel)
+			continue
+		}
 		tmp2 := vars.ShallowRecord{
 			Timestamp:        tmp.EventTime,
 			Computer:         clientIdentifier,

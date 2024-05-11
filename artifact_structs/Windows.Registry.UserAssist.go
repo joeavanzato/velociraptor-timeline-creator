@@ -3,7 +3,9 @@ package artifact_structs
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/joeavanzato/velo-timeline-creator/helpers"
 	"github.com/joeavanzato/velo-timeline-creator/vars"
+	"strconv"
 	"time"
 )
 
@@ -16,6 +18,15 @@ type Windows_Registry_UserAssist struct {
 	NumberOfExecutions int       `json:"NumberOfExecutions"`
 }
 
+func (s Windows_Registry_UserAssist) StringArray() []string {
+	return []string{s.KeyPath, s.Name, s.User, s.LastExecution.String(), strconv.Itoa(s.LastExecutionTS), strconv.Itoa(s.NumberOfExecutions)}
+}
+
+// Headers should match the array above
+func (s Windows_Registry_UserAssist) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
+}
+
 func Process_Windows_Registry_UserAssist(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
@@ -25,6 +36,11 @@ func Process_Windows_Registry_UserAssist(artifactName string, clientIdentifier s
 			fmt.Println(err.Error())
 			continue
 		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.LastExecution.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
+			continue
+		}
+
 		tmp2 := vars.ShallowRecord{
 			Timestamp:        tmp.LastExecution,
 			Computer:         clientIdentifier,

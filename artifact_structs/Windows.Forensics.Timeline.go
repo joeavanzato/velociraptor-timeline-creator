@@ -3,6 +3,7 @@ package artifact_structs
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/joeavanzato/velo-timeline-creator/helpers"
 	"github.com/joeavanzato/velo-timeline-creator/vars"
 	"strconv"
 	"time"
@@ -13,6 +14,14 @@ type Windows_Forensics_Timeline struct {
 	User             string    `json:"User"`
 	LastModifiedTime time.Time `json:"LastModifiedTime"`
 	LastExecutionTS  int       `json:"LastExecutionTS"`
+}
+
+func (s Windows_Forensics_Timeline) StringArray() []string {
+	return []string{s.Application, s.User, s.LastModifiedTime.String()}
+}
+
+func (s Windows_Forensics_Timeline) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
 }
 
 func Process_Windows_Forensics_Timeline(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -30,6 +39,10 @@ func Process_Windows_Forensics_Timeline(artifactName string, clientIdentifier st
 		timeField = time.Unix(i, 0)
 		if i == 0 {
 			timeField = tmp.LastModifiedTime
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(timeField.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
+			continue
 		}
 		tmp2 := vars.ShallowRecord{
 			Timestamp:        timeField,

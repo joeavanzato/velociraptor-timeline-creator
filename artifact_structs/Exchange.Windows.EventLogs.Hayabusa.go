@@ -3,7 +3,9 @@ package artifact_structs
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/joeavanzato/velo-timeline-creator/helpers"
 	"github.com/joeavanzato/velo-timeline-creator/vars"
+	"strconv"
 	"time"
 )
 
@@ -20,6 +22,14 @@ type Exchange_Windows_EventLogs_Hayabusa struct {
 	EventTime      time.Time `json:"EventTime"`
 }
 
+func (s Exchange_Windows_EventLogs_Hayabusa) StringArray() []string {
+	return []string{s.Timestamp.String(), s.RuleTitle, s.Level, s.Computer, s.Channel, strconv.Itoa(s.EventID), strconv.Itoa(s.RecordID), s.Details, s.ExtraFieldInfo, s.EventTime.String()}
+}
+
+func (s Exchange_Windows_EventLogs_Hayabusa) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
+}
+
 func Process_Exchange_Windows_EventLogs_Hayabusa(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
@@ -27,6 +37,10 @@ func Process_Exchange_Windows_EventLogs_Hayabusa(artifactName string, clientIden
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
 			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.Timestamp.String(), clientIdentifier, tmp.Computer, tmp.StringArray(), outputChannel)
 			continue
 		}
 		tmp2 := vars.ShallowRecord{
