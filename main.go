@@ -444,6 +444,30 @@ func SendRecordsToAppropriateBus(logger zerolog.Logger, records []string, record
 		} else if JSONFileName == "WinRM.json" {
 			artifact_structs.Process_Exchange_Windows_EventLogs_EvtxHussar_WinRM("Exchange.Windows.EventLogs.EvtxHussar", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		}
+	} else if artifactName == "DetectRaptor.Windows.Detection.MFT" {
+		artifact_structs.Process_DetectRaptor_Windows_Detection_MFT("DetectRaptor.Windows.Detection.MFT", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "DetectRaptor.Generic.Detection.WebshellYara" {
+		artifact_structs.Process_DetectRaptor_Generic_Detection_WebshellYara("DetectRaptor.Generic.Detection.WebshellYara", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "DetectRaptor.Windows.Detection.Amcache" {
+		artifact_structs.Process_DetectRaptor_Windows_Detection_Amcache("DetectRaptor.Windows.Detection.Amcache", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "DetectRaptor.Windows.Detection.Applications" {
+		artifact_structs.Process_DetectRaptor_Windows_Detection_Applications("DetectRaptor.Windows.Detection.Applications", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "DetectRaptor.Windows.Detection.BinaryRename" {
+		artifact_structs.Process_DetectRaptor_Windows_Detection_BinaryRename("DetectRaptor.Windows.Detection.BinaryRename", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "DetectRaptor.Windows.Detection.Webhistory" {
+		artifact_structs.Process_DetectRaptor_Windows_Detection_Webhistory("DetectRaptor.Windows.Detection.Webhistory", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "DetectRaptor.Windows.Detection.Evtx" {
+		artifact_structs.Process_DetectRaptor_Windows_Detection_Evtx("DetectRaptor.Windows.Detection.Evtx", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "DetectRaptor.Windows.Detection.Powershell.ISEAutoSave" {
+		artifact_structs.Process_DetectRaptor_Windows_Detection_PowerShell_ISEAutoSave("DetectRaptor.Windows.Detection.Powershell.ISEAutoSave", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "DetectRaptor.Windows.Detection.Powershell.PSReadline" {
+		artifact_structs.Process_DetectRaptor_Windows_Detection_PowerShell_PSReadline("DetectRaptor.Windows.Detection.Powershell.PSReadline", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "DetectRaptor.Windows.Detection.ZoneIdentifier" {
+		artifact_structs.Process_DetectRaptor_Windows_Detection_ZoneIdentifier("DetectRaptor.Windows.Detection.ZoneIdentifier", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "DetectRaptor.Windows.Detection.HijackLibsEnv" && JSONFileName == "Suspicious Dll path.json" {
+		artifact_structs.Process_DetectRaptor_Windows_Detection_HijackLibsEnv_SuspiciousDLLPath("DetectRaptor.Windows.Detection.HijackLibsEnv", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "DetectRaptor.Windows.Detection.HijackLibsMFT" {
+		artifact_structs.Process_DetectRaptor_Windows_Detection_HijackLibsMFT("DetectRaptor.Windows.Detection.HijackLibsMFT", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	}
 }
 
@@ -704,6 +728,30 @@ func GetAppropriateHeaders(artifact string) ([]string, error) {
 		headers = append(headers, artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_WindowsFirewall.GetHeaders(artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_WindowsFirewall{})...)
 	} else if artifact == "Exchange.Windows.EventLogs.EvtxHussar.WinRM.csv" {
 		headers = append(headers, artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_WinRM.GetHeaders(artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_WinRM{})...)
+	} else if artifact == "DetectRaptor.Windows.Detection.MFT.csv" {
+		headers = append(headers, artifact_structs.DetectRaptor_Windows_Detection_MFT.GetHeaders(artifact_structs.DetectRaptor_Windows_Detection_MFT{})...)
+	} else if artifact == "DetectRaptor.Generic.Detection.WebshellYara.csv" {
+		headers = append(headers, artifact_structs.DetectRaptor_Generic_Detection_WebshellYara.GetHeaders(artifact_structs.DetectRaptor_Generic_Detection_WebshellYara{})...)
+	} else if artifact == "DetectRaptor.Windows.Detection.Amcache.csv" {
+		headers = append(headers, artifact_structs.DetectRaptor_Windows_Detection_Amcache.GetHeaders(artifact_structs.DetectRaptor_Windows_Detection_Amcache{})...)
+	} else if artifact == "DetectRaptor.Windows.Detection.Applications.csv" {
+		headers = append(headers, artifact_structs.DetectRaptor_Windows_Detection_Applications.GetHeaders(artifact_structs.DetectRaptor_Windows_Detection_Applications{})...)
+	} else if artifact == "DetectRaptor.Windows.Detection.BinaryRename.csv" {
+		headers = append(headers, artifact_structs.DetectRaptor_Windows_Detection_BinaryRename.GetHeaders(artifact_structs.DetectRaptor_Windows_Detection_BinaryRename{})...)
+	} else if artifact == "DetectRaptor.Windows.Detection.Webhistory.csv" {
+		headers = append(headers, artifact_structs.DetectRaptor_Windows_Detection_Webhistory.GetHeaders(artifact_structs.DetectRaptor_Windows_Detection_Webhistory{})...)
+	} else if artifact == "DetectRaptor.Windows.Detection.Evtx.csv" {
+		headers = append(headers, artifact_structs.DetectRaptor_Windows_Detection_Evtx.GetHeaders(artifact_structs.DetectRaptor_Windows_Detection_Evtx{})...)
+	} else if artifact == "DetectRaptor.Windows.Detection.Powershell.ISEAutoSave.csv" {
+		headers = append(headers, artifact_structs.DetectRaptor_Windows_Detection_PowerShell_ISEAutoSave.GetHeaders(artifact_structs.DetectRaptor_Windows_Detection_PowerShell_ISEAutoSave{})...)
+	} else if artifact == "DetectRaptor.Windows.Detection.Powershell.PSReadline.csv" {
+		headers = append(headers, artifact_structs.DetectRaptor_Windows_Detection_PowerShell_PSReadline.GetHeaders(artifact_structs.DetectRaptor_Windows_Detection_PowerShell_PSReadline{})...)
+	} else if artifact == "DetectRaptor.Windows.Detection.ZoneIdentifier.csv" {
+		headers = append(headers, artifact_structs.DetectRaptor_Windows_Detection_ZoneIdentifier.GetHeaders(artifact_structs.DetectRaptor_Windows_Detection_ZoneIdentifier{})...)
+	} else if artifact == "DetectRaptor.Windows.Detection.HijackLibsEnv.Suspicious_Dll_path.csv" {
+		headers = append(headers, artifact_structs.DetectRaptor_Windows_Detection_HijackLibsEnv_SuspiciousDLLPath.GetHeaders(artifact_structs.DetectRaptor_Windows_Detection_HijackLibsEnv_SuspiciousDLLPath{})...)
+	} else if artifact == "DetectRaptor.Windows.Detection.HijackLibsMFT.csv" {
+		headers = append(headers, artifact_structs.DetectRaptor_Windows_Detection_HijackLibsMFT.GetHeaders(artifact_structs.DetectRaptor_Windows_Detection_HijackLibsMFT{})...)
 	}
 
 	if len(headers) == 3 {
