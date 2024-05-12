@@ -24,7 +24,7 @@ func (s Windows_Registry_UserAssist) StringArray() []string {
 
 // Headers should match the array above
 func (s Windows_Registry_UserAssist) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Windows_Registry_UserAssist(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -72,7 +72,7 @@ func (s Windows_Analysis_EvidenceOfExecution_UserAssist) StringArray() []string 
 }
 
 func (s Windows_Analysis_EvidenceOfExecution_UserAssist) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Windows_Analysis_EvidenceOfExecution_UserAssist(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {

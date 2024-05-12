@@ -20,7 +20,7 @@ func (s Exchange_Windows_Office_MRU) StringArray() []string {
 }
 
 func (s Exchange_Windows_Office_MRU) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Exchange_Windows_Office_MRU(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {

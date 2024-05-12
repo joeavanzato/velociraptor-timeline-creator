@@ -24,7 +24,7 @@ func (s Windows_Registry_RDP_Servers) StringArray() []string {
 }
 
 func (s Windows_Registry_RDP_Servers) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Windows_Registry_RDP_Servers(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -71,7 +71,7 @@ func (s Windows_Registry_RDP_Mru) StringArray() []string {
 }
 
 func (s Windows_Registry_RDP_Mru) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Windows_Registry_RDP_Mru(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {

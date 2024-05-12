@@ -35,7 +35,7 @@ func (s Exchange_Windows_EventLogs_Bitsadmin) StringArray() []string {
 }
 
 func (s Exchange_Windows_EventLogs_Bitsadmin) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Exchange_Windows_EventLogs_Bitsadmin(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {

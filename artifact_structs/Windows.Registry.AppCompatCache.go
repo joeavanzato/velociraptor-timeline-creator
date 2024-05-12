@@ -22,7 +22,7 @@ func (s Windows_Registry_AppCompatCache) StringArray() []string {
 }
 
 func (s Windows_Registry_AppCompatCache) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Windows_Registry_AppCompatCache(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {

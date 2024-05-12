@@ -1,5 +1,6 @@
 package helpers
 
+import "C"
 import (
 	"crypto/md5"
 	"encoding/csv"
@@ -58,13 +59,38 @@ func BuildAndSendArtifactRecord(timestamp string, clientID string, hostname stri
 	channel <- r
 }
 
-func GetStructAsStringSlice(s interface{}) []string {
+func GetStructHeadersAsStringSlice(s interface{}) []string {
 	t := reflect.TypeOf(s)
 	names := make([]string, t.NumField())
 	for i := range names {
 		names[i] = t.Field(i).Name
 	}
 	return names
+}
+
+func getAttr(obj interface{}, fieldName string) reflect.Value {
+	pointToStruct := reflect.ValueOf(obj) // addressable
+	curStruct := pointToStruct.Elem()
+	if curStruct.Kind() != reflect.Struct {
+		panic("not struct")
+	}
+	curField := curStruct.FieldByName(fieldName) // type: reflect.Value
+	if !curField.IsValid() {
+		panic("not found:" + fieldName)
+	}
+	return curField
+}
+
+func GetStructValuesAsStringSlice(s interface{}) []string {
+	// Useful for simple structs that are 1-Dimensional with 'basic' fields
+	t := reflect.TypeOf(s)
+	rv := reflect.ValueOf(&s).Elem().Elem()
+	structValues := make([]string, rv.NumField())
+	for i := range structValues {
+		tmp := rv.FieldByName(t.Field(i).Name)
+		structValues[i] = fmt.Sprint(tmp)
+	}
+	return structValues
 }
 
 func ListenOnWriteChannel(c chan []string, w *csv.Writer, logger zerolog.Logger, outputF *os.File, bufferSize int, wait *sync.WaitGroup) {

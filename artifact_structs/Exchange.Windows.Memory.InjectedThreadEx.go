@@ -49,7 +49,7 @@ func (s Exchange_Windows_Memory_InjectedThreadEx) StringArray() []string {
 }
 
 func (s Exchange_Windows_Memory_InjectedThreadEx) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Exchange_Windows_Memory_InjectedThreadEx(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {

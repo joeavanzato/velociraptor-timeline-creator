@@ -24,7 +24,7 @@ func (s Windows_Forensics_RecycleBin) StringArray() []string {
 }
 
 func (s Windows_Forensics_RecycleBin) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Windows_Forensics_RecycleBin(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {

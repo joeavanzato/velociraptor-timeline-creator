@@ -46,7 +46,7 @@ func (s Windows_Sysinternals_Autoruns) GetHeaders() []string {
 		names[i] = t.Field(i).Name
 	}
 	return names*/
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Windows_Sysinternals_Autoruns(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {

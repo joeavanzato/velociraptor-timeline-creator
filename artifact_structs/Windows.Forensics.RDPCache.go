@@ -23,7 +23,7 @@ func (s Windows_Forensics_RDPCache) StringArray() []string {
 }
 
 func (s Windows_Forensics_RDPCache) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Windows_Forensics_RDPCache(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {

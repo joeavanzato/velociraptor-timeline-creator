@@ -33,7 +33,7 @@ func (s Windows_Applications_Chrome_History) StringArray() []string {
 }
 
 func (s Windows_Applications_Chrome_History) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Windows_Applications_Chrome_History(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -91,7 +91,7 @@ func (s Windows_Applications_Edge_History) StringArray() []string {
 }
 
 func (s Windows_Applications_Edge_History) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Windows_Applications_Edge_History(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {

@@ -42,7 +42,7 @@ func (s Windows_Forensics_SRUM_ApplicationResourceUsage) StringArray() []string 
 }
 
 func (s Windows_Forensics_SRUM_ApplicationResourceUsage) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Windows_Forensics_SRUM_ApplicationResourceUsage(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -91,7 +91,7 @@ func (s Windows_Forensics_SRUM_ExecutionStats) StringArray() []string {
 }
 
 func (s Windows_Forensics_SRUM_ExecutionStats) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Windows_Forensics_SRUM_ExecutionStats(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -145,7 +145,7 @@ func (s Windows_Forensics_SRUM_NetworkUsage) StringArray() []string {
 }
 
 func (s Windows_Forensics_SRUM_NetworkUsage) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Windows_Forensics_SRUM_NetworkUsage(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -195,7 +195,7 @@ func (s Windows_Forensics_SRUM_NetworkConnections) StringArray() []string {
 }
 
 func (s Windows_Forensics_SRUM_NetworkConnections) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Windows_Forensics_SRUM_NetworkConnections(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {

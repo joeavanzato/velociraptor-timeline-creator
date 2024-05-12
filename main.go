@@ -359,10 +359,20 @@ func SendRecordsToAppropriateBus(logger zerolog.Logger, records []string, record
 			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Chromium_Browser_Top_Sites("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
 		} else if JSONFileName == "Firefox Cookies.json" {
 			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Firefox_Cookies("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+		} else if JSONFileName == "Firefox Favicons.json" {
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Firefox_Favicons("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
 		} else if JSONFileName == "Firefox Form History.json" {
 			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Firefox_Form_History("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+		} else if JSONFileName == "Firefox Places.json" {
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Firefox_Places("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+		} else if JSONFileName == "Firefox Places_Downloads.json" {
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Firefox_Places_Downloads("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+		} else if JSONFileName == "Firefox Places_History.json" {
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Firefox_Places_History("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
 		} else if JSONFileName == "IE or Edge WebCacheV01_All Data.json" {
 			artifact_structs.Process_Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_All_Data("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+		} else if JSONFileName == "IE or Edge WebCacheV01_Highlights.json" {
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_Highlights("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
 		} else if JSONFileName == "Windows Search Service_SystemIndex_Gthr.json" {
 			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Gthr("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
 		} else if JSONFileName == "Windows Search Service_SystemIndex_PropertyStore.json" {
@@ -404,6 +414,36 @@ func SendRecordsToAppropriateBus(logger zerolog.Logger, records []string, record
 		artifact_structs.Process_Exchange_Windows_Forensics_Trawler("Exchange.Windows.Forensics.Trawler", clientIdentifier, records, recordOutputChannel, arguments)
 	} else if artifactName == "Exchange.Windows.Forensics.PersistenceSniper" {
 		artifact_structs.Process_Exchange_Windows_Forensics_PersistenceSniper("Exchange.Windows.Forensics.PersistenceSniper", clientIdentifier, records, recordOutputChannel, arguments)
+	} else if artifactName == "Exchange.Windows.EventLogs.CondensedAccountUsage" {
+		artifact_structs.Process_Exchange_Windows_EventLogs_CondensedAccountUsage("Exchange.Windows.EventLogs.CondensedAccountUsage", clientIdentifier, records, recordOutputChannel, arguments)
+	} else if strings.HasPrefix(artifactName, "Exchange.Windows.EventLogs.EvtxHussar") {
+		if JSONFileName == "Accounts_UsersRelatedOperations.json" {
+			artifact_structs.Process_Exchange_Windows_EventLogs_EvtxHussar_Accounts_UserRelatedOperations("Exchange.Windows.EventLogs.EvtxHussar", clientIdentifier, records, recordOutputChannel, arguments)
+		} else if JSONFileName == "Antivirus_WindowsDefender.json" {
+			artifact_structs.Process_Exchange_Windows_EventLogs_EvtxHussar_Antivirus_WindowsDefender("Exchange.Windows.EventLogs.EvtxHussar", clientIdentifier, records, recordOutputChannel, arguments, logger)
+		} else if JSONFileName == "BootupRestartShutdown.json" {
+			artifact_structs.Process_Exchange_Windows_EventLogs_EvtxHussar_BootupRestartShutdown("Exchange.Windows.EventLogs.EvtxHussar", clientIdentifier, records, recordOutputChannel, arguments, logger)
+		} else if JSONFileName == "Logons.json" {
+			artifact_structs.Process_Exchange_Windows_EventLogs_EvtxHussar_Logons("Exchange.Windows.EventLogs.EvtxHussar", clientIdentifier, records, recordOutputChannel, arguments, logger)
+		} else if JSONFileName == "Powershell_Events.json" {
+			artifact_structs.Process_Exchange_Windows_EventLogs_EvtxHussar_PowerShell_Events("Exchange.Windows.EventLogs.EvtxHussar", clientIdentifier, records, recordOutputChannel, arguments, logger)
+		} else if JSONFileName == "Powershell_ScriptblocksSummary.json" {
+			artifact_structs.Process_Exchange_Windows_EventLogs_EvtxHussar_Powershell_ScriptblocksSummary("Exchange.Windows.EventLogs.EvtxHussar", clientIdentifier, records, recordOutputChannel, arguments, logger)
+		} else if JSONFileName == "RDP.json" {
+			artifact_structs.Process_Exchange_Windows_EventLogs_EvtxHussar_RDP("Exchange.Windows.EventLogs.EvtxHussar", clientIdentifier, records, recordOutputChannel, arguments, logger)
+		} else if JSONFileName == "Services.json" {
+			artifact_structs.Process_Exchange_Windows_EventLogs_EvtxHussar_Services("Exchange.Windows.EventLogs.EvtxHussar", clientIdentifier, records, recordOutputChannel, arguments, logger)
+		} else if JSONFileName == "SMB_ClientDestinations.json" {
+			artifact_structs.Process_Exchange_Windows_EventLogs_EvtxHussar_SMB_ClientDestinations("Exchange.Windows.EventLogs.EvtxHussar", clientIdentifier, records, recordOutputChannel, arguments, logger)
+		} else if JSONFileName == "SMB_ServerAccessAudit.json" {
+			artifact_structs.Process_Exchange_Windows_EventLogs_EvtxHussar_SMB_ServerAccessAudit("Exchange.Windows.EventLogs.EvtxHussar", clientIdentifier, records, recordOutputChannel, arguments, logger)
+		} else if JSONFileName == "SMB_ServerModifications.json" {
+			artifact_structs.Process_Exchange_Windows_EventLogs_EvtxHussar_SMB_ServerModifications("Exchange.Windows.EventLogs.EvtxHussar", clientIdentifier, records, recordOutputChannel, arguments, logger)
+		} else if JSONFileName == "WindowsFirewall.json" {
+			artifact_structs.Process_Exchange_Windows_EventLogs_EvtxHussar_WindowsFirewall("Exchange.Windows.EventLogs.EvtxHussar", clientIdentifier, records, recordOutputChannel, arguments, logger)
+		} else if JSONFileName == "WinRM.json" {
+			artifact_structs.Process_Exchange_Windows_EventLogs_EvtxHussar_WinRM("Exchange.Windows.EventLogs.EvtxHussar", clientIdentifier, records, recordOutputChannel, arguments, logger)
+		}
 	}
 }
 
@@ -484,6 +524,7 @@ func SetupArtifactListenChannels(clientArtifactPaths []string, logger zerolog.Lo
 
 func GetAppropriateHeaders(artifact string) ([]string, error) {
 	// TODO - Reformat this to use a generic map of struct where each implements an appropriate interface func
+	// TODO - Replace with switch
 	headers := []string{"Time", "ClientID", "Hostname"}
 	if artifact == "Windows.System.Services.csv" {
 		headers = append(headers, artifact_structs.Windows_System_Service.GetHeaders(artifact_structs.Windows_System_Service{})...)
@@ -625,6 +666,44 @@ func GetAppropriateHeaders(artifact string) ([]string, error) {
 		headers = append(headers, artifact_structs.Exchange_Windows_Forensics_Trawler.GetHeaders(artifact_structs.Exchange_Windows_Forensics_Trawler{})...)
 	} else if artifact == "Exchange.Windows.Forensics.PersistenceSniper.csv" {
 		headers = append(headers, artifact_structs.Exchange_Windows_Forensics_PersistenceSniper.GetHeaders(artifact_structs.Exchange_Windows_Forensics_PersistenceSniper{})...)
+	} else if artifact == "Generic.Forensic.SQLiteHunter.Firefox_Favicons.csv" {
+		headers = append(headers, artifact_structs.Generic_Forensic_SQLiteHunter_Firefox_Favicons.GetHeaders(artifact_structs.Generic_Forensic_SQLiteHunter_Firefox_Favicons{})...)
+	} else if artifact == "Generic.Forensic.SQLiteHunter.Firefox_Places.csv" {
+		headers = append(headers, artifact_structs.Generic_Forensic_SQLiteHunter_Firefox_Places.GetHeaders(artifact_structs.Generic_Forensic_SQLiteHunter_Firefox_Places{})...)
+	} else if artifact == "Generic.Forensic.SQLiteHunter.Firefox_Places_Downloads.csv" {
+		headers = append(headers, artifact_structs.Generic_Forensic_SQLiteHunter_Firefox_Places_Downloads.GetHeaders(artifact_structs.Generic_Forensic_SQLiteHunter_Firefox_Places_Downloads{})...)
+	} else if artifact == "Generic.Forensic.SQLiteHunter.Firefox_Places_History.csv" {
+		headers = append(headers, artifact_structs.Generic_Forensic_SQLiteHunter_Firefox_Places_History.GetHeaders(artifact_structs.Generic_Forensic_SQLiteHunter_Firefox_Places_History{})...)
+	} else if artifact == "Generic.Forensic.SQLiteHunter.IE_or_Edge_WebCacheV01_Highlights.csv" {
+		headers = append(headers, artifact_structs.Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_Highlights.GetHeaders(artifact_structs.Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_Highlights{})...)
+	} else if artifact == "Exchange.Windows.EventLogs.CondensedAccountUsage.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_EventLogs_CondensedAccountUsage.GetHeaders(artifact_structs.Exchange_Windows_EventLogs_CondensedAccountUsage{})...)
+	} else if artifact == "Exchange.Windows.EventLogs.EvtxHussar.Accounts_UsersRelatedOperations.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_Accounts_UserRelatedOperations.GetHeaders(artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_Accounts_UserRelatedOperations{})...)
+	} else if artifact == "Exchange.Windows.EventLogs.EvtxHussar.Antivirus_WindowsDefender.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_Antivirus_WindowsDefender.GetHeaders(artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_Antivirus_WindowsDefender{})...)
+	} else if artifact == "Exchange.Windows.EventLogs.EvtxHussar.BootupRestartShutdown.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_BootupRestartShutdown.GetHeaders(artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_BootupRestartShutdown{})...)
+	} else if artifact == "Exchange.Windows.EventLogs.EvtxHussar.Logons.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_Logons.GetHeaders(artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_Logons{})...)
+	} else if artifact == "Exchange.Windows.EventLogs.EvtxHussar.Powershell_Events.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_PowerShell_Events.GetHeaders(artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_PowerShell_Events{})...)
+	} else if artifact == "Exchange.Windows.EventLogs.EvtxHussar.Powershell_ScriptblocksSummary.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_Powershell_ScriptblocksSummary.GetHeaders(artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_Powershell_ScriptblocksSummary{})...)
+	} else if artifact == "Exchange.Windows.EventLogs.EvtxHussar.RDP.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_RDP.GetHeaders(artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_RDP{})...)
+	} else if artifact == "Exchange.Windows.EventLogs.EvtxHussar.Services.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_Services.GetHeaders(artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_Services{})...)
+	} else if artifact == "Exchange.Windows.EventLogs.EvtxHussar.SMB_ClientDestinations.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_SMB_ClientDestinations.GetHeaders(artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_SMB_ClientDestinations{})...)
+	} else if artifact == "Exchange.Windows.EventLogs.EvtxHussar.SMB_ServerAccessAudit.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_SMB_ServerAccessAudit.GetHeaders(artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_SMB_ServerAccessAudit{})...)
+	} else if artifact == "Exchange.Windows.EventLogs.EvtxHussar.SMB_ServerModifications.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_SMB_ServerModifications.GetHeaders(artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_SMB_ServerModifications{})...)
+	} else if artifact == "Exchange.Windows.EventLogs.EvtxHussar.WindowsFirewall.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_WindowsFirewall.GetHeaders(artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_WindowsFirewall{})...)
+	} else if artifact == "Exchange.Windows.EventLogs.EvtxHussar.WinRM.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_WinRM.GetHeaders(artifact_structs.Exchange_Windows_EventLogs_EvtxHussar_WinRM{})...)
 	}
 
 	if len(headers) == 3 {

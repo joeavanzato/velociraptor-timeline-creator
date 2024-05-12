@@ -29,7 +29,7 @@ func (s Exchange_Windows_Forensics_Trawler) StringArray() []string {
 }
 
 func (s Exchange_Windows_Forensics_Trawler) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Exchange_Windows_Forensics_Trawler(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {

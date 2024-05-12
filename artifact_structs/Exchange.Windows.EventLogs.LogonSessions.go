@@ -32,7 +32,7 @@ func (s Exchange_Windows_EventLogs_LogonSessions) StringArray() []string {
 }
 
 func (s Exchange_Windows_EventLogs_LogonSessions) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Exchange_Windows_EventLogs_LogonSessions(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {

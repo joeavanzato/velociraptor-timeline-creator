@@ -20,7 +20,7 @@ func (s Windows_Forensics_Bam) StringArray() []string {
 }
 
 func (s Windows_Forensics_Bam) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Windows_Forensics_Bam(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {

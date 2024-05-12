@@ -32,7 +32,7 @@ func (s Windows_Applications_NirsoftBrowserViewer) StringArray() []string {
 }
 
 func (s Windows_Applications_NirsoftBrowserViewer) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Windows_Applications_NirsoftBrowserViewer(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {

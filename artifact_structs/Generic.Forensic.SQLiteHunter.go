@@ -23,7 +23,7 @@ func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Bookmarks) StringArray() 
 }
 
 func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Bookmarks) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Bookmarks(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -145,7 +145,7 @@ func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Downloads) String
 }
 
 func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Downloads) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Downloads(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -193,7 +193,7 @@ func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Keywords) StringA
 }
 
 func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Keywords) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Keywords(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -246,7 +246,7 @@ func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Visits) StringArr
 }
 
 func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Visits) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Visits(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -298,7 +298,7 @@ func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Shortcuts) StringArray() 
 }
 
 func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Shortcuts) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Shortcuts(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -349,7 +349,7 @@ func (s Generic_Forensic_SQLiteHunter_Firefox_Cookies) StringArray() []string {
 }
 
 func (s Generic_Forensic_SQLiteHunter_Firefox_Cookies) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Generic_Forensic_SQLiteHunter_Firefox_Cookies(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -398,7 +398,7 @@ func (s Generic_Forensic_SQLiteHunter_Firefox_Form_History) StringArray() []stri
 }
 
 func (s Generic_Forensic_SQLiteHunter_Firefox_Form_History) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Generic_Forensic_SQLiteHunter_Firefox_Form_History(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -463,7 +463,7 @@ func (s Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_All_Data) StringArray() [
 }
 
 func (s Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_All_Data) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_All_Data(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -509,7 +509,7 @@ func (s Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Gthr) S
 }
 
 func (s Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Gthr) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Gthr(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -604,7 +604,7 @@ func (s Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Propert
 }
 
 func (s Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_PropertyStore) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_PropertyStore(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -648,7 +648,7 @@ func (s Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_GthrPth
 }
 
 func (s Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_GthrPth) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_GthrPth(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -687,18 +687,13 @@ type Generic_Forensic_SQLiteHunter_Chromium_Browser_Extensions struct {
 		Accessor   string   `json:"Accessor"`
 	} `json:"Image"`
 	Manifest struct {
-		Author struct {
-			Email string `json:"email"`
-		} `json:"author"`
+		Author     any `json:"author"`
 		Background struct {
 			Persistent bool     `json:"persistent"`
 			Scripts    []string `json:"scripts"`
 		} `json:"background"`
 		BrowserAction struct {
-			DefaultIcon struct {
-				Num19 string `json:"19"`
-				Num38 string `json:"38"`
-			} `json:"default_icon"`
+			DefaultIcon  any    `json:"default_icon"`
 			DefaultPopup string `json:"default_popup"`
 			DefaultTitle string `json:"default_title"`
 		} `json:"browser_action"`
@@ -708,7 +703,7 @@ type Generic_Forensic_SQLiteHunter_Chromium_Browser_Extensions struct {
 			Js        []string `json:"js"`
 			Matches   []string `json:"matches"`
 		} `json:"content_scripts"`
-		ContentSecurityPolicy   string `json:"content_security_policy"`
+		ContentSecurityPolicy   any    `json:"content_security_policy"`
 		DefaultLocale           string `json:"default_locale"`
 		Description             string `json:"description"`
 		DifferentialFingerprint string `json:"differential_fingerprint"`
@@ -727,7 +722,7 @@ type Generic_Forensic_SQLiteHunter_Chromium_Browser_Extensions struct {
 		Permissions            []string `json:"permissions"`
 		UpdateURL              string   `json:"update_url"`
 		Version                string   `json:"version"`
-		WebAccessibleResources []string `json:"web_accessible_resources"`
+		WebAccessibleResources any      `json:"web_accessible_resources"`
 	} `json:"_Manifest"`
 }
 
@@ -738,9 +733,9 @@ func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Extensions) StringArray()
 	}
 	return []string{s.OSPath, s.Email, s.Name, s.Description, fmt.Sprint(s.Scopes), fmt.Sprint(s.Permissions),
 		s.Key, s.Image.Path, strconv.Itoa(s.Image.Size), strconv.Itoa(s.Image.StoredSize), s.Image.Sha256, s.Image.Md5, s.Image.StoredName,
-		fmt.Sprint(s.Image.Components), s.Image.Accessor, s.Manifest.Author.Email, fmt.Sprint(s.Manifest.Background.Persistent),
+		fmt.Sprint(s.Image.Components), s.Image.Accessor, fmt.Sprint(s.Manifest.Author), fmt.Sprint(s.Manifest.Background.Persistent),
 		fmt.Sprint(s.Manifest.Background.Scripts), s.Manifest.BrowserAction.DefaultPopup, s.Manifest.BrowserAction.DefaultTitle,
-		fmt.Sprint(contentScripts), s.Manifest.ContentSecurityPolicy, s.Manifest.DefaultLocale, s.Manifest.Description, s.Manifest.DifferentialFingerprint,
+		fmt.Sprint(contentScripts), fmt.Sprint(s.Manifest.ContentSecurityPolicy), s.Manifest.DefaultLocale, s.Manifest.Description, s.Manifest.DifferentialFingerprint,
 		s.Manifest.Key, strconv.Itoa(s.Manifest.ManifestVersion), s.Manifest.Name, s.Manifest.OptionsPage, fmt.Sprint(s.Manifest.Permissions), s.Manifest.UpdateURL, s.Manifest.Version, fmt.Sprint(s.Manifest.WebAccessibleResources)}
 }
 
@@ -785,7 +780,7 @@ func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Network_Predictor) String
 }
 
 func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Network_Predictor) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Generic_Forensic_SQLiteHunter_Windows_Chromium_Browser_Network_Predictor(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -818,7 +813,7 @@ func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Top_Sites) StringArray() 
 }
 
 func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Top_Sites) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Generic_Forensic_SQLiteHunter_Windows_Chromium_Browser_Top_Sites(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -835,5 +830,249 @@ func Process_Generic_Forensic_SQLiteHunter_Windows_Chromium_Browser_Top_Sites(ar
 			continue
 		}
 		continue
+	}
+}
+
+type Generic_Forensic_SQLiteHunter_Firefox_Favicons struct {
+	ID         int       `json:"ID"`
+	PageURL    string    `json:"PageURL"`
+	FaviconURL string    `json:"FaviconURL"`
+	Expiration time.Time `json:"Expiration"`
+	OSPath     string    `json:"OSPath"`
+}
+
+func (s Generic_Forensic_SQLiteHunter_Firefox_Favicons) StringArray() []string {
+	return []string{strconv.Itoa(s.ID), s.PageURL, s.FaviconURL, s.Expiration.String(), s.OSPath}
+}
+
+func (s Generic_Forensic_SQLiteHunter_Firefox_Favicons) GetHeaders() []string {
+	return helpers.GetStructHeadersAsStringSlice(s)
+}
+
+func Process_Generic_Forensic_SQLiteHunter_Firefox_Favicons(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
+	for _, line := range inputLines {
+		tmp := Generic_Forensic_SQLiteHunter_Firefox_Favicons{}
+		err := json.Unmarshal([]byte(line), &tmp)
+		if err != nil {
+			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.Expiration.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
+			continue
+		}
+		tmp2 := vars.ShallowRecord{
+			Timestamp:        tmp.Expiration,
+			Computer:         clientIdentifier,
+			Artifact:         artifactName,
+			EventType:        "Firefox Favicon Expires",
+			EventDescription: "",
+			SourceUser:       "",
+			SourceHost:       "",
+			DestinationUser:  "",
+			DestinationHost:  tmp.PageURL,
+			SourceFile:       tmp.OSPath,
+			MetaData:         fmt.Sprintf("FaviconURL: %v", tmp.FaviconURL),
+		}
+		outputChannel <- tmp2.StringArray()
+	}
+}
+
+type Generic_Forensic_SQLiteHunter_Firefox_Places struct {
+	ID           int       `json:"ID"`
+	ParentID     int       `json:"ParentID"`
+	Type         string    `json:"Type"`
+	DateAdded    time.Time `json:"DateAdded"`
+	LastModified time.Time `json:"LastModified"`
+	Position     int       `json:"Position"`
+	Title        string    `json:"Title"`
+	URL          string    `json:"URL"`
+	ForeignKey   int       `json:"ForeignKey"`
+	OSPath       string    `json:"OSPath"`
+}
+
+func (s Generic_Forensic_SQLiteHunter_Firefox_Places) StringArray() []string {
+	return []string{strconv.Itoa(s.ID), strconv.Itoa(s.ParentID), s.Type, s.DateAdded.String(), s.LastModified.String(), strconv.Itoa(s.Position), s.Title, s.URL, strconv.Itoa(s.ForeignKey), s.OSPath}
+}
+
+func (s Generic_Forensic_SQLiteHunter_Firefox_Places) GetHeaders() []string {
+	return helpers.GetStructHeadersAsStringSlice(s)
+}
+
+func Process_Generic_Forensic_SQLiteHunter_Firefox_Places(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
+	for _, line := range inputLines {
+		tmp := Generic_Forensic_SQLiteHunter_Firefox_Places{}
+		err := json.Unmarshal([]byte(line), &tmp)
+		if err != nil {
+			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.DateAdded.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
+			continue
+		}
+		tmp2 := vars.ShallowRecord{
+			Timestamp:        tmp.DateAdded,
+			Computer:         clientIdentifier,
+			Artifact:         artifactName,
+			EventType:        "Firefox Place Added",
+			EventDescription: "",
+			SourceUser:       "",
+			SourceHost:       "",
+			DestinationUser:  "",
+			DestinationHost:  tmp.URL,
+			SourceFile:       tmp.OSPath,
+			MetaData:         fmt.Sprintf("Date Modified: %v, Title: %v", tmp.LastModified, tmp.Title),
+		}
+		outputChannel <- tmp2.StringArray()
+	}
+}
+
+type Generic_Forensic_SQLiteHunter_Firefox_Places_Downloads struct {
+	PlaceID      int       `json:"PlaceID"`
+	Content      string    `json:"Content"`
+	DateAdded    time.Time `json:"DateAdded"`
+	LastModified time.Time `json:"LastModified"`
+	OSPath       string    `json:"OSPath"`
+}
+
+func (s Generic_Forensic_SQLiteHunter_Firefox_Places_Downloads) StringArray() []string {
+	return []string{strconv.Itoa(s.PlaceID), s.Content, s.DateAdded.String(), s.LastModified.String(), s.OSPath}
+}
+
+func (s Generic_Forensic_SQLiteHunter_Firefox_Places_Downloads) GetHeaders() []string {
+	return helpers.GetStructHeadersAsStringSlice(s)
+}
+
+func Process_Generic_Forensic_SQLiteHunter_Firefox_Places_Downloads(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
+	for _, line := range inputLines {
+		tmp := Generic_Forensic_SQLiteHunter_Firefox_Places_Downloads{}
+		err := json.Unmarshal([]byte(line), &tmp)
+		if err != nil {
+			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.DateAdded.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
+			continue
+		}
+		tmp2 := vars.ShallowRecord{
+			Timestamp:        tmp.DateAdded,
+			Computer:         clientIdentifier,
+			Artifact:         artifactName,
+			EventType:        "Firefox Place Download Added",
+			EventDescription: "",
+			SourceUser:       "",
+			SourceHost:       "",
+			DestinationUser:  "",
+			DestinationHost:  tmp.Content,
+			SourceFile:       tmp.OSPath,
+			MetaData:         fmt.Sprintf("Date Modified: %v", tmp.LastModified),
+		}
+		outputChannel <- tmp2.StringArray()
+	}
+}
+
+type Generic_Forensic_SQLiteHunter_Firefox_Places_History struct {
+	// TODO - This artifact has a typo - 'Frecency' should be 'Frequency' (I assume)
+	VisitID         int       `json:"VisitID"`
+	FromVisitID     int       `json:"FromVisitID"`
+	LastVisitDate   time.Time `json:"LastVisitDate"`
+	VisitCount      int       `json:"VisitCount"`
+	URL             string    `json:"URL"`
+	Title           string    `json:"Title"`
+	Description     string    `json:"Description"`
+	VisitType       string    `json:"VisitType"`
+	Hidden          string    `json:"Hidden"`
+	Typed           string    `json:"Typed"`
+	Frecency        int       `json:"Frecency"`
+	PreviewImageURL string    `json:"PreviewImageURL"`
+	OSPath          string    `json:"OSPath"`
+}
+
+func (s Generic_Forensic_SQLiteHunter_Firefox_Places_History) StringArray() []string {
+	return []string{strconv.Itoa(s.VisitID), strconv.Itoa(s.FromVisitID), s.LastVisitDate.String(), strconv.Itoa(s.VisitCount),
+		s.URL, s.Title, s.Description, s.VisitType, s.Hidden, s.Typed, strconv.Itoa(s.Frecency), s.PreviewImageURL, s.OSPath}
+}
+
+func (s Generic_Forensic_SQLiteHunter_Firefox_Places_History) GetHeaders() []string {
+	return helpers.GetStructHeadersAsStringSlice(s)
+}
+
+func Process_Generic_Forensic_SQLiteHunter_Firefox_Places_History(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
+	for _, line := range inputLines {
+		tmp := Generic_Forensic_SQLiteHunter_Firefox_Places_History{}
+		err := json.Unmarshal([]byte(line), &tmp)
+		if err != nil {
+			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.LastVisitDate.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
+			continue
+		}
+		tmp2 := vars.ShallowRecord{
+			Timestamp:        tmp.LastVisitDate,
+			Computer:         clientIdentifier,
+			Artifact:         artifactName,
+			EventType:        "Firefox Places History Visit",
+			EventDescription: "",
+			SourceUser:       "",
+			SourceHost:       "",
+			DestinationUser:  "",
+			DestinationHost:  tmp.URL,
+			SourceFile:       tmp.OSPath,
+			MetaData:         fmt.Sprintf("Title: %v, Description: %v, VisitType: %v, Typed: %v, Hidden: %v", tmp.Title, tmp.Description, tmp.VisitType, tmp.Typed, tmp.Hidden),
+		}
+		outputChannel <- tmp2.StringArray()
+	}
+}
+
+type Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_Highlights struct {
+	AccessedTime time.Time `json:"AccessedTime"`
+	ModifiedTime time.Time `json:"ModifiedTime"`
+	ExpiryTime   time.Time `json:"ExpiryTime"`
+	URL          string    `json:"Url"`
+}
+
+func (s Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_Highlights) StringArray() []string {
+	return []string{s.AccessedTime.String(), s.ModifiedTime.String(), s.ExpiryTime.String(), s.URL}
+}
+
+func (s Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_Highlights) GetHeaders() []string {
+	return helpers.GetStructHeadersAsStringSlice(s)
+}
+
+func Process_Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_Highlights(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
+	for _, line := range inputLines {
+		tmp := Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_Highlights{}
+		err := json.Unmarshal([]byte(line), &tmp)
+		if err != nil {
+			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.AccessedTime.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
+			continue
+		}
+		tmp2 := vars.ShallowRecord{
+			Timestamp:        tmp.AccessedTime,
+			Computer:         clientIdentifier,
+			Artifact:         artifactName,
+			EventType:        "IE/Edge WebCache Highlight Access",
+			EventDescription: "",
+			SourceUser:       "",
+			SourceHost:       "",
+			DestinationUser:  "",
+			DestinationHost:  tmp.URL,
+			SourceFile:       "",
+			MetaData:         fmt.Sprintf("ModifiedTime: %v, ExpiryTime: %v", tmp.ModifiedTime, tmp.ExpiryTime),
+		}
+		outputChannel <- tmp2.StringArray()
 	}
 }

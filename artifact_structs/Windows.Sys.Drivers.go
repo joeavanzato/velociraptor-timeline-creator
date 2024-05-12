@@ -55,7 +55,7 @@ func (s Windows_Sys_Drivers_SignedDrivers) StringArray() []string {
 
 // Headers should match the array above
 func (s Windows_Sys_Drivers_SignedDrivers) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Windows_Sys_Drivers_SignedDrivers(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -155,7 +155,7 @@ func (s Windows_Sys_Drivers_RunningDrivers) StringArray() []string {
 
 // Headers should match the array above
 func (s Windows_Sys_Drivers_RunningDrivers) GetHeaders() []string {
-	//return helpers.GetStructAsStringSlice(s)
+	//return helpers.GetStructHeadersAsStringSlice(s)
 	return []string{"AcceptPause", "AcceptStop", "Caption", "CreationClassName", "Description", "DesktopInteract",
 		"DisplayName", "ErrorControl", "ExitCode", "InstallDate", "Name", "PathName", "ServiceSpecificExitCode",
 		"ServiceType", "Started", "StartMode", "StartName", "State", "Status", "SystemCreationClassName", "SystemName",

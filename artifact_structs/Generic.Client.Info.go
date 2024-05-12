@@ -20,7 +20,7 @@ func (s Generic_Client_Info_Users) StringArray() []string {
 }
 
 func (s Generic_Client_Info_Users) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Generic_Client_Info_Users(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
@@ -76,7 +76,7 @@ func (s Generic_Client_Info_BasicInformation) StringArray() []string {
 }
 
 func (s Generic_Client_Info_BasicInformation) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Generic_Client_Info_BasicInformation(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {

@@ -53,7 +53,7 @@ func (s Custom_Windows_MFT) StringArray() []string {
 }
 
 func (s Custom_Windows_MFT) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Custom_Windows_MFT(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {

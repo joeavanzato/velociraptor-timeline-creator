@@ -32,7 +32,7 @@ func (s Windows_EventLogs_PowerShellScriptblock) StringArray() []string {
 }
 
 func (s Windows_EventLogs_PowerShellScriptblock) GetHeaders() []string {
-	return helpers.GetStructAsStringSlice(s)
+	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
 func Process_Windows_EventLogs_PowerShellScriptblock(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
