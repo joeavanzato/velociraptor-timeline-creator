@@ -400,6 +400,10 @@ func SendRecordsToAppropriateBus(logger zerolog.Logger, records []string, record
 		if JSONFileName == "Results.json" {
 			artifact_structs.Process_Exchange_Windows_EventLogs_Hayabusa("Exchange.Windows.EventLogs.Hayabusa", clientIdentifier, records, recordOutputChannel, arguments)
 		}
+	} else if artifactName == "Exchange.Windows.Forensics.Trawler" {
+		artifact_structs.Process_Exchange_Windows_Forensics_Trawler("Exchange.Windows.Forensics.Trawler", clientIdentifier, records, recordOutputChannel, arguments)
+	} else if artifactName == "Exchange.Windows.Forensics.PersistenceSniper" {
+		artifact_structs.Process_Exchange_Windows_Forensics_PersistenceSniper("Exchange.Windows.Forensics.PersistenceSniper", clientIdentifier, records, recordOutputChannel, arguments)
 	}
 }
 
@@ -617,6 +621,10 @@ func GetAppropriateHeaders(artifact string) ([]string, error) {
 		headers = append(headers, artifact_structs.Generic_Forensic_SQLiteHunter_Chromium_Browser_Network_Predictor.GetHeaders(artifact_structs.Generic_Forensic_SQLiteHunter_Chromium_Browser_Network_Predictor{})...)
 	} else if artifact == "Generic.Forensic.SQLiteHunter.Chromium_Browser_Top_Sites.csv" {
 		headers = append(headers, artifact_structs.Generic_Forensic_SQLiteHunter_Chromium_Browser_Top_Sites.GetHeaders(artifact_structs.Generic_Forensic_SQLiteHunter_Chromium_Browser_Top_Sites{})...)
+	} else if artifact == "Exchange.Windows.Forensics.Trawler.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_Forensics_Trawler.GetHeaders(artifact_structs.Exchange_Windows_Forensics_Trawler{})...)
+	} else if artifact == "Exchange.Windows.Forensics.PersistenceSniper.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_Forensics_PersistenceSniper.GetHeaders(artifact_structs.Exchange_Windows_Forensics_PersistenceSniper{})...)
 	}
 
 	if len(headers) == 3 {

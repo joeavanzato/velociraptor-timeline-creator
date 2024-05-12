@@ -89,4 +89,6 @@ var ImplementedArtifacts = map[string]string{
 	"Exchange.Windows.EventLogs.Chainsaw":           "Chainsaw Detection",
 	"Exchange.Windows.Memory.InjectedThreadEx":      "Thread Injection Analysis",
 	"Exchange.Windows.EventLogs.Hayabusa":           "Hayabusa Detection",
+	"Exchange.Windows.Forensics.Trawler":            "Trawler Detection",
+	"Exchange.Windows.Forensics.PersistenceSniper":  "PersistenceSniper Detection",
 }
