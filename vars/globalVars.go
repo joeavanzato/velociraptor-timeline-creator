@@ -105,4 +105,8 @@ var ImplementedArtifacts = map[string]string{
 	"DetectRaptor.Windows.Detection.ZoneIdentifier":         "DetectRaptor - ZoneIdentifier",
 	"DetectRaptor.Windows.Detection.HijackLibsEnv":          "DetectRaptor - HijackLibsEnv",
 	"DetectRaptor.Windows.Detection.HijackLibsMFT":          "DetectRaptor - HijackLibsMFT",
+	"DetectRaptor.Windows.Detection.LolDriversVulnerable":   "DetectRaptor - LolDriversVulnerable",
+	"DetectRaptor.Windows.Detection.NamedPipes":             "DetectRaptor - NamedPipes",
+	"Exchange.Windows.Detection.PipeHunter":                 "PipeHunter",
+	"Windows.Memory.ProcessInfo":                            "ProcessInfo",
 }

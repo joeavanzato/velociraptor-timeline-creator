@@ -468,6 +468,14 @@ func SendRecordsToAppropriateBus(logger zerolog.Logger, records []string, record
 		artifact_structs.Process_DetectRaptor_Windows_Detection_HijackLibsEnv_SuspiciousDLLPath("DetectRaptor.Windows.Detection.HijackLibsEnv", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "DetectRaptor.Windows.Detection.HijackLibsMFT" {
 		artifact_structs.Process_DetectRaptor_Windows_Detection_HijackLibsMFT("DetectRaptor.Windows.Detection.HijackLibsMFT", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "DetectRaptor.Windows.Detection.LolDriversVulnerable" {
+		artifact_structs.Process_DetectRaptor_Windows_Detection_LolDriversVulnerable("DetectRaptor.Windows.Detection.LolDriversVulnerable", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "DetectRaptor.Windows.Detection.NamedPipes" {
+		artifact_structs.Process_DetectRaptor_Windows_Detection_NamedPipes("DetectRaptor.Windows.Detection.NamedPipes", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Exchange.Windows.Detection.PipeHunter" {
+		artifact_structs.Process_Exchange_Windows_Detection_PipeHunter("Exchange.Windows.Detection.PipeHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Memory.ProcessInfo" {
+		artifact_structs.Process_Windows_Memory_ProcessInfo("Windows.Memory.ProcessInfo", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	}
 }
 
@@ -752,6 +760,14 @@ func GetAppropriateHeaders(artifact string) ([]string, error) {
 		headers = append(headers, artifact_structs.DetectRaptor_Windows_Detection_HijackLibsEnv_SuspiciousDLLPath.GetHeaders(artifact_structs.DetectRaptor_Windows_Detection_HijackLibsEnv_SuspiciousDLLPath{})...)
 	} else if artifact == "DetectRaptor.Windows.Detection.HijackLibsMFT.csv" {
 		headers = append(headers, artifact_structs.DetectRaptor_Windows_Detection_HijackLibsMFT.GetHeaders(artifact_structs.DetectRaptor_Windows_Detection_HijackLibsMFT{})...)
+	} else if artifact == "DetectRaptor.Windows.Detection.LolDriversVulnerable.csv" {
+		headers = append(headers, artifact_structs.DetectRaptor_Windows_Detection_LolDriversVulnerable.GetHeaders(artifact_structs.DetectRaptor_Windows_Detection_LolDriversVulnerable{})...)
+	} else if artifact == "DetectRaptor.Windows.Detection.NamedPipes.csv" {
+		headers = append(headers, artifact_structs.DetectRaptor_Windows_Detection_NamedPipes.GetHeaders(artifact_structs.DetectRaptor_Windows_Detection_NamedPipes{})...)
+	} else if artifact == "Exchange.Windows.Detection.PipeHunter.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_Detection_PipeHunter.GetHeaders(artifact_structs.Exchange_Windows_Detection_PipeHunter{})...)
+	} else if artifact == "Windows.Memory.ProcessInfo.csv" {
+		headers = append(headers, artifact_structs.Windows_Memory_ProcessInfo.GetHeaders(artifact_structs.Windows_Memory_ProcessInfo{})...)
 	}
 
 	if len(headers) == 3 {

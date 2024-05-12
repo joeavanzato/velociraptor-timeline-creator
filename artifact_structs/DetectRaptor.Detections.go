@@ -1035,3 +1035,111 @@ func Process_DetectRaptor_Windows_Detection_HijackLibsMFT(artifactName string, c
 		outputChannel <- tmp2.StringArray()
 	}
 }
+
+type DetectRaptor_Windows_Detection_LolDriversVulnerable struct {
+	Name           string    `json:"Name"`
+	SHA1           string    `json:"SHA1"`
+	HivePath       string    `json:"HivePath"`
+	EntryKey       string    `json:"EntryKey"`
+	KeyMTime       time.Time `json:"KeyMTime"`
+	EntryType      string    `json:"EntryType"`
+	Product        string    `json:"Product"`
+	Description    string    `json:"Description"`
+	ProductVersion string    `json:"ProductVersion"`
+	FileVersion    string    `json:"FileVersion"`
+	MachineType    string    `json:"MachineType"`
+	Category       string    `json:"Category"`
+	Usecase        string    `json:"Usecase"`
+	LolDriversURL  string    `json:"LolDriversUrl"`
+}
+
+func (s DetectRaptor_Windows_Detection_LolDriversVulnerable) StringArray() []string {
+	return helpers.GetStructValuesAsStringSlice(s)
+}
+
+func (s DetectRaptor_Windows_Detection_LolDriversVulnerable) GetHeaders() []string {
+	return helpers.GetStructHeadersAsStringSlice(s)
+}
+
+func Process_DetectRaptor_Windows_Detection_LolDriversVulnerable(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
+	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
+	for _, line := range inputLines {
+		tmp := DetectRaptor_Windows_Detection_LolDriversVulnerable{}
+		err := json.Unmarshal([]byte(line), &tmp)
+		if err != nil {
+			logger.Error().Msgf(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.KeyMTime.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
+			continue
+		}
+		tmp2 := vars.ShallowRecord{
+			Timestamp:        tmp.KeyMTime,
+			Computer:         clientIdentifier,
+			Artifact:         artifactName,
+			EventType:        tmp.Category,
+			EventDescription: "",
+			SourceUser:       "",
+			SourceHost:       "",
+			DestinationUser:  "",
+			DestinationHost:  "",
+			SourceFile:       tmp.Name,
+			MetaData:         fmt.Sprintf("LolDriversUrl: %v, Usecase: %v, SHA1: %v", tmp.LolDriversURL, tmp.Usecase, tmp.SHA1),
+		}
+		outputChannel <- tmp2.StringArray()
+	}
+}
+
+type DetectRaptor_Windows_Detection_NamedPipes struct {
+	EventTime time.Time `json:"EventTime"`
+	Detection string    `json:"Detection"`
+	ProcPid   int       `json:"ProcPid"`
+	ProcName  string    `json:"ProcName"`
+	Exe       string    `json:"Exe"`
+	PipeName  string    `json:"PipeName"`
+	Type      string    `json:"Type"`
+	Regex     struct {
+		PipeRegex      string `json:"PipeRegex"`
+		IgnoreExeRegex string `json:"IgnoreExeRegex"`
+	} `json:"Regex"`
+	Reference string `json:"Reference"`
+}
+
+func (s DetectRaptor_Windows_Detection_NamedPipes) StringArray() []string {
+	return []string{s.EventTime.String(), s.Detection, strconv.Itoa(s.ProcPid), s.ProcName, s.Exe, s.PipeName, s.Type, s.Regex.PipeRegex, s.Regex.IgnoreExeRegex, s.Reference}
+}
+
+func (s DetectRaptor_Windows_Detection_NamedPipes) GetHeaders() []string {
+	return []string{"EventTime", "Detection", "ProcPid", "ProcName", "Exe", "PipeName", "Type", "PipeRegex", "IgnoreExeRegex", "Reference"}
+}
+
+func Process_DetectRaptor_Windows_Detection_NamedPipes(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
+	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
+	for _, line := range inputLines {
+		tmp := DetectRaptor_Windows_Detection_NamedPipes{}
+		err := json.Unmarshal([]byte(line), &tmp)
+		if err != nil {
+			logger.Error().Msgf(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord(tmp.EventTime.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
+			continue
+		}
+		tmp2 := vars.ShallowRecord{
+			Timestamp:        tmp.EventTime,
+			Computer:         clientIdentifier,
+			Artifact:         artifactName,
+			EventType:        tmp.Detection,
+			EventDescription: "",
+			SourceUser:       "",
+			SourceHost:       "",
+			DestinationUser:  "",
+			DestinationHost:  "",
+			SourceFile:       tmp.Exe,
+			MetaData:         fmt.Sprintf("PipeName: %v, ProcName: %v, PipeRegex: %v, Reference: %v, Type: %v, ProcPid: %v", tmp.PipeName, tmp.ProcName, tmp.Regex.PipeRegex, tmp.Reference, tmp.Type, tmp.ProcPid),
+		}
+		outputChannel <- tmp2.StringArray()
+	}
+}
