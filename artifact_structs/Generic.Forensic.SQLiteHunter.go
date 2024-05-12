@@ -636,3 +636,204 @@ func Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Pr
 		outputChannel <- tmp2.StringArray()
 	}
 }
+
+type Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_GthrPth struct {
+	Scope  int    `json:"Scope"`
+	Parent int    `json:"Parent"`
+	Name   string `json:"Name"`
+}
+
+func (s Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_GthrPth) StringArray() []string {
+	return []string{strconv.Itoa(s.Scope), strconv.Itoa(s.Parent), s.Name}
+}
+
+func (s Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_GthrPth) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
+}
+
+func Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_GthrPth(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
+	for _, line := range inputLines {
+		tmp := Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_GthrPth{}
+		err := json.Unmarshal([]byte(line), &tmp)
+		if err != nil {
+			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord("", clientIdentifier, "", tmp.StringArray(), outputChannel)
+			continue
+		}
+		continue
+	}
+}
+
+type Generic_Forensic_SQLiteHunter_Chromium_Browser_Extensions struct {
+	OSPath      string   `json:"OSPath"`
+	Email       string   `json:"Email"`
+	Name        string   `json:"name"`
+	Description string   `json:"description"`
+	Scopes      any      `json:"Scopes"`
+	Permissions []string `json:"Permissions"`
+	Key         string   `json:"Key"`
+	Image       struct {
+		Path       string   `json:"Path"`
+		Size       int      `json:"Size"`
+		StoredSize int      `json:"StoredSize"`
+		Sha256     string   `json:"sha256"`
+		Md5        string   `json:"md5"`
+		StoredName string   `json:"StoredName"`
+		Components []string `json:"Components"`
+		Accessor   string   `json:"Accessor"`
+	} `json:"Image"`
+	Manifest struct {
+		Author struct {
+			Email string `json:"email"`
+		} `json:"author"`
+		Background struct {
+			Persistent bool     `json:"persistent"`
+			Scripts    []string `json:"scripts"`
+		} `json:"background"`
+		BrowserAction struct {
+			DefaultIcon struct {
+				Num19 string `json:"19"`
+				Num38 string `json:"38"`
+			} `json:"default_icon"`
+			DefaultPopup string `json:"default_popup"`
+			DefaultTitle string `json:"default_title"`
+		} `json:"browser_action"`
+		ContentScripts []struct {
+			AllFrames bool     `json:"all_frames"`
+			CSS       []string `json:"css"`
+			Js        []string `json:"js"`
+			Matches   []string `json:"matches"`
+		} `json:"content_scripts"`
+		ContentSecurityPolicy   string `json:"content_security_policy"`
+		DefaultLocale           string `json:"default_locale"`
+		Description             string `json:"description"`
+		DifferentialFingerprint string `json:"differential_fingerprint"`
+		Icons                   struct {
+			Num16  string `json:"16"`
+			Num19  string `json:"19"`
+			Num32  string `json:"32"`
+			Num38  string `json:"38"`
+			Num48  string `json:"48"`
+			Num128 string `json:"128"`
+		} `json:"icons"`
+		Key                    string   `json:"key"`
+		ManifestVersion        int      `json:"manifest_version"`
+		Name                   string   `json:"name"`
+		OptionsPage            string   `json:"options_page"`
+		Permissions            []string `json:"permissions"`
+		UpdateURL              string   `json:"update_url"`
+		Version                string   `json:"version"`
+		WebAccessibleResources []string `json:"web_accessible_resources"`
+	} `json:"_Manifest"`
+}
+
+func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Extensions) StringArray() []string {
+	contentScripts := make([]string, 0)
+	for _, v := range s.Manifest.ContentScripts {
+		contentScripts = append(contentScripts, fmt.Sprintf("AllFrames: %v, CSS: %v, Js: %v, Matches: %v", v.AllFrames, v.CSS, v.Js, v.Matches))
+	}
+	return []string{s.OSPath, s.Email, s.Name, s.Description, fmt.Sprint(s.Scopes), fmt.Sprint(s.Permissions),
+		s.Key, s.Image.Path, strconv.Itoa(s.Image.Size), strconv.Itoa(s.Image.StoredSize), s.Image.Sha256, s.Image.Md5, s.Image.StoredName,
+		fmt.Sprint(s.Image.Components), s.Image.Accessor, s.Manifest.Author.Email, fmt.Sprint(s.Manifest.Background.Persistent),
+		fmt.Sprint(s.Manifest.Background.Scripts), s.Manifest.BrowserAction.DefaultPopup, s.Manifest.BrowserAction.DefaultTitle,
+		fmt.Sprint(contentScripts), s.Manifest.ContentSecurityPolicy, s.Manifest.DefaultLocale, s.Manifest.Description, s.Manifest.DifferentialFingerprint,
+		s.Manifest.Key, strconv.Itoa(s.Manifest.ManifestVersion), s.Manifest.Name, s.Manifest.OptionsPage, fmt.Sprint(s.Manifest.Permissions), s.Manifest.UpdateURL, s.Manifest.Version, fmt.Sprint(s.Manifest.WebAccessibleResources)}
+}
+
+func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Extensions) GetHeaders() []string {
+	return []string{"OSPath", "Email", "Name", "Description", "Scopes", "Permissions", "Key", "Image_Path", "Image_Size",
+		"Image_StoredSize", "Image_SHA256", "Image_MD5", "Image_StoredName", "Image_Components", "Image_Accessor",
+		"Manifest_Author_Email", "Manifest_Background_Persistent", "Manifest_Background_Scripts",
+		"Manifest_BrowserAction_DefaultPopup", "Manifest_BrowserAction_DefaultTitle", "Manifest_ContentScripts",
+		"Manifest_ContentSecurityPolicy", "Manifest_DefaultLocale", "Manifest_Description", "Manifest_DifferentialFingerprint",
+		"Manifest_Key", "Manifest_ManifestVersion", "Manifest_Name", "Manifest_OptionsPage", "Manifest_Permissions",
+		"Manifest_UpdateURL", "Manifest_Version", "Manifest_WebAccessibleResources"}
+}
+
+func Process_Generic_Forensic_SQLiteHunter_Windows_Chromium_Browser_Extensions(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
+	for _, line := range inputLines {
+		tmp := Generic_Forensic_SQLiteHunter_Chromium_Browser_Extensions{}
+		err := json.Unmarshal([]byte(line), &tmp)
+		if err != nil {
+			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord("", clientIdentifier, "", tmp.StringArray(), outputChannel)
+			continue
+		}
+		continue
+	}
+}
+
+type Generic_Forensic_SQLiteHunter_Chromium_Browser_Network_Predictor struct {
+	ID             string `json:"ID"`
+	UserText       string `json:"UserText"`
+	URL            string `json:"URL"`
+	NumberOfHits   int    `json:"NumberOfHits"`
+	NumberOfMisses int    `json:"NumberOfMisses"`
+	OSPath         string `json:"OSPath"`
+}
+
+func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Network_Predictor) StringArray() []string {
+	return []string{s.ID, s.UserText, s.URL, strconv.Itoa(s.NumberOfHits), strconv.Itoa(s.NumberOfMisses), s.OSPath}
+}
+
+func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Network_Predictor) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
+}
+
+func Process_Generic_Forensic_SQLiteHunter_Windows_Chromium_Browser_Network_Predictor(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
+	// TODO - This artifact by it's nature has lots of duplicate rows - we are removing these when processing it - probably need to not do that or have an option so it is 'per-artifact' deduplication
+	for _, line := range inputLines {
+		tmp := Generic_Forensic_SQLiteHunter_Chromium_Browser_Network_Predictor{}
+		err := json.Unmarshal([]byte(line), &tmp)
+		if err != nil {
+			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord("", clientIdentifier, "", tmp.StringArray(), outputChannel)
+			continue
+		}
+		continue
+	}
+}
+
+type Generic_Forensic_SQLiteHunter_Chromium_Browser_Top_Sites struct {
+	URLRank int    `json:"URLRank"`
+	URL     string `json:"URL"`
+	Title   string `json:"Title"`
+	OSPath  string `json:"OSPath"`
+}
+
+func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Top_Sites) StringArray() []string {
+	return []string{strconv.Itoa(s.URLRank), s.URL, s.Title, s.OSPath}
+}
+
+func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Top_Sites) GetHeaders() []string {
+	return helpers.GetStructAsStringSlice(s)
+}
+
+func Process_Generic_Forensic_SQLiteHunter_Windows_Chromium_Browser_Top_Sites(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
+	for _, line := range inputLines {
+		tmp := Generic_Forensic_SQLiteHunter_Chromium_Browser_Top_Sites{}
+		err := json.Unmarshal([]byte(line), &tmp)
+		if err != nil {
+			fmt.Println(err.Error())
+			continue
+		}
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord("", clientIdentifier, "", tmp.StringArray(), outputChannel)
+			continue
+		}
+		continue
+	}
+}

@@ -351,6 +351,12 @@ func SendRecordsToAppropriateBus(logger zerolog.Logger, records []string, record
 			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Visits("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
 		} else if JSONFileName == "Chromium Browser Shortcuts.json" {
 			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Shortcuts("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+		} else if JSONFileName == "Chromium Browser Extensions.json" {
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Chromium_Browser_Extensions("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+		} else if JSONFileName == "Chromium Browser Network_Predictor.json" {
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Chromium_Browser_Network_Predictor("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+		} else if JSONFileName == "Chromium Browser Top Sites.json" {
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Chromium_Browser_Top_Sites("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
 		} else if JSONFileName == "Firefox Cookies.json" {
 			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Firefox_Cookies("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
 		} else if JSONFileName == "Firefox Form History.json" {
@@ -361,6 +367,8 @@ func SendRecordsToAppropriateBus(logger zerolog.Logger, records []string, record
 			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Gthr("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
 		} else if JSONFileName == "Windows Search Service_SystemIndex_PropertyStore.json" {
 			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_PropertyStore("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+		} else if JSONFileName == "Windows Search Service_SystemIndex_GthrPth.json" {
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_GthrPth("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
 		}
 	} else if strings.HasPrefix(artifactName, "Windows.Sys.Drivers") {
 		if JSONFileName == "SignedDrivers.json" {
@@ -485,6 +493,8 @@ func GetAppropriateHeaders(artifact string) ([]string, error) {
 		headers = append(headers, artifact_structs.Windows_System_Amcache_InventoryApplicationFile.GetHeaders(artifact_structs.Windows_System_Amcache_InventoryApplicationFile{})...)
 	} else if artifact == "Windows.Analysis.EvidenceOfExecution.Amcache.csv" {
 		headers = append(headers, artifact_structs.Windows_Analysis_EvidenceOfExecution_Amcache.GetHeaders(artifact_structs.Windows_Analysis_EvidenceOfExecution_Amcache{})...)
+	} else if artifact == "Windows.Analysis.EvidenceOfExecution.UserAssist.csv" {
+		headers = append(headers, artifact_structs.Windows_Analysis_EvidenceOfExecution_UserAssist.GetHeaders(artifact_structs.Windows_Analysis_EvidenceOfExecution_UserAssist{})...)
 	} else if artifact == "Windows.Sysinternals.Autoruns.csv" {
 		headers = append(headers, artifact_structs.Windows_Sysinternals_Autoruns.GetHeaders(artifact_structs.Windows_Sysinternals_Autoruns{})...)
 	} else if artifact == "Windows.Sys.Drivers.SignedDrivers.csv" {
@@ -535,7 +545,7 @@ func GetAppropriateHeaders(artifact string) ([]string, error) {
 		headers = append(headers, artifact_structs.Windows_EventLogs_AlternateLogon.GetHeaders(artifact_structs.Windows_EventLogs_AlternateLogon{})...)
 	} else if artifact == "Windows.EventLogs.RDPAuth.csv" {
 		headers = append(headers, artifact_structs.Windows_EventLogs_RDPAuth.GetHeaders(artifact_structs.Windows_EventLogs_RDPAuth{})...)
-	} else if artifact == "Windows.EventLogs.PowerShellScriptblock.csv" {
+	} else if artifact == "Windows.EventLogs.PowershellScriptblock.csv" {
 		headers = append(headers, artifact_structs.Windows_EventLogs_PowerShellScriptblock.GetHeaders(artifact_structs.Windows_EventLogs_PowerShellScriptblock{})...)
 	} else if artifact == "Windows.EventLogs.Evtx.csv" {
 		headers = append(headers, artifact_structs.Windows_EventLogs_Evtx.GetHeaders(artifact_structs.Windows_EventLogs_Evtx{})...)
@@ -571,6 +581,8 @@ func GetAppropriateHeaders(artifact string) ([]string, error) {
 		headers = append(headers, artifact_structs.Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_All_Data.GetHeaders(artifact_structs.Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_All_Data{})...)
 	} else if artifact == "Generic.Forensic.SQLiteHunter.Windows_Search_Service_SystemIndex_Gthr.csv" {
 		headers = append(headers, artifact_structs.Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Gthr.GetHeaders(artifact_structs.Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Gthr{})...)
+	} else if artifact == "Generic.Forensic.SQLiteHunter.Windows_Search_Service_SystemIndex_GthrPth.csv" {
+		headers = append(headers, artifact_structs.Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_GthrPth.GetHeaders(artifact_structs.Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_GthrPth{})...)
 	} else if artifact == "Generic.Forensic.SQLiteHunter.Windows_Search_Service_SystemIndex_PropertyStore.csv" {
 		headers = append(headers, artifact_structs.Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_PropertyStore.GetHeaders(artifact_structs.Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_PropertyStore{})...)
 	} else if artifact == "Generic.Client.Info.Users.csv" {
@@ -599,10 +611,16 @@ func GetAppropriateHeaders(artifact string) ([]string, error) {
 		headers = append(headers, artifact_structs.Custom_Windows_MFT.GetHeaders(artifact_structs.Custom_Windows_MFT{})...)
 	} else if artifact == "Custom.Windows.Eventlog.Evtx.csv" {
 		headers = append(headers, artifact_structs.Custom_Windows_Eventlog_Evtx.GetHeaders(artifact_structs.Custom_Windows_Eventlog_Evtx{})...)
+	} else if artifact == "Generic.Forensic.SQLiteHunter.Chromium_Browser_Extensions.csv" {
+		headers = append(headers, artifact_structs.Generic_Forensic_SQLiteHunter_Chromium_Browser_Extensions.GetHeaders(artifact_structs.Generic_Forensic_SQLiteHunter_Chromium_Browser_Extensions{})...)
+	} else if artifact == "Generic.Forensic.SQLiteHunter.Chromium_Browser_Network_Predictor.csv" {
+		headers = append(headers, artifact_structs.Generic_Forensic_SQLiteHunter_Chromium_Browser_Network_Predictor.GetHeaders(artifact_structs.Generic_Forensic_SQLiteHunter_Chromium_Browser_Network_Predictor{})...)
+	} else if artifact == "Generic.Forensic.SQLiteHunter.Chromium_Browser_Top_Sites.csv" {
+		headers = append(headers, artifact_structs.Generic_Forensic_SQLiteHunter_Chromium_Browser_Top_Sites.GetHeaders(artifact_structs.Generic_Forensic_SQLiteHunter_Chromium_Browser_Top_Sites{})...)
 	}
 
 	if len(headers) == 3 {
-		return headers, errors.New("Artifact Not Implemented")
+		return headers, errors.New("Artifact Not Implemented: " + artifact)
 	}
 	return headers, nil
 
