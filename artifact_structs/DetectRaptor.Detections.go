@@ -914,14 +914,14 @@ type DetectRaptor_Windows_Detection_HijackLibsMFT struct {
 		SubjectName   string `json:"SubjectName"`
 		Timestamp     string `json:"Timestamp"`
 		Trusted       string `json:"Trusted"`
-		ExtraInfo     string `json:"_ExtraInfo"`
+		ExtraInfo     any    `json:"_ExtraInfo"`
 	} `json:"DllAuthenticode"`
 	DllHash struct {
 		MD5    string `json:"MD5"`
 		SHA1   string `json:"SHA1"`
 		SHA256 string `json:"SHA256"`
 	} `json:"DllHash"`
-	Folder string `json:"Folder"`
+	Folder any `json:"Folder"`
 }
 
 func (s DetectRaptor_Windows_Detection_HijackLibsMFT) StringArray() []string {
@@ -969,8 +969,8 @@ func (s DetectRaptor_Windows_Detection_HijackLibsMFT) StringArray() []string {
 		fmt.Sprint(s.DllInfo.Authenticode.Certificates), s.DllInfo.Authenticode.HashType, s.DllInfo.Authenticode.ExpectedHash, s.DllInfo.Authenticode.ExpectedHashHex,
 		s.DllInfo.AuthenticodeHash.MD5, s.DllInfo.AuthenticodeHash.SHA1, s.DllInfo.AuthenticodeHash.SHA256, strconv.FormatBool(s.DllInfo.AuthenticodeHash.HashMatches),
 		s.DllAuthenticode.Filename, s.DllAuthenticode.ProgramName, s.DllAuthenticode.PublisherLink, s.DllAuthenticode.MoreInfoLink, s.DllAuthenticode.SerialNumber,
-		s.DllAuthenticode.IssuerName, s.DllAuthenticode.SubjectName, s.DllAuthenticode.Timestamp, s.DllAuthenticode.Trusted, s.DllAuthenticode.ExtraInfo,
-		s.DllHash.MD5, s.DllHash.SHA1, s.DllHash.SHA256, s.Folder}
+		s.DllAuthenticode.IssuerName, s.DllAuthenticode.SubjectName, s.DllAuthenticode.Timestamp, s.DllAuthenticode.Trusted, fmt.Sprint(s.DllAuthenticode.ExtraInfo),
+		s.DllHash.MD5, s.DllHash.SHA1, s.DllHash.SHA256, fmt.Sprint(s.Folder)}
 }
 
 func (s DetectRaptor_Windows_Detection_HijackLibsMFT) GetHeaders() []string {

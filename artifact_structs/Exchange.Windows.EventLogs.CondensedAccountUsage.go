@@ -18,7 +18,7 @@ type Exchange_Windows_EventLogs_CondensedAccountUsage struct {
 	UserName                  string    `json:"UserName"`
 	LogonID                   int       `json:"LogonId"`
 	CredentialsUsedFor4648    string    `json:"CredentialsUsedFor4648"`
-	LogonType                 int       `json:"LogonType"`
+	LogonType                 any       `json:"LogonType"`
 	LogonTypeDescription      string    `json:"LogonTypeDescription"`
 	AuthenticationPackageName string    `json:"AuthenticationPackageName"`
 	IPAddress                 string    `json:"IpAddress"`
@@ -26,7 +26,7 @@ type Exchange_Windows_EventLogs_CondensedAccountUsage struct {
 }
 
 func (s Exchange_Windows_EventLogs_CondensedAccountUsage) StringArray() []string {
-	return []string{s.EventTime.String(), s.Computer, strconv.Itoa(s.EventID), s.Description, s.DomainName, s.UserName, strconv.Itoa(s.LogonID), s.CredentialsUsedFor4648, strconv.Itoa(s.LogonType), s.LogonTypeDescription, s.AuthenticationPackageName, s.IPAddress, s.ClientName}
+	return []string{s.EventTime.String(), s.Computer, strconv.Itoa(s.EventID), s.Description, s.DomainName, s.UserName, strconv.Itoa(s.LogonID), s.CredentialsUsedFor4648, fmt.Sprint(s.LogonType), s.LogonTypeDescription, s.AuthenticationPackageName, s.IPAddress, s.ClientName}
 }
 
 func (s Exchange_Windows_EventLogs_CondensedAccountUsage) GetHeaders() []string {
