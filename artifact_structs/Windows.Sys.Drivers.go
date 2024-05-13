@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/joeavanzato/velo-timeline-creator/helpers"
 	"github.com/joeavanzato/velo-timeline-creator/vars"
+	"github.com/rs/zerolog"
 	"strconv"
 	"strings"
 	"time"
@@ -58,13 +59,13 @@ func (s Windows_Sys_Drivers_SignedDrivers) GetHeaders() []string {
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Windows_Sys_Drivers_SignedDrivers(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Windows_Sys_Drivers_SignedDrivers(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Windows_Sys_Drivers_SignedDrivers{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		// time format: 20060621000000.******+***
@@ -164,13 +165,13 @@ func (s Windows_Sys_Drivers_RunningDrivers) GetHeaders() []string {
 		"Authenticode_Trusted", "Authenticode_ExtraInfo_Catalog", "Hashes_MD5", "Hashes_SHA1", "Hashes_SHA256"}
 }
 
-func Process_Windows_Sys_Drivers_RunningDrivers(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Windows_Sys_Drivers_RunningDrivers(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Windows_Sys_Drivers_RunningDrivers{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		// time format: 20060621000000.******+***

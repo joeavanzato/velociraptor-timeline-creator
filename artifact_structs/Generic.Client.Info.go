@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/joeavanzato/velo-timeline-creator/helpers"
 	"github.com/joeavanzato/velo-timeline-creator/vars"
+	"github.com/rs/zerolog"
 	"strconv"
 	"time"
 )
@@ -23,13 +24,13 @@ func (s Generic_Client_Info_Users) GetHeaders() []string {
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Generic_Client_Info_Users(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Client_Info_Users(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Generic_Client_Info_Users{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
@@ -79,13 +80,13 @@ func (s Generic_Client_Info_BasicInformation) GetHeaders() []string {
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Generic_Client_Info_BasicInformation(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Client_Info_BasicInformation(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Generic_Client_Info_BasicInformation{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
@@ -128,13 +129,13 @@ func (s Generic_Client_Info_WindowsInfo) GetHeaders() []string {
 	return []string{"DNSHostName", "Name", "Domain", "TotalPhysicalMemory", "DomainRole", "NetworkInfo"}
 }
 
-func Process_Generic_Client_Info_WindowsInfo(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Client_Info_WindowsInfo(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Generic_Client_Info_WindowsInfo{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {

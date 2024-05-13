@@ -109,4 +109,10 @@ var ImplementedArtifacts = map[string]string{
 	"DetectRaptor.Windows.Detection.NamedPipes":             "DetectRaptor - NamedPipes",
 	"Exchange.Windows.Detection.PipeHunter":                 "PipeHunter",
 	"Windows.Memory.ProcessInfo":                            "ProcessInfo",
+	"Exchange.Windows.Forensics.UEFI":                       "UEFI Entry",
+	"Exchange.Windows.Forensics.Jumplists_JLECmd":           "JumpList Entry Created",
+	"Exchange.Windows.Forensics.ThumbCache":                 "ThumbCache",
+	"Exchange.Windows.Forensics.UEFI.BootApplication":       "UEFI BootApplication Created",
+	"Exchange.Custom.Windows.Nirsoft.LastActivityView":      "Nirsoft LastActivityView",
+	"Exchange.Windows.Forensics.Clipboard":                  "Clipboard Entry Created",
 }

@@ -68,13 +68,13 @@ func (s Exchange_Windows_EventLogs_EvtxHussar_Accounts_UserRelatedOperations) Ge
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Exchange_Windows_EventLogs_EvtxHussar_Accounts_UserRelatedOperations(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Exchange_Windows_EventLogs_EvtxHussar_Accounts_UserRelatedOperations(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Exchange_Windows_EventLogs_EvtxHussar_Accounts_UserRelatedOperations{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		parsedTime, terr := time.Parse("2006.1.2 03:04:05.999", tmp.EventTime)

@@ -239,186 +239,186 @@ func SendRecordsToAppropriateBus(logger zerolog.Logger, records []string, record
 	defer jobs.SubJob()
 	JSONFileName := filepath.Base(artifactFile)
 	if artifactName == "Windows.System.Services" {
-		artifact_structs.Process_Windows_System_Service("Windows.System.Services", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_System_Service("Windows.System.Services", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.Timeline.Prefetch" {
-		artifact_structs.Process_Windows_Timeline_Prefetch("Windows.Timeline.Prefetch", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_Timeline_Prefetch("Windows.Timeline.Prefetch", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.Timeline.Registry.RunMRU" {
-		artifact_structs.Process_Windows_Timeline_Registry_RunMRU("Windows.Timeline.Registry.RunMRU", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_Timeline_Registry_RunMRU("Windows.Timeline.Registry.RunMRU", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.System.Amcache" {
 		if JSONFileName == "InventoryApplicationFile.json" {
-			artifact_structs.Process_Windows_System_Amcache_InventoryApplicationFile("Windows.System.Amcache", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Windows_System_Amcache_InventoryApplicationFile("Windows.System.Amcache", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else {
 			logger.Error().Msgf("Amcache File Not Implemented: %v", JSONFileName)
 		}
 	} else if artifactName == "Windows.Sysinternals.Autoruns" {
-		artifact_structs.Process_Windows_Sysinternals_Autoruns("Windows.Sysinternals.Autoruns", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_Sysinternals_Autoruns("Windows.Sysinternals.Autoruns", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.Registry.UserAssist" {
-		artifact_structs.Process_Windows_Registry_UserAssist("Windows.Registry.UserAssist", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_Registry_UserAssist("Windows.Registry.UserAssist", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.Registry.Sysinternals.Eulacheck" {
-		artifact_structs.Process_Windows_Registry_Sysinternals_Eulacheck("Windows.Registry.Sysinternals.Eulacheck", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_Registry_Sysinternals_Eulacheck("Windows.Registry.Sysinternals.Eulacheck", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.Registry.RDP" {
 		if JSONFileName == "Servers.json" {
-			artifact_structs.Process_Windows_Registry_RDP_Servers("Windows.Registry.RDP", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Windows_Registry_RDP_Servers("Windows.Registry.RDP", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Mru.json" {
-			artifact_structs.Process_Windows_Registry_RDP_Mru("Windows.Registry.RDP", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Windows_Registry_RDP_Mru("Windows.Registry.RDP", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		}
 	} else if artifactName == "Windows.Registry.AppCompatCache" {
-		artifact_structs.Process_Windows_Registry_AppCompatCache("Windows.Registry.AppCompatCache", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_Registry_AppCompatCache("Windows.Registry.AppCompatCache", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.Network.NetstatEnriched" {
-		artifact_structs.Process_Windows_Network_NetstatEnriched("Windows.Network.NetstatEnriched", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_Network_NetstatEnriched("Windows.Network.NetstatEnriched", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.KapeFiles.Targets" {
 		if JSONFileName == "All File Metadata.json" {
-			artifact_structs.Process_Windows_KapeFiles_Targets_AllFileMetadata("Windows.KapeFiles.Targets", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Windows_KapeFiles_Targets_AllFileMetadata("Windows.KapeFiles.Targets", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		}
 	} else if artifactName == "Windows.Forensics.Timeline" {
-		artifact_structs.Process_Windows_Forensics_Timeline("Windows.Forensics.Timeline", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_Forensics_Timeline("Windows.Forensics.Timeline", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.Forensics.SRUM" {
 		if JSONFileName == "Application Resource Usage.json" {
-			artifact_structs.Process_Windows_Forensics_SRUM_ApplicationResourceUsage("Windows.Forensics.SRUM", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Windows_Forensics_SRUM_ApplicationResourceUsage("Windows.Forensics.SRUM", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Execution Stats.json" {
-			artifact_structs.Process_Windows_Forensics_SRUM_ExecutionStats("Windows.Forensics.SRUM", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Windows_Forensics_SRUM_ExecutionStats("Windows.Forensics.SRUM", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Network Usage.json" {
-			artifact_structs.Process_Windows_Forensics_SRUM_NetworkUsage("Windows.Forensics.SRUM", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Windows_Forensics_SRUM_NetworkUsage("Windows.Forensics.SRUM", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Network Connections.json" {
-			artifact_structs.Process_Windows_Forensics_SRUM_NetworkConnections("Windows.Forensics.SRUM", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Windows_Forensics_SRUM_NetworkConnections("Windows.Forensics.SRUM", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		}
 	} else if artifactName == "Windows.Forensics.Shellbags" {
-		artifact_structs.Process_Windows_Forensics_Shellbags("Windows.Forensics.Shellbags", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_Forensics_Shellbags("Windows.Forensics.Shellbags", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.Forensics.RecycleBin" {
-		artifact_structs.Process_Windows_Forensics_RecycleBin("Windows.Forensics.RecycleBin", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_Forensics_RecycleBin("Windows.Forensics.RecycleBin", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.Forensics.RDPCache" {
-		artifact_structs.Process_Windows_Forensics_RDPCache("Windows.Forensics.RDPCache", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_Forensics_RDPCache("Windows.Forensics.RDPCache", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.Forensics.Lnk" {
-		artifact_structs.Process_Windows_Forensics_Lnk("Windows.Forensics.Lnk", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_Forensics_Lnk("Windows.Forensics.Lnk", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.Forensics.CertUtil" {
-		artifact_structs.Process_Windows_Forensics_CertUtil("Windows.Forensics.CertUtil", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_Forensics_CertUtil("Windows.Forensics.CertUtil", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.Forensics.Bam" {
-		artifact_structs.Process_Windows_Forensics_Bam("Windows.Forensics.Bam", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_Forensics_Bam("Windows.Forensics.Bam", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.EventLogs.AlternateLogon" {
-		artifact_structs.Process_Windows_EventLogs_AlternateLogon("Windows.Forensics.AlternateLogon", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_EventLogs_AlternateLogon("Windows.Forensics.AlternateLogon", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Exchange.Windows.Office.MRU" {
-		artifact_structs.Process_Exchange_Windows_Office_MRU("Exchange.Windows.Office.MRU", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Exchange_Windows_Office_MRU("Exchange.Windows.Office.MRU", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Exchange.Windows.EventLogs.RDPClientActivity" {
-		artifact_structs.Process_Exchange_Windows_EventLogs_RDPClientActivity("Exchange.Windows.EventLogs.RDPClientActivity", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Exchange_Windows_EventLogs_RDPClientActivity("Exchange.Windows.EventLogs.RDPClientActivity", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Exchange.Windows.EventLogs.LogonSessions" {
-		artifact_structs.Process_Exchange_Windows_EventLogs_LogonSessions("Exchange.Windows.EventLogs.LogonSessions", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Exchange_Windows_EventLogs_LogonSessions("Exchange.Windows.EventLogs.LogonSessions", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Exchange.Windows.EventLogs.Bitsadmin" {
-		artifact_structs.Process_Exchange_Windows_EventLogs_Bitsadmin("Exchange.Windows.EventLogs.Bitsadmin", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Exchange_Windows_EventLogs_Bitsadmin("Exchange.Windows.EventLogs.Bitsadmin", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Custom.Windows.Eventlog.Evtx" {
-		artifact_structs.Process_Custom_Windows_Eventlog_Evtx("Custom.Windows.Eventlog.Evtx", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Custom_Windows_Eventlog_Evtx("Custom.Windows.Eventlog.Evtx", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if strings.HasPrefix(artifactName, "Custom.Windows.Mft") {
 		if arguments["mftlight"].(bool) || arguments["mftfull"].(bool) {
-			artifact_structs.Process_Custom_Windows_MFT("Custom.Windows.MFT", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Custom_Windows_MFT("Custom.Windows.MFT", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		}
 	} else if strings.HasPrefix(artifactName, "Generic.Client.Info") {
 		if JSONFileName == "Users.json" {
-			artifact_structs.Process_Generic_Client_Info_Users("Generic.Client.Info", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Client_Info_Users("Generic.Client.Info", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "BasicInformation.json" {
-			artifact_structs.Process_Generic_Client_Info_BasicInformation("Generic.Client.Info", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Client_Info_BasicInformation("Generic.Client.Info", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "WindowsInfo.json" {
-			artifact_structs.Process_Generic_Client_Info_WindowsInfo("Generic.Client.Info", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Client_Info_WindowsInfo("Generic.Client.Info", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		}
 	} else if artifactName == "Windows.Applications.Chrome.History" {
-		artifact_structs.Process_Windows_Applications_Chrome_History("Windows.Applications.Chrome.History", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_Applications_Chrome_History("Windows.Applications.Chrome.History", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.Applications.Edge.History" {
-		artifact_structs.Process_Windows_Applications_Edge_History("Windows.Applications.Edge.History", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_Applications_Edge_History("Windows.Applications.Edge.History", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.Applications.Firefox.Downloads" {
-		artifact_structs.Process_Windows_Applications_Firefox_Downloads("Windows.Applications.Firefox.Downloads", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_Applications_Firefox_Downloads("Windows.Applications.Firefox.Downloads", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.Applications.Firefox.History" {
-		artifact_structs.Process_Windows_Applications_Firefox_History("Windows.Applications.Firefox.History", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_Applications_Firefox_History("Windows.Applications.Firefox.History", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.Applications.NirsoftBrowserViewer" {
-		artifact_structs.Process_Windows_Applications_NirsoftBrowserViewer("Windows.Applications.NirsoftBrowserViewer", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_Applications_NirsoftBrowserViewer("Windows.Applications.NirsoftBrowserViewer", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.EventLogs.PowershellScriptblock" {
-		artifact_structs.Process_Windows_EventLogs_PowerShellScriptblock("Windows.EventLogs.PowershellScriptblock", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_EventLogs_PowerShellScriptblock("Windows.EventLogs.PowershellScriptblock", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.EventLogs.RDPAuth" {
-		artifact_structs.Process_Windows_EventLogs_RDPAuth("Windows.EventLogs.RDPAuth", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_EventLogs_RDPAuth("Windows.EventLogs.RDPAuth", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if strings.HasPrefix(artifactName, "Windows.Forensics.SAM") {
 		if JSONFileName == "CreateTimes.json" {
-			artifact_structs.Process_Windows_Forensics_SAM_CreateTimes("Windows.Forensics.SAM", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Windows_Forensics_SAM_CreateTimes("Windows.Forensics.SAM", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Parsed.json" {
-			artifact_structs.Process_Windows_Forensics_SAM_Parsed("Windows.Forensics.SAM", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Windows_Forensics_SAM_Parsed("Windows.Forensics.SAM", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		}
 	} else if strings.HasPrefix(artifactName, "Generic.Forensic.SQLiteHunter") {
 		if JSONFileName == "Chromium Browser Bookmarks.json" {
-			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Bookmarks("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Bookmarks("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Chromium Browser Favicons.json" {
-			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Favicons("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Favicons("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Chromium Browser History_Downloads.json" {
-			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Downloads("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Downloads("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Chromium Browser History_Keywords.json" {
-			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Keywords("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Keywords("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Chromium Browser History_Visits.json" {
-			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Visits("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Visits("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Chromium Browser Shortcuts.json" {
-			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Shortcuts("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Shortcuts("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Chromium Browser Extensions.json" {
-			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Chromium_Browser_Extensions("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Chromium_Browser_Extensions("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Chromium Browser Network_Predictor.json" {
-			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Chromium_Browser_Network_Predictor("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Chromium_Browser_Network_Predictor("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Chromium Browser Top Sites.json" {
-			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Chromium_Browser_Top_Sites("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Chromium_Browser_Top_Sites("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Firefox Cookies.json" {
-			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Firefox_Cookies("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Firefox_Cookies("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Firefox Favicons.json" {
-			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Firefox_Favicons("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Firefox_Favicons("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Firefox Form History.json" {
-			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Firefox_Form_History("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Firefox_Form_History("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Firefox Places.json" {
-			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Firefox_Places("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Firefox_Places("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Firefox Places_Downloads.json" {
-			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Firefox_Places_Downloads("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Firefox_Places_Downloads("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Firefox Places_History.json" {
-			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Firefox_Places_History("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Firefox_Places_History("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "IE or Edge WebCacheV01_All Data.json" {
-			artifact_structs.Process_Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_All_Data("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_All_Data("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "IE or Edge WebCacheV01_Highlights.json" {
-			artifact_structs.Process_Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_Highlights("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_Highlights("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Windows Search Service_SystemIndex_Gthr.json" {
-			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Gthr("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Gthr("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Windows Search Service_SystemIndex_PropertyStore.json" {
-			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_PropertyStore("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_PropertyStore("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Windows Search Service_SystemIndex_GthrPth.json" {
-			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_GthrPth("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_GthrPth("Generic.Forensic.SQLiteHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		}
 	} else if strings.HasPrefix(artifactName, "Windows.Sys.Drivers") {
 		if JSONFileName == "SignedDrivers.json" {
-			artifact_structs.Process_Windows_Sys_Drivers_SignedDrivers("Windows.Sys.Drivers", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Windows_Sys_Drivers_SignedDrivers("Windows.Sys.Drivers", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "RunningDrivers.json" {
-			artifact_structs.Process_Windows_Sys_Drivers_RunningDrivers("Windows.Sys.Drivers", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Windows_Sys_Drivers_RunningDrivers("Windows.Sys.Drivers", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		}
 	} else if artifactName == "Windows.System.Powershell.ModuleAnalysisCache" {
-		artifact_structs.Process_Windows_System_Powershell_ModuleAnalysisCache("Windows.System.Powershell.ModuleAnalysisCache", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_System_Powershell_ModuleAnalysisCache("Windows.System.Powershell.ModuleAnalysisCache", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if strings.HasPrefix(artifactName, "Windows.Analysis.EvidenceOfExecution") {
 		if JSONFileName == "Amcache.json" {
-			artifact_structs.Process_Windows_Analysis_EvidenceOfExecution_Amcache("Windows.Analysis.EvidenceOfExecution", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Windows_Analysis_EvidenceOfExecution_Amcache("Windows.Analysis.EvidenceOfExecution", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "UserAssist.json" {
-			artifact_structs.Process_Windows_Registry_UserAssist("Windows.Analysis.EvidenceOfExecution", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Windows_Registry_UserAssist("Windows.Analysis.EvidenceOfExecution", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		}
 	} else if artifactName == "Windows.Analysis.EvidenceOfDownload" {
-		artifact_structs.Process_Windows_Analysis_EvidenceOfDownload("Windows.Analysis.EvidenceOfDownload", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_Analysis_EvidenceOfDownload("Windows.Analysis.EvidenceOfDownload", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.EventLogs.Evtx" {
-		artifact_structs.Process_Windows_EventLogs_Evtx("Windows.EventLogs.Evtx", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Windows_EventLogs_Evtx("Windows.EventLogs.Evtx", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Exchange.Windows.EventLogs.Chainsaw" {
-		artifact_structs.Process_Exchange_Windows_EventLogs_Chainsaw("Exchange.Windows.EventLogs.Chainsaw", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Exchange_Windows_EventLogs_Chainsaw("Exchange.Windows.EventLogs.Chainsaw", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if strings.HasPrefix(artifactName, "Exchange.Windows.Memory.InjectedThreadEx") {
 		if JSONFileName != "RawResults.json" {
-			artifact_structs.Process_Exchange_Windows_Memory_InjectedThreadEx("Exchange.Windows.Memory.InjectedThreadEx", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Exchange_Windows_Memory_InjectedThreadEx("Exchange.Windows.Memory.InjectedThreadEx", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "RawResults.json" {
-			artifact_structs.Process_Exchange_Windows_Memory_InjectedThreadEx_RawResults("Exchange.Windows.Memory.InjectedThreadEx", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Exchange_Windows_Memory_InjectedThreadEx_RawResults("Exchange.Windows.Memory.InjectedThreadEx", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		}
 	} else if strings.HasPrefix(artifactName, "Exchange.Windows.EventLogs.Hayabusa") {
 		if JSONFileName == "Results.json" {
-			artifact_structs.Process_Exchange_Windows_EventLogs_Hayabusa("Exchange.Windows.EventLogs.Hayabusa", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Exchange_Windows_EventLogs_Hayabusa("Exchange.Windows.EventLogs.Hayabusa", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		}
 	} else if artifactName == "Exchange.Windows.Forensics.Trawler" {
-		artifact_structs.Process_Exchange_Windows_Forensics_Trawler("Exchange.Windows.Forensics.Trawler", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Exchange_Windows_Forensics_Trawler("Exchange.Windows.Forensics.Trawler", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Exchange.Windows.Forensics.PersistenceSniper" {
-		artifact_structs.Process_Exchange_Windows_Forensics_PersistenceSniper("Exchange.Windows.Forensics.PersistenceSniper", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Exchange_Windows_Forensics_PersistenceSniper("Exchange.Windows.Forensics.PersistenceSniper", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Exchange.Windows.EventLogs.CondensedAccountUsage" {
-		artifact_structs.Process_Exchange_Windows_EventLogs_CondensedAccountUsage("Exchange.Windows.EventLogs.CondensedAccountUsage", clientIdentifier, records, recordOutputChannel, arguments)
+		artifact_structs.Process_Exchange_Windows_EventLogs_CondensedAccountUsage("Exchange.Windows.EventLogs.CondensedAccountUsage", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if strings.HasPrefix(artifactName, "Exchange.Windows.EventLogs.EvtxHussar") {
 		if JSONFileName == "Accounts_UsersRelatedOperations.json" {
-			artifact_structs.Process_Exchange_Windows_EventLogs_EvtxHussar_Accounts_UserRelatedOperations("Exchange.Windows.EventLogs.EvtxHussar", clientIdentifier, records, recordOutputChannel, arguments)
+			artifact_structs.Process_Exchange_Windows_EventLogs_EvtxHussar_Accounts_UserRelatedOperations("Exchange.Windows.EventLogs.EvtxHussar", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "Antivirus_WindowsDefender.json" {
 			artifact_structs.Process_Exchange_Windows_EventLogs_EvtxHussar_Antivirus_WindowsDefender("Exchange.Windows.EventLogs.EvtxHussar", clientIdentifier, records, recordOutputChannel, arguments, logger)
 		} else if JSONFileName == "BootupRestartShutdown.json" {
@@ -476,6 +476,18 @@ func SendRecordsToAppropriateBus(logger zerolog.Logger, records []string, record
 		artifact_structs.Process_Exchange_Windows_Detection_PipeHunter("Exchange.Windows.Detection.PipeHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.Memory.ProcessInfo" {
 		artifact_structs.Process_Windows_Memory_ProcessInfo("Windows.Memory.ProcessInfo", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Exchange.Windows.Forensics.UEFI" {
+		artifact_structs.Process_Exchange_Windows_Forensics_UEFI("Exchange.Windows.Forensics.UEFI", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Exchange.Windows.Forensics.Jumplists_JLECmd" {
+		artifact_structs.Process_Exchange_Windows_Forensics_Jumplists_JLECmd("Exchange.Windows.Forensics.Jumplists_JLECmd", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Exchange.Windows.Forensics.ThumbCache" {
+		artifact_structs.Process_Exchange_Windows_Forensics_ThumbCache("Exchange.Windows.Forensics.ThumbCache", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Exchange.Windows.Forensics.UEFI.BootApplication" {
+		artifact_structs.Process_Exchange_Windows_Forensics_UEFI_BootApplication("Exchange.Windows.Forensics.UEFI.BootApplication", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Exchange.Custom.Windows.Nirsoft.LastActivityView" {
+		artifact_structs.Process_Exchange_Custom_Windows_Nirsoft_LastActivityView("Exchange.Custom.Windows.Nirsoft.LastActivityView", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Exchange.Windows.Forensics.Clipboard" {
+		artifact_structs.Process_Exchange_Windows_Forensics_Clipboard("Exchange.Windows.Forensics.Clipboard", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	}
 }
 
@@ -768,6 +780,18 @@ func GetAppropriateHeaders(artifact string) ([]string, error) {
 		headers = append(headers, artifact_structs.Exchange_Windows_Detection_PipeHunter.GetHeaders(artifact_structs.Exchange_Windows_Detection_PipeHunter{})...)
 	} else if artifact == "Windows.Memory.ProcessInfo.csv" {
 		headers = append(headers, artifact_structs.Windows_Memory_ProcessInfo.GetHeaders(artifact_structs.Windows_Memory_ProcessInfo{})...)
+	} else if artifact == "Exchange.Windows.Forensics.UEFI.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_Forensics_UEFI.GetHeaders(artifact_structs.Exchange_Windows_Forensics_UEFI{})...)
+	} else if artifact == "Exchange.Windows.Forensics.Jumplists_JLECmd.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_Forensics_Jumplists_JLECmd.GetHeaders(artifact_structs.Exchange_Windows_Forensics_Jumplists_JLECmd{})...)
+	} else if artifact == "Exchange.Windows.Forensics.ThumbCache.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_Forensics_ThumbCache.GetHeaders(artifact_structs.Exchange_Windows_Forensics_ThumbCache{})...)
+	} else if artifact == "Exchange.Windows.Forensics.UEFI.BootApplication.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_Forensics_UEFI_BootApplication.GetHeaders(artifact_structs.Exchange_Windows_Forensics_UEFI_BootApplication{})...)
+	} else if artifact == "Exchange.Custom.Windows.Nirsoft.LastActivityView.Upload.csv" {
+		headers = append(headers, artifact_structs.Exchange_Custom_Windows_Nirsoft_LastActivityView.GetHeaders(artifact_structs.Exchange_Custom_Windows_Nirsoft_LastActivityView{})...)
+	} else if artifact == "Exchange.Windows.Forensics.Clipboard.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_Forensics_Clipboard.GetHeaders(artifact_structs.Exchange_Windows_Forensics_Clipboard{})...)
 	}
 
 	if len(headers) == 3 {

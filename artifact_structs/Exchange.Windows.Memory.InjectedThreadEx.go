@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/joeavanzato/velo-timeline-creator/helpers"
 	"github.com/joeavanzato/velo-timeline-creator/vars"
+	"github.com/rs/zerolog"
 	"strconv"
 	"time"
 )
@@ -52,13 +53,13 @@ func (s Exchange_Windows_Memory_InjectedThreadEx) GetHeaders() []string {
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Exchange_Windows_Memory_InjectedThreadEx(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Exchange_Windows_Memory_InjectedThreadEx(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Exchange_Windows_Memory_InjectedThreadEx{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		// TODO - Maybe pull description for the most common ones or use zimmerman maps?
@@ -108,14 +109,14 @@ func (s Exchange_Windows_Memory_InjectedThreadEx_RawResults) GetHeaders() []stri
 	return []string{"Stdout", "Stderr", "ReturnCode", "Complete", "ScanSettings_ScanType", "ScanSettings_PidTarget"}
 }
 
-func Process_Exchange_Windows_Memory_InjectedThreadEx_RawResults(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Exchange_Windows_Memory_InjectedThreadEx_RawResults(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	// TODO There is some type of error here - I think due to the long lines maybe or weird whitespacing
 	for _, line := range inputLines {
 		tmp := Exchange_Windows_Memory_InjectedThreadEx_RawResults{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {

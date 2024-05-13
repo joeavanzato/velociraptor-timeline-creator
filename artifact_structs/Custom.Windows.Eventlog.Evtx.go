@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/joeavanzato/velo-timeline-creator/helpers"
 	"github.com/joeavanzato/velo-timeline-creator/vars"
+	"github.com/rs/zerolog"
 	"strconv"
 	"time"
 )
@@ -51,13 +52,13 @@ func (s Custom_Windows_Eventlog_Evtx) GetHeaders() []string {
 		"RemoteHost", "PayloadData1", "PayloadData2", "PayloadData3", "PayloadData4", "PayloadData5", "PayloadData6", "ExecutableInfo", "ChunkNumber", "Payload"}
 }
 
-func Process_Custom_Windows_Eventlog_Evtx(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Custom_Windows_Eventlog_Evtx(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Custom_Windows_Eventlog_Evtx{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {

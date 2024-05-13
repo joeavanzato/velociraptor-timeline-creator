@@ -36,7 +36,7 @@ func SetupLogger() zerolog.Logger {
 	cw.NoColor = true
 	mw := io.MultiWriter(cw, logFile)
 	logger := zerolog.New(mw).Level(zerolog.TraceLevel)
-	logger = logger.With().Timestamp().Logger()
+	logger = logger.With().Timestamp().Caller().Logger()
 	return logger
 }
 

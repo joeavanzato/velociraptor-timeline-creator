@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/joeavanzato/velo-timeline-creator/helpers"
 	"github.com/joeavanzato/velo-timeline-creator/vars"
+	"github.com/rs/zerolog"
 	"strconv"
 	"time"
 )
@@ -27,13 +28,13 @@ func (s Windows_Registry_UserAssist) GetHeaders() []string {
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Windows_Registry_UserAssist(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Windows_Registry_UserAssist(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Windows_Registry_UserAssist{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
@@ -73,35 +74,4 @@ func (s Windows_Analysis_EvidenceOfExecution_UserAssist) StringArray() []string 
 
 func (s Windows_Analysis_EvidenceOfExecution_UserAssist) GetHeaders() []string {
 	return helpers.GetStructHeadersAsStringSlice(s)
-}
-
-func Process_Windows_Analysis_EvidenceOfExecution_UserAssist(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
-	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
-	for _, line := range inputLines {
-		tmp := Windows_Analysis_EvidenceOfExecution_UserAssist{}
-		err := json.Unmarshal([]byte(line), &tmp)
-		if err != nil {
-			fmt.Println(err.Error())
-			continue
-		}
-		if arguments["artifactdump"].(bool) {
-			helpers.BuildAndSendArtifactRecord(tmp.LastExecution.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
-			continue
-		}
-
-		tmp2 := vars.ShallowRecord{
-			Timestamp:        tmp.LastExecution,
-			Computer:         clientIdentifier,
-			Artifact:         artifactName,
-			EventType:        "UserAssist Last Execution",
-			EventDescription: "",
-			SourceUser:       tmp.User,
-			SourceHost:       "",
-			DestinationUser:  "",
-			DestinationHost:  "",
-			SourceFile:       tmp.Name,
-			MetaData:         fmt.Sprintf("Number of Executions: %v", tmp.NumberOfExecutions),
-		}
-		outputChannel <- tmp2.StringArray()
-	}
 }

@@ -925,6 +925,11 @@ type DetectRaptor_Windows_Detection_HijackLibsMFT struct {
 }
 
 func (s DetectRaptor_Windows_Detection_HijackLibsMFT) StringArray() []string {
+	certificates := make([]string, 0)
+	for _, v := range s.DllInfo.Authenticode.Certificates {
+		certificates = append(certificates, fmt.Sprintf("| SerialNumber: %v, SignatureAlgorithm: %v, Subject: %v, Issuer: %v, NotBefore: %v, NotAfter: %v, PublicKey: %v, BasicConstraints_Critical: %v, BasicConstraints_IsCA: %v, BasicConstraints_MaxPathLen: %v, SubjetKeyID_Critical: %v, SubjectKeyId_Value: %v, AuthorityKeyIdentifier_Critical: %v, AuthorityKeyIdentifier_KeyID: %v, KeyUJsage_Critical: %v, KeyUsage_KeyUsage: %v, ExtendedKeyUsage_Critical: %v, ExtendedKeyUsage_KeyUsage: %v, CRLDistributionPoints_Critical: %v, CRLDistributionPoints_URI: %v, CertificatePolicies_Critical: %v, CertificatePolicies_Policy: %v", v.SerialNumber, v.SignatureAlgorithm, v.Subject, v.Issuer, v.NotBefore, v.NotAfter, v.PublicKey, v.Extensions.BasicConstraints.Critical, v.Extensions.BasicConstraints.IsCA, v.Extensions.BasicConstraints.MaxPathLen, v.Extensions.SubjectKeyID.Critical, v.Extensions.SubjectKeyID.Value, v.Extensions.AuthorityKeyIdentifier.Critical, v.Extensions.AuthorityKeyIdentifier.KeyID, v.Extensions.KeyUsage.Critical, v.Extensions.KeyUsage.KeyUsage, v.Extensions.ExtendedKeyUsage.Critical, v.Extensions.ExtendedKeyUsage.KeyUsage, v.Extensions.CRLDistributionPoints.Critical, v.Extensions.CRLDistributionPoints.URI, v.Extensions.CRLDistributionPoints.URI, v.Extensions.CertificatePolicies.Critical, v.Extensions.CertificatePolicies.Policy))
+	}
+
 	return []string{s.HijackLibInfo.DllName, s.HijackLibInfo.Vendor, s.HijackLibInfo.ExpectedLocation,
 		s.HijackLibInfo.ExecutablePath, s.HijackLibInfo.Type, s.HijackLibInfo.ExecutableSHA256, s.HijackLibInfo.URL,
 		s.OSPath, s.FileName, strconv.Itoa(s.FileSize), strconv.Itoa(s.ReferenceCount), strconv.FormatBool(s.SILtFN),
@@ -966,7 +971,7 @@ func (s DetectRaptor_Windows_Detection_HijackLibsMFT) StringArray() []string {
 		s.DllInfo.Authenticode.Signer.AuthenticatedAttributes.ContentType, s.DllInfo.Authenticode.Signer.AuthenticatedAttributes.MessageDigest, s.DllInfo.Authenticode.Signer.AuthenticatedAttributes.MessageDigestHex,
 		s.DllInfo.Authenticode.Signer.AuthenticatedAttributes.ProgramName, s.DllInfo.Authenticode.Signer.AuthenticatedAttributes.MoreInfo,
 		fmt.Sprint(s.DllInfo.Authenticode.Signer.UnauthenticatedAttributes), s.DllInfo.Authenticode.Signer.Subject,
-		fmt.Sprint(s.DllInfo.Authenticode.Certificates), s.DllInfo.Authenticode.HashType, s.DllInfo.Authenticode.ExpectedHash, s.DllInfo.Authenticode.ExpectedHashHex,
+		fmt.Sprint(certificates), s.DllInfo.Authenticode.HashType, s.DllInfo.Authenticode.ExpectedHash, s.DllInfo.Authenticode.ExpectedHashHex,
 		s.DllInfo.AuthenticodeHash.MD5, s.DllInfo.AuthenticodeHash.SHA1, s.DllInfo.AuthenticodeHash.SHA256, strconv.FormatBool(s.DllInfo.AuthenticodeHash.HashMatches),
 		s.DllAuthenticode.Filename, s.DllAuthenticode.ProgramName, s.DllAuthenticode.PublisherLink, s.DllAuthenticode.MoreInfoLink, s.DllAuthenticode.SerialNumber,
 		s.DllAuthenticode.IssuerName, s.DllAuthenticode.SubjectName, s.DllAuthenticode.Timestamp, s.DllAuthenticode.Trusted, fmt.Sprint(s.DllAuthenticode.ExtraInfo),

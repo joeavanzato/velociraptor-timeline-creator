@@ -2,8 +2,8 @@ package artifact_structs
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/joeavanzato/velo-timeline-creator/helpers"
+	"github.com/rs/zerolog"
 )
 
 type Exchange_Windows_Forensics_Trawler struct {
@@ -32,13 +32,13 @@ func (s Exchange_Windows_Forensics_Trawler) GetHeaders() []string {
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Exchange_Windows_Forensics_Trawler(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Exchange_Windows_Forensics_Trawler(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Exchange_Windows_Forensics_Trawler{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {

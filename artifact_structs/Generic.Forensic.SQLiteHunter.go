@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/joeavanzato/velo-timeline-creator/helpers"
 	"github.com/joeavanzato/velo-timeline-creator/vars"
+	"github.com/rs/zerolog"
 	"strconv"
 	"time"
 )
@@ -26,13 +27,13 @@ func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Bookmarks) GetHeaders() [
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Bookmarks(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Bookmarks(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Generic_Forensic_SQLiteHunter_Chromium_Browser_Bookmarks{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
@@ -83,13 +84,13 @@ func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Favicons) GetHeaders() []
 	return []string{"ID", "IconID", "LastUpdated", "PageURL", "FaviconURL", "Image_Path", "Image_Size", "Image_StoredSize", "Image_SHA256", "Image_MD5", "Image_StoredName", "Image_Components", "Image_Accessor", "OSPath"}
 }
 
-func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Favicons(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Favicons(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Generic_Forensic_SQLiteHunter_Chromium_Browser_Favicons{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
@@ -148,13 +149,13 @@ func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Downloads) GetHea
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Downloads(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Downloads(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Downloads{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
@@ -196,13 +197,13 @@ func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Keywords) GetHead
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Keywords(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Keywords(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Keywords{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
@@ -249,13 +250,13 @@ func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Visits) GetHeader
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Visits(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Visits(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Generic_Forensic_SQLiteHunter_Chromium_Browser_History_Visits{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
@@ -301,13 +302,13 @@ func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Shortcuts) GetHeaders() [
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Shortcuts(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Forensic_SQLiteHunter_Chromium_Browser_Shortcuts(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Generic_Forensic_SQLiteHunter_Chromium_Browser_Shortcuts{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
@@ -352,13 +353,13 @@ func (s Generic_Forensic_SQLiteHunter_Firefox_Cookies) GetHeaders() []string {
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Generic_Forensic_SQLiteHunter_Firefox_Cookies(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Forensic_SQLiteHunter_Firefox_Cookies(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Generic_Forensic_SQLiteHunter_Firefox_Cookies{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
@@ -401,13 +402,13 @@ func (s Generic_Forensic_SQLiteHunter_Firefox_Form_History) GetHeaders() []strin
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Generic_Forensic_SQLiteHunter_Firefox_Form_History(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Forensic_SQLiteHunter_Firefox_Form_History(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Generic_Forensic_SQLiteHunter_Firefox_Form_History{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
@@ -466,13 +467,13 @@ func (s Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_All_Data) GetHeaders() []
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_All_Data(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_All_Data(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_All_Data{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
@@ -512,13 +513,13 @@ func (s Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Gthr) G
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Gthr(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Gthr(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Gthr{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
@@ -607,13 +608,13 @@ func (s Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_Propert
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_PropertyStore(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_PropertyStore(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_PropertyStore{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
@@ -651,13 +652,13 @@ func (s Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_GthrPth
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_GthrPth(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_GthrPth(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Generic_Forensic_SQLiteHunter_Windows_Search_Service_SystemIndex_GthrPth{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
@@ -749,13 +750,13 @@ func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Extensions) GetHeaders() 
 		"Manifest_UpdateURL", "Manifest_Version", "Manifest_WebAccessibleResources"}
 }
 
-func Process_Generic_Forensic_SQLiteHunter_Windows_Chromium_Browser_Extensions(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Forensic_SQLiteHunter_Windows_Chromium_Browser_Extensions(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Generic_Forensic_SQLiteHunter_Chromium_Browser_Extensions{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
@@ -783,14 +784,14 @@ func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Network_Predictor) GetHea
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Generic_Forensic_SQLiteHunter_Windows_Chromium_Browser_Network_Predictor(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Forensic_SQLiteHunter_Windows_Chromium_Browser_Network_Predictor(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	// TODO - This artifact by it's nature has lots of duplicate rows - we are removing these when processing it - probably need to not do that or have an option so it is 'per-artifact' deduplication
 	for _, line := range inputLines {
 		tmp := Generic_Forensic_SQLiteHunter_Chromium_Browser_Network_Predictor{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
@@ -816,13 +817,13 @@ func (s Generic_Forensic_SQLiteHunter_Chromium_Browser_Top_Sites) GetHeaders() [
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Generic_Forensic_SQLiteHunter_Windows_Chromium_Browser_Top_Sites(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Forensic_SQLiteHunter_Windows_Chromium_Browser_Top_Sites(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Generic_Forensic_SQLiteHunter_Chromium_Browser_Top_Sites{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
@@ -849,13 +850,13 @@ func (s Generic_Forensic_SQLiteHunter_Firefox_Favicons) GetHeaders() []string {
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Generic_Forensic_SQLiteHunter_Firefox_Favicons(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Forensic_SQLiteHunter_Firefox_Favicons(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Generic_Forensic_SQLiteHunter_Firefox_Favicons{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
@@ -900,13 +901,13 @@ func (s Generic_Forensic_SQLiteHunter_Firefox_Places) GetHeaders() []string {
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Generic_Forensic_SQLiteHunter_Firefox_Places(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Forensic_SQLiteHunter_Firefox_Places(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Generic_Forensic_SQLiteHunter_Firefox_Places{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
@@ -946,13 +947,13 @@ func (s Generic_Forensic_SQLiteHunter_Firefox_Places_Downloads) GetHeaders() []s
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Generic_Forensic_SQLiteHunter_Firefox_Places_Downloads(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Forensic_SQLiteHunter_Firefox_Places_Downloads(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Generic_Forensic_SQLiteHunter_Firefox_Places_Downloads{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
@@ -1002,13 +1003,13 @@ func (s Generic_Forensic_SQLiteHunter_Firefox_Places_History) GetHeaders() []str
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Generic_Forensic_SQLiteHunter_Firefox_Places_History(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Forensic_SQLiteHunter_Firefox_Places_History(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Generic_Forensic_SQLiteHunter_Firefox_Places_History{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
@@ -1047,13 +1048,13 @@ func (s Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_Highlights) GetHeaders() 
 	return helpers.GetStructHeadersAsStringSlice(s)
 }
 
-func Process_Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_Highlights(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any) {
+func Process_Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_Highlights(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
 		tmp := Generic_Forensic_SQLiteHunter_IE_Edge_WebCache_Highlights{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
-			fmt.Println(err.Error())
+			logger.Error().Msgf(err.Error())
 			continue
 		}
 		if arguments["artifactdump"].(bool) {
