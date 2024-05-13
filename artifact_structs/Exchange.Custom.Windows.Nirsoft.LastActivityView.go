@@ -12,10 +12,10 @@ import (
 type Exchange_Custom_Windows_Nirsoft_LastActivityView struct {
 	ActionTime      string `json:"Action Time"`
 	Description     string `json:"Description"`
-	Filename        string `json:"Filename"`
+	Filename        any    `json:"Filename"`
 	FullPath        string `json:"Full Path"`
 	MoreInformation string `json:"More Information"`
-	FileExtension   string `json:"File Extension"`
+	FileExtension   any    `json:"File Extension"`
 	DataSource      string `json:"Data Source"`
 }
 

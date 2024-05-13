@@ -488,6 +488,36 @@ func SendRecordsToAppropriateBus(logger zerolog.Logger, records []string, record
 		artifact_structs.Process_Exchange_Custom_Windows_Nirsoft_LastActivityView("Exchange.Custom.Windows.Nirsoft.LastActivityView", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Exchange.Windows.Forensics.Clipboard" {
 		artifact_structs.Process_Exchange_Windows_Forensics_Clipboard("Exchange.Windows.Forensics.Clipboard", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Exchange.Windows.Forensics.FileZilla" && JSONFileName == "FileZilla.json" {
+		artifact_structs.Process_Exchange_Windows_Forensics_FileZilla_FileZilla("Exchange.Windows.Forensics.FileZilla", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Exchange.Windows.Forensics.FileZilla" && JSONFileName == "RecentServers.json" {
+		artifact_structs.Process_Exchange_Windows_Forensics_FileZilla_RecentServers("Exchange.Windows.Forensics.FileZilla", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Registry.WDigest" {
+		artifact_structs.Process_Windows_Registry_WDigest("Windows.Registry.WDigest", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Exchange.Windows.System.PrinterDriver" && JSONFileName == "BinaryCheck.json" {
+		artifact_structs.Process_Exchange_Windows_System_PrinterDriver_BinaryCheck("Exchange.Windows.System.PrinterDriver", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Exchange.Windows.System.PrinterDriver" && strings.HasPrefix(JSONFileName, "F.") {
+		artifact_structs.Process_Exchange_Windows_System_PrinterDriver("Exchange.Windows.System.PrinterDriver", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Exchange.Windows.Detection.Malfind" {
+		artifact_structs.Process_Exchange_Windows_Detection_Malfind("Exchange.Windows.Detection.Malfind", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Applications.OfficeMacros" {
+		artifact_structs.Process_Windows_Applications_OfficeMacros("Windows.Applications.OfficeMacros", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Detection.Mutants" && JSONFileName == "Handles.json" {
+		artifact_structs.Process_Windows_Detection_Mutants_Handles("Windows.Detection.Mutants", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Detection.Mutants" && JSONFileName == "ObjectTree.json" {
+		artifact_structs.Process_Windows_Detection_Mutants_ObjectTree("Windows.Detection.Mutants", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Detection.BinaryHunter" {
+		artifact_structs.Process_Windows_Detection_BinaryHunter("Windows.Detection.BinaryHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Detection.Impersonation" {
+		artifact_structs.Process_Windows_Detection_Impersonation("Windows.Detection.Impersonation", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Exchange.Windows.Detection.PrefetchHunter" {
+		artifact_structs.Process_Exchange_Windows_Detection_PrefetchHunter("Exchange.Windows.Detection.PrefetchHunter", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Detection.ForwardedImports" {
+		artifact_structs.Process_Windows_Detection_ForwardedImports("Windows.Detection.ForwardedImports", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Detection.Amcache" {
+		artifact_structs.Process_Windows_Detection_Amcache("Windows.Detection.Amcache", clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Generic.Detection.Yara.Zip" {
+		artifact_structs.Process_Generic_Detection_Yara_Zip("Generic.Detection.Yara.Zip", clientIdentifier, records, recordOutputChannel, arguments, logger)
 	}
 }
 
@@ -792,6 +822,36 @@ func GetAppropriateHeaders(artifact string) ([]string, error) {
 		headers = append(headers, artifact_structs.Exchange_Custom_Windows_Nirsoft_LastActivityView.GetHeaders(artifact_structs.Exchange_Custom_Windows_Nirsoft_LastActivityView{})...)
 	} else if artifact == "Exchange.Windows.Forensics.Clipboard.csv" {
 		headers = append(headers, artifact_structs.Exchange_Windows_Forensics_Clipboard.GetHeaders(artifact_structs.Exchange_Windows_Forensics_Clipboard{})...)
+	} else if artifact == "Exchange.Windows.Forensics.FileZilla.FileZilla.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_Forensics_FileZilla_FileZilla.GetHeaders(artifact_structs.Exchange_Windows_Forensics_FileZilla_FileZilla{})...)
+	} else if artifact == "Exchange.Windows.Forensics.FileZilla.RecentServers.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_Forensics_FileZilla_RecentServers.GetHeaders(artifact_structs.Exchange_Windows_Forensics_FileZilla_RecentServers{})...)
+	} else if artifact == "Windows.Registry.WDigest.csv" {
+		headers = append(headers, artifact_structs.Windows_Registry_WDigest.GetHeaders(artifact_structs.Windows_Registry_WDigest{})...)
+	} else if artifact == "Exchange.Windows.System.PrinterDriver.BinaryCheck.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_System_PrinterDriver_BinaryCheck.GetHeaders(artifact_structs.Exchange_Windows_System_PrinterDriver_BinaryCheck{})...)
+	} else if artifact == "Exchange.Windows.System.PrinterDriver.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_System_PrinterDriver.GetHeaders(artifact_structs.Exchange_Windows_System_PrinterDriver{})...)
+	} else if artifact == "Exchange.Windows.Detection.Malfind.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_Detection_Malfind.GetHeaders(artifact_structs.Exchange_Windows_Detection_Malfind{})...)
+	} else if artifact == "Windows.Applications.OfficeMacros.csv" {
+		headers = append(headers, artifact_structs.Windows_Applications_OfficeMacros.GetHeaders(artifact_structs.Windows_Applications_OfficeMacros{})...)
+	} else if artifact == "Windows.Detection.Mutants.Handles.csv" {
+		headers = append(headers, artifact_structs.Windows_Detection_Mutants_Handles.GetHeaders(artifact_structs.Windows_Detection_Mutants_Handles{})...)
+	} else if artifact == "Windows.Detection.Mutants.ObjectTree.csv" {
+		headers = append(headers, artifact_structs.Windows_Detection_Mutants_ObjectTree.GetHeaders(artifact_structs.Windows_Detection_Mutants_ObjectTree{})...)
+	} else if artifact == "Windows.Detection.BinaryHunter.csv" {
+		headers = append(headers, artifact_structs.Windows_Detection_BinaryHunter.GetHeaders(artifact_structs.Windows_Detection_BinaryHunter{})...)
+	} else if artifact == "Windows.Detection.Impersonation.csv" {
+		headers = append(headers, artifact_structs.Windows_Detection_Impersonation.GetHeaders(artifact_structs.Windows_Detection_Impersonation{})...)
+	} else if artifact == "Exchange.Windows.Detection.PrefetchHunter.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_Detection_PrefetchHunter.GetHeaders(artifact_structs.Exchange_Windows_Detection_PrefetchHunter{})...)
+	} else if artifact == "Windows.Detection.ForwardedImports.csv" {
+		headers = append(headers, artifact_structs.Windows_Detection_ForwardedImports.GetHeaders(artifact_structs.Windows_Detection_ForwardedImports{})...)
+	} else if artifact == "Windows.Detection.Amcache.csv" {
+		headers = append(headers, artifact_structs.Windows_Detection_Amcache.GetHeaders(artifact_structs.Windows_Detection_Amcache{})...)
+	} else if artifact == "Generic.Detection.Yara.Zip.csv" {
+		headers = append(headers, artifact_structs.Generic_Detection_Yara_Zip.GetHeaders(artifact_structs.Generic_Detection_Yara_Zip{})...)
 	}
 
 	if len(headers) == 3 {

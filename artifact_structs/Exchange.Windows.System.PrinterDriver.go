@@ -10,36 +10,21 @@ import (
 	"time"
 )
 
-type Exchange_Windows_Forensics_UEFI struct {
-	Partition struct {
-		ImagePath       string `json:"ImagePath"`
-		PartitionOffset int    `json:"PartitionOffset"`
-		PartitionSize   string `json:"PartitionSize"`
-		PartitionName   string `json:"PartitionName"`
-	} `json:"Partition"`
-	OSPath       string    `json:"OSPath"`
-	Size         int       `json:"Size"`
-	Mtime        time.Time `json:"Mtime"`
-	Atime        time.Time `json:"Atime"`
-	Ctime        time.Time `json:"Ctime"`
-	Btime        time.Time `json:"Btime"`
-	FirstCluster int       `json:"FirstCluster"`
-	Attr         string    `json:"Attr"`
-	IsDeleted    any       `json:"IsDeleted"`
-	ShortName    string    `json:"ShortName"`
-	Hash         struct {
+type Exchange_Windows_System_PrinterDriver_BinaryCheck struct {
+	Binary      string   `json:"Binary"`
+	DriverNames []string `json:"DriverNames"`
+	Hash        struct {
 		MD5    string `json:"MD5"`
 		SHA1   string `json:"SHA1"`
 		SHA256 string `json:"SHA256"`
 	} `json:"Hash"`
-	Magic  string `json:"Magic"`
-	PEInfo struct {
+	PE struct {
 		FileHeader struct {
 			Machine          string    `json:"Machine"`
 			TimeDateStamp    time.Time `json:"TimeDateStamp"`
 			TimeDateStampRaw int64     `json:"TimeDateStampRaw"`
 			Characteristics  int       `json:"Characteristics"`
-			ImageBase        int       `json:"ImageBase"`
+			ImageBase        int64     `json:"ImageBase"`
 		} `json:"FileHeader"`
 		GUIDAge     string `json:"GUIDAge"`
 		PDB         string `json:"PDB"`
@@ -58,6 +43,13 @@ type Exchange_Windows_Forensics_UEFI struct {
 				FileAddress  int       `json:"FileAddress"`
 				SectionName  string    `json:"SectionName"`
 			} `json:"Debug_Directory"`
+			DelayImportsDirectory struct {
+				Timestamp    time.Time `json:"Timestamp"`
+				TimestampRaw int64     `json:"TimestampRaw"`
+				Size         int       `json:"Size"`
+				FileAddress  int       `json:"FileAddress"`
+				SectionName  string    `json:"SectionName"`
+			} `json:"Delay_Imports_Directory"`
 			ExceptionDirectory struct {
 				Timestamp    time.Time `json:"Timestamp"`
 				TimestampRaw int       `json:"TimestampRaw"`
@@ -67,11 +59,32 @@ type Exchange_Windows_Forensics_UEFI struct {
 			} `json:"Exception_Directory"`
 			ExportDirectory struct {
 				Timestamp    time.Time `json:"Timestamp"`
-				TimestampRaw int       `json:"TimestampRaw"`
+				TimestampRaw int64     `json:"TimestampRaw"`
 				Size         int       `json:"Size"`
 				FileAddress  int       `json:"FileAddress"`
 				SectionName  string    `json:"SectionName"`
 			} `json:"Export_Directory"`
+			IATDirectory struct {
+				Timestamp    time.Time `json:"Timestamp"`
+				TimestampRaw int       `json:"TimestampRaw"`
+				Size         int       `json:"Size"`
+				FileAddress  int       `json:"FileAddress"`
+				SectionName  string    `json:"SectionName"`
+			} `json:"IAT_Directory"`
+			ImportDirectory struct {
+				Timestamp    time.Time `json:"Timestamp"`
+				TimestampRaw int       `json:"TimestampRaw"`
+				Size         int       `json:"Size"`
+				FileAddress  int       `json:"FileAddress"`
+				SectionName  string    `json:"SectionName"`
+			} `json:"Import_Directory"`
+			LoadConfigDirectory struct {
+				Timestamp    time.Time `json:"Timestamp"`
+				TimestampRaw int       `json:"TimestampRaw"`
+				Size         int       `json:"Size"`
+				FileAddress  int       `json:"FileAddress"`
+				SectionName  string    `json:"SectionName"`
+			} `json:"Load_Config_Directory"`
 			ResourceDirectory struct {
 				Timestamp    time.Time `json:"Timestamp"`
 				TimestampRaw int       `json:"TimestampRaw"`
@@ -86,12 +99,19 @@ type Exchange_Windows_Forensics_UEFI struct {
 				FileAddress  int       `json:"FileAddress"`
 				SectionName  string    `json:"SectionName"`
 			} `json:"Security_Directory"`
+			TLSDirectory struct {
+				Timestamp    time.Time `json:"Timestamp"`
+				TimestampRaw int       `json:"TimestampRaw"`
+				Size         int       `json:"Size"`
+				FileAddress  int       `json:"FileAddress"`
+				SectionName  string    `json:"SectionName"`
+			} `json:"TLS_Directory"`
 		} `json:"Directories"`
 		Sections []struct {
 			Perm       string `json:"Perm"`
 			Name       string `json:"Name"`
 			FileOffset int    `json:"FileOffset"`
-			VMA        int    `json:"VMA"`
+			VMA        int64  `json:"VMA"`
 			RVA        int    `json:"RVA"`
 			Size       int    `json:"Size"`
 		} `json:"Sections"`
@@ -112,10 +132,10 @@ type Exchange_Windows_Forensics_UEFI struct {
 			ProductName      string `json:"ProductName"`
 			ProductVersion   string `json:"ProductVersion"`
 		} `json:"VersionInformation"`
-		Imports      any    `json:"Imports"`
-		Exports      any    `json:"Exports"`
-		Forwards     any    `json:"Forwards"`
-		ImpHash      string `json:"ImpHash"`
+		Imports      []string      `json:"Imports"`
+		Exports      []string      `json:"Exports"`
+		Forwards     []interface{} `json:"Forwards"`
+		ImpHash      string        `json:"ImpHash"`
 		Authenticode struct {
 			Signer struct {
 				IssuerName              string `json:"IssuerName"`
@@ -181,7 +201,7 @@ type Exchange_Windows_Forensics_UEFI struct {
 			SHA256      string `json:"SHA256"`
 			HashMatches bool   `json:"HashMatches"`
 		} `json:"AuthenticodeHash"`
-	} `json:"PEInfo"`
+	} `json:"PE"`
 	Authenticode struct {
 		Filename      string `json:"Filename"`
 		ProgramName   string `json:"ProgramName"`
@@ -190,78 +210,91 @@ type Exchange_Windows_Forensics_UEFI struct {
 		SerialNumber  string `json:"SerialNumber"`
 		IssuerName    string `json:"IssuerName"`
 		SubjectName   string `json:"SubjectName"`
-		Timestamp     string `json:"Timestamp"`
+		Timestamp     any    `json:"Timestamp"`
 		Trusted       string `json:"Trusted"`
-		ExtraInfo     any    `json:"_ExtraInfo"`
+		ExtraInfo     struct {
+			Catalog string `json:"Catalog"`
+		} `json:"_ExtraInfo"`
 	} `json:"Authenticode"`
 }
 
-func (s Exchange_Windows_Forensics_UEFI) StringArray() []string {
+func (s Exchange_Windows_System_PrinterDriver_BinaryCheck) StringArray() []string {
 	certificates := make([]string, 0)
-	for _, v := range s.PEInfo.Authenticode.Certificates {
+	for _, v := range s.PE.Authenticode.Certificates {
 		certificates = append(certificates, fmt.Sprintf("| SerialNumber: %v, SignatureAlgorithm: %v, Subject: %v, Issuer: %v, NotBefore: %v, NotAfter: %v, PublicKey: %v, ExtendedKeyUsage_Critical: %v, ExtendedKeyUsage_KeyUsage: %v, SubjetKeyID_Critical: %v, SubjectKeyId_Value: %v, SubjectAlternativeName_Critical: %v, SubjectAlternativeName_DNS: %v, SubjectAlternativeName_Email: %v, SubjectAlternativeName_IP: %v, AuthorityKeyIdentifier_Critical: %v, AuthorityKeyIdentifier_KeyID: %v, CRLDistributionPoints_Critical: %v, CRLDistributionPoints_URI: %v, BasicConstraints_Critical: %v, BasicConstraints_IsCA: %v, BasicConstraints_MaxPathLen: %v", v.SerialNumber, v.SignatureAlgorithm, v.Subject, v.Issuer, v.NotBefore, v.NotAfter, v.PublicKey, v.Extensions.ExtendedKeyUsage.Critical, v.Extensions.ExtendedKeyUsage.KeyUsage, v.Extensions.SubjectKeyID.Critical, v.Extensions.SubjectKeyID.Value, v.Extensions.SubjectAlternativeName.Critical, v.Extensions.SubjectAlternativeName.DNS, v.Extensions.SubjectAlternativeName.Email, v.Extensions.SubjectAlternativeName.IP, v.Extensions.AuthorityKeyIdentifier.Critical, v.Extensions.AuthorityKeyIdentifier.KeyID, v.Extensions.CRLDistributionPoints.Critical, v.Extensions.CRLDistributionPoints.URI, v.Extensions.BasicConstraints.Critical, v.Extensions.BasicConstraints.IsCA, v.Extensions.BasicConstraints.MaxPathLen))
 	}
 	sections := make([]string, 0)
-	for _, v := range s.PEInfo.Sections {
+	for _, v := range s.PE.Sections {
 		sections = append(sections, fmt.Sprintf("| Perm: %v, Name: %v, FileOffset: %v, VMA: %v, RVA: %v, Size: %v", v.Perm, v.Name, v.FileOffset, v.VMA, v.RVA, v.Size))
 	}
 	resources := make([]string, 0)
-	for _, v := range s.PEInfo.Resources {
+	for _, v := range s.PE.Resources {
 		resources = append(resources, fmt.Sprintf("| Type: %v, TypeID: %v, FileOffset: %v, DataSize: %v, CodePage: %v", v.Type, v.TypeID, v.FileOffset, v.DataSize, v.CodePage))
 	}
 
 	return []string{
 
-		s.Partition.ImagePath, strconv.Itoa(s.Partition.PartitionOffset), s.Partition.PartitionSize, s.Partition.PartitionName,
-		s.OSPath, strconv.Itoa(s.Size), s.Mtime.String(), s.Atime.String(), s.Ctime.String(), s.Btime.String(),
-		strconv.Itoa(s.FirstCluster), s.Attr, fmt.Sprint(s.IsDeleted), s.ShortName, s.Hash.MD5, s.Hash.SHA1, s.Hash.SHA256,
-		s.Magic,
-		s.PEInfo.FileHeader.Machine, s.PEInfo.FileHeader.TimeDateStamp.String(), strconv.FormatInt(s.PEInfo.FileHeader.TimeDateStampRaw, 10),
-		strconv.Itoa(s.PEInfo.FileHeader.Characteristics), strconv.Itoa(s.PEInfo.FileHeader.ImageBase),
-		s.PEInfo.GUIDAge, s.PEInfo.PDB,
-		s.PEInfo.Directories.BaseRelocationDirectory.Timestamp.String(),
-		strconv.Itoa(s.PEInfo.Directories.BaseRelocationDirectory.TimestampRaw), strconv.Itoa(s.PEInfo.Directories.BaseRelocationDirectory.Size),
-		strconv.Itoa(s.PEInfo.Directories.BaseRelocationDirectory.FileAddress), s.PEInfo.Directories.BaseRelocationDirectory.SectionName,
-		s.PEInfo.Directories.DebugDirectory.Timestamp.String(),
-		strconv.FormatInt(s.PEInfo.Directories.DebugDirectory.TimestampRaw, 10), strconv.Itoa(s.PEInfo.Directories.DebugDirectory.Size),
-		strconv.Itoa(s.PEInfo.Directories.DebugDirectory.FileAddress), s.PEInfo.Directories.DebugDirectory.SectionName,
-		s.PEInfo.Directories.ExceptionDirectory.Timestamp.String(),
-		strconv.Itoa(s.PEInfo.Directories.ExceptionDirectory.TimestampRaw), strconv.Itoa(s.PEInfo.Directories.ExceptionDirectory.Size),
-		strconv.Itoa(s.PEInfo.Directories.ExceptionDirectory.FileAddress), s.PEInfo.Directories.ExceptionDirectory.SectionName,
-		s.PEInfo.Directories.ExportDirectory.Timestamp.String(),
-		strconv.Itoa(s.PEInfo.Directories.ExportDirectory.TimestampRaw), strconv.Itoa(s.PEInfo.Directories.ExportDirectory.Size),
-		strconv.Itoa(s.PEInfo.Directories.ExportDirectory.FileAddress), s.PEInfo.Directories.ExportDirectory.SectionName,
-		s.PEInfo.Directories.ResourceDirectory.Timestamp.String(),
-		strconv.Itoa(int(s.PEInfo.Directories.ResourceDirectory.TimestampRaw)), strconv.Itoa(s.PEInfo.Directories.ResourceDirectory.Size),
-		strconv.Itoa(s.PEInfo.Directories.ResourceDirectory.FileAddress), s.PEInfo.Directories.ResourceDirectory.SectionName,
-		s.PEInfo.Directories.SecurityDirectory.Timestamp.String(),
-		strconv.Itoa(s.PEInfo.Directories.SecurityDirectory.TimestampRaw), strconv.Itoa(s.PEInfo.Directories.SecurityDirectory.Size),
-		strconv.Itoa(s.PEInfo.Directories.SecurityDirectory.FileAddress), s.PEInfo.Directories.SecurityDirectory.SectionName,
+		s.Binary, fmt.Sprint(s.DriverNames), s.Hash.MD5, s.Hash.SHA1, s.Hash.SHA256,
+		s.PE.FileHeader.Machine, s.PE.FileHeader.TimeDateStamp.String(), strconv.FormatInt(s.PE.FileHeader.TimeDateStampRaw, 10),
+		strconv.Itoa(s.PE.FileHeader.Characteristics), strconv.Itoa(int(s.PE.FileHeader.ImageBase)),
+		s.PE.GUIDAge, s.PE.PDB,
+		s.PE.Directories.BaseRelocationDirectory.Timestamp.String(),
+		strconv.Itoa(s.PE.Directories.BaseRelocationDirectory.TimestampRaw), strconv.Itoa(s.PE.Directories.BaseRelocationDirectory.Size),
+		strconv.Itoa(s.PE.Directories.BaseRelocationDirectory.FileAddress), s.PE.Directories.BaseRelocationDirectory.SectionName,
+		s.PE.Directories.DebugDirectory.Timestamp.String(),
+		strconv.FormatInt(s.PE.Directories.DebugDirectory.TimestampRaw, 10), strconv.Itoa(s.PE.Directories.DebugDirectory.Size),
+		strconv.Itoa(s.PE.Directories.DebugDirectory.FileAddress), s.PE.Directories.DebugDirectory.SectionName,
+		s.PE.Directories.DelayImportsDirectory.Timestamp.String(),
+		strconv.FormatInt(s.PE.Directories.DelayImportsDirectory.TimestampRaw, 10), strconv.Itoa(s.PE.Directories.DelayImportsDirectory.Size),
+		strconv.Itoa(s.PE.Directories.DelayImportsDirectory.FileAddress), s.PE.Directories.DelayImportsDirectory.SectionName,
+		s.PE.Directories.ExceptionDirectory.Timestamp.String(),
+		strconv.Itoa(s.PE.Directories.ExceptionDirectory.TimestampRaw), strconv.Itoa(s.PE.Directories.ExceptionDirectory.Size),
+		strconv.Itoa(s.PE.Directories.ExceptionDirectory.FileAddress), s.PE.Directories.ExceptionDirectory.SectionName,
+		s.PE.Directories.ExportDirectory.Timestamp.String(),
+		strconv.Itoa(int(s.PE.Directories.ExportDirectory.TimestampRaw)), strconv.Itoa(s.PE.Directories.ExportDirectory.Size),
+		strconv.Itoa(s.PE.Directories.ExportDirectory.FileAddress), s.PE.Directories.ExportDirectory.SectionName,
+		s.PE.Directories.IATDirectory.Timestamp.String(),
+		strconv.Itoa(int(s.PE.Directories.IATDirectory.TimestampRaw)), strconv.Itoa(s.PE.Directories.IATDirectory.Size),
+		strconv.Itoa(s.PE.Directories.IATDirectory.FileAddress), s.PE.Directories.IATDirectory.SectionName,
+		s.PE.Directories.ImportDirectory.Timestamp.String(),
+		strconv.Itoa(int(s.PE.Directories.ImportDirectory.TimestampRaw)), strconv.Itoa(s.PE.Directories.ImportDirectory.Size),
+		strconv.Itoa(s.PE.Directories.ImportDirectory.FileAddress), s.PE.Directories.ImportDirectory.SectionName,
+		s.PE.Directories.LoadConfigDirectory.Timestamp.String(),
+		strconv.Itoa(int(s.PE.Directories.LoadConfigDirectory.TimestampRaw)), strconv.Itoa(s.PE.Directories.LoadConfigDirectory.Size),
+		strconv.Itoa(s.PE.Directories.LoadConfigDirectory.FileAddress), s.PE.Directories.LoadConfigDirectory.SectionName,
+		s.PE.Directories.ResourceDirectory.Timestamp.String(),
+		strconv.Itoa(int(s.PE.Directories.ResourceDirectory.TimestampRaw)), strconv.Itoa(s.PE.Directories.ResourceDirectory.Size),
+		strconv.Itoa(s.PE.Directories.ResourceDirectory.FileAddress), s.PE.Directories.ResourceDirectory.SectionName,
+		s.PE.Directories.TLSDirectory.Timestamp.String(),
+		strconv.Itoa(int(s.PE.Directories.TLSDirectory.TimestampRaw)), strconv.Itoa(s.PE.Directories.TLSDirectory.Size),
+		strconv.Itoa(s.PE.Directories.TLSDirectory.FileAddress), s.PE.Directories.TLSDirectory.SectionName,
+		s.PE.Directories.SecurityDirectory.Timestamp.String(),
+		strconv.Itoa(s.PE.Directories.SecurityDirectory.TimestampRaw), strconv.Itoa(s.PE.Directories.SecurityDirectory.Size),
+		strconv.Itoa(s.PE.Directories.SecurityDirectory.FileAddress), s.PE.Directories.SecurityDirectory.SectionName,
 
 		fmt.Sprint(sections),
 		fmt.Sprint(resources),
 
-		s.PEInfo.VersionInformation.CompanyName, s.PEInfo.VersionInformation.FileDescription, s.PEInfo.VersionInformation.FileVersion,
-		s.PEInfo.VersionInformation.InternalName, s.PEInfo.VersionInformation.LegalCopyright, s.PEInfo.VersionInformation.OriginalFilename,
-		s.PEInfo.VersionInformation.ProductName, s.PEInfo.VersionInformation.ProductVersion,
+		s.PE.VersionInformation.CompanyName, s.PE.VersionInformation.FileDescription, s.PE.VersionInformation.FileVersion,
+		s.PE.VersionInformation.InternalName, s.PE.VersionInformation.LegalCopyright, s.PE.VersionInformation.OriginalFilename,
+		s.PE.VersionInformation.ProductName, s.PE.VersionInformation.ProductVersion,
 
-		fmt.Sprint(s.PEInfo.Imports), fmt.Sprint(s.PEInfo.Exports), fmt.Sprint(s.PEInfo.Forwards), fmt.Sprint((s.PEInfo.ImpHash)),
+		fmt.Sprint(s.PE.Imports), fmt.Sprint(s.PE.Exports), fmt.Sprint(s.PE.Forwards), fmt.Sprint((s.PE.ImpHash)),
 
-		s.PEInfo.Authenticode.Signer.IssuerName, s.PEInfo.Authenticode.Signer.SerialNumber, s.PEInfo.Authenticode.Signer.DigestAlgorithm,
-		s.PEInfo.Authenticode.Signer.AuthenticatedAttributes.ContentType, s.PEInfo.Authenticode.Signer.AuthenticatedAttributes.MessageDigest, s.PEInfo.Authenticode.Signer.AuthenticatedAttributes.MessageDigestHex,
-		s.PEInfo.Authenticode.Signer.AuthenticatedAttributes.ProgramName, s.PEInfo.Authenticode.Signer.AuthenticatedAttributes.MoreInfo,
-		fmt.Sprint(s.PEInfo.Authenticode.Signer.UnauthenticatedAttributes), s.PEInfo.Authenticode.Signer.Subject,
-		fmt.Sprint(certificates), s.PEInfo.Authenticode.HashType, s.PEInfo.Authenticode.ExpectedHash, s.PEInfo.Authenticode.ExpectedHashHex,
-		s.PEInfo.AuthenticodeHash.MD5, s.PEInfo.AuthenticodeHash.SHA1, s.PEInfo.AuthenticodeHash.SHA256, strconv.FormatBool(s.PEInfo.AuthenticodeHash.HashMatches),
+		s.PE.Authenticode.Signer.IssuerName, s.PE.Authenticode.Signer.SerialNumber, s.PE.Authenticode.Signer.DigestAlgorithm,
+		s.PE.Authenticode.Signer.AuthenticatedAttributes.ContentType, s.PE.Authenticode.Signer.AuthenticatedAttributes.MessageDigest, s.PE.Authenticode.Signer.AuthenticatedAttributes.MessageDigestHex,
+		s.PE.Authenticode.Signer.AuthenticatedAttributes.ProgramName, s.PE.Authenticode.Signer.AuthenticatedAttributes.MoreInfo,
+		fmt.Sprint(s.PE.Authenticode.Signer.UnauthenticatedAttributes), s.PE.Authenticode.Signer.Subject,
+		fmt.Sprint(certificates), s.PE.Authenticode.HashType, s.PE.Authenticode.ExpectedHash, s.PE.Authenticode.ExpectedHashHex,
+		s.PE.AuthenticodeHash.MD5, s.PE.AuthenticodeHash.SHA1, s.PE.AuthenticodeHash.SHA256, strconv.FormatBool(s.PE.AuthenticodeHash.HashMatches),
 		s.Authenticode.Filename, s.Authenticode.ProgramName, s.Authenticode.PublisherLink, s.Authenticode.MoreInfoLink, s.Authenticode.SerialNumber,
-		s.Authenticode.IssuerName, s.Authenticode.SubjectName, s.Authenticode.Timestamp, s.Authenticode.Trusted, fmt.Sprint(s.Authenticode.ExtraInfo),
+		s.Authenticode.IssuerName, s.Authenticode.SubjectName, fmt.Sprint(s.Authenticode.Timestamp), s.Authenticode.Trusted, fmt.Sprint(s.Authenticode.ExtraInfo),
 	}
 }
 
-func (s Exchange_Windows_Forensics_UEFI) GetHeaders() []string {
-	return []string{"ImagePath", "PartitionOffset", "PartitionSize", "PartitionName",
-		"OSPath", "FileSize", "Mtime", "Atime", "Ctime", "Btime",
-		"FirstCluster", "Attr", "IsDeleted", "ShortName", "MD5", "SHA1", "SHA256", "Magic",
+func (s Exchange_Windows_System_PrinterDriver_BinaryCheck) GetHeaders() []string {
+	return []string{
+		"Binary", "DriverNames", "MD5", "SHA1", "SHA256",
 		"FileHeader_Machine",
 		"FileHeader_TimeDateStamp", "FileHeader_TimeDateStampRaw", "FileHeader_Characteristics", "FileHeader_ImageBase",
 		"GUIDAge", "PDB",
@@ -269,12 +302,22 @@ func (s Exchange_Windows_Forensics_UEFI) GetHeaders() []string {
 		"BaseRelocationDir_SectionName",
 		"DebugDirectory_Timestamp", "DebugDirectory_TimestampRaw", "DebugDirectory_Size", "DebugDirectory_FileAddress",
 		"DebugDirectory_SectionName",
+		"DelayImportsDirectory_Timestamp", "DelayImportsDirectory_TimestampRaw", "DelayImportsDirectory_Size", "DelayImportsDirectory_FileAddress",
+		"DelayImportsDirectory_SectionName",
 		"ExceptionDirectory_Timestamp", "ExceptionDirectory_TimestampRaw", "ExceptionDirectory_Size", "ExceptionDirectory_FileAddress",
 		"ExceptionDirectory_SectionName",
 		"ExportDirectory_Timestamp", "ExportDirectory_TimestampRaw", "ExportDirectory_Size", "ExportDirectory_FileAddress",
 		"ExportDirectory_SectionName",
+		"IATDirectory_Timestamp", "IATDirectory_TimestampRaw", "IATDirectory_Size", "IATDirectory_FileAddress",
+		"IATDirectory_SectionName",
+		"ImportDirectory_Timestamp", "ImportDirectory_TimestampRaw", "ImportDirectory_Size", "ImportDirectory_FileAddress",
+		"ImportDirectory_SectionName",
+		"LoadConfigDirectory_Timestamp", "LoadConfigDirectory_TimestampRaw", "LoadConfigDirectory_Size", "LoadConfigDirectory_FileAddress",
+		"LoadConfigDirectory_SectionName",
 		"ResourceDirectory_Timestamp", "ResourceDirectory_TimestampRaw", "ResourceDirectory_Size", "ResourceDirectory_FileAddress",
 		"ResourceDirectory_SectionName",
+		"TLSDirectory_Timestamp", "TLSDirectory_TimestampRaw", "TLSDirectory_Size", "TLSDirectory_FileAddress",
+		"TLSDirectory_SectionName",
 		"SecurityDirectory_Timestamp", "SecurityDirectory_TimestampRaw", "SecurityDirectory_Size", "SecurityDirectory_FileAddress",
 		"SecurityDirectory_SectionName",
 		"Sections", "Resources",
@@ -289,32 +332,68 @@ func (s Exchange_Windows_Forensics_UEFI) GetHeaders() []string {
 		"Authenticode_SubjectName", "Authenticode_Timestamp", "Authenticode_Trusted", "Authenticode_ExtraInfo"}
 }
 
-func Process_Exchange_Windows_Forensics_UEFI(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
+func Process_Exchange_Windows_System_PrinterDriver_BinaryCheck(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
 	for _, line := range inputLines {
-		tmp := Exchange_Windows_Forensics_UEFI{}
+		tmp := Exchange_Windows_System_PrinterDriver_BinaryCheck{}
 		err := json.Unmarshal([]byte(line), &tmp)
 		if err != nil {
 			logger.Error().Msgf(err.Error())
 			continue
 		}
+
 		if arguments["artifactdump"].(bool) {
-			helpers.BuildAndSendArtifactRecord(tmp.Mtime.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
+			helpers.BuildAndSendArtifactRecord(tmp.PE.FileHeader.TimeDateStamp.String(), clientIdentifier, "", tmp.StringArray(), outputChannel)
 			continue
 		}
 		tmp2 := vars.ShallowRecord{
-			Timestamp:        tmp.Mtime,
+			Timestamp:        tmp.PE.FileHeader.TimeDateStamp,
 			Computer:         clientIdentifier,
 			Artifact:         artifactName,
-			EventType:        "UEFI Entry Modified",
+			EventType:        "Print Driver",
 			EventDescription: "",
 			SourceUser:       "",
 			SourceHost:       "",
 			DestinationUser:  "",
 			DestinationHost:  "",
-			SourceFile:       tmp.OSPath,
-			MetaData:         fmt.Sprintf("Imphash: %v, Magic: %v, Ctime: %v, PDB: %v, Imports: %v", tmp.PEInfo.ImpHash, tmp.Magic, tmp.Ctime, tmp.PEInfo.PDB, tmp.PEInfo.Imports),
+			SourceFile:       tmp.Binary,
+			MetaData:         fmt.Sprintf("MD5: %v", tmp.Hash.MD5),
 		}
 		outputChannel <- tmp2.StringArray()
+	}
+}
+
+type Exchange_Windows_System_PrinterDriver struct {
+	Name              string `json:"Name"`
+	SupportedPlatform string `json:"SupportedPlatform"`
+	Version           int    `json:"Version"`
+	DriverPath        string `json:"DriverPath"`
+	ConfigFile        string `json:"ConfigFile"`
+	DataFile          string `json:"DataFile"`
+}
+
+func (s Exchange_Windows_System_PrinterDriver) StringArray() []string {
+	return helpers.GetStructValuesAsStringSlice(s)
+}
+
+func (s Exchange_Windows_System_PrinterDriver) GetHeaders() []string {
+	return helpers.GetStructHeadersAsStringSlice(s)
+}
+
+func Process_Exchange_Windows_System_PrinterDriver(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
+	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
+	for _, line := range inputLines {
+		tmp := Exchange_Windows_System_PrinterDriver{}
+		err := json.Unmarshal([]byte(line), &tmp)
+		if err != nil {
+			logger.Error().Msgf(err.Error())
+			continue
+		}
+
+		if arguments["artifactdump"].(bool) {
+			helpers.BuildAndSendArtifactRecord("", clientIdentifier, "", tmp.StringArray(), outputChannel)
+			continue
+		}
+		continue
 	}
 }
