@@ -21,10 +21,10 @@ While Velociraptor does support certain integrations, I found it easier to work 
   * ```velo-timeline-creator.exe -velodir "C:\velodatastore" -artifactdump -mftfull```
 
 ### MFT 
-Since MFT can be a very 'heavy' artifact, we exclude related json by default and only parse it when -mftlight or -mftfull is enabled at the command-line.
+Since MFT can be a very 'heavy' artifact, we exclude related artifacts by default and only parse these when -mftlight or -mftfull is enabled at the command-line.
 
 -mftfull parses the entire artifact without any exclusions.
--mftlight only includes files that have 'interesting' extensions in the output - see \vars\globalVars.go for a list of specific extensions that are included.
+-mftlight only includes files that have 'interesting' extensions in the output - see https://github.com/joeavanzato/velociraptor-timeline-creator/blob/e913633718b3eda690090dd79c4fcd4416b67b85/vars/globalVars.go#L35 for a list of specific extensions that are included.
 
 
 ### My XYZ artifact is not supported?
@@ -36,19 +36,19 @@ Build Link: https://github.com/joeavanzato/velociraptor-timeline-creator/release
 
 ### Example Outputs
 
-<h4 align="center">Creating per-client Super-Timelines</h4>
+<h4 align="center">Per-Client Super-Timeline Output Examples (Named after ClientID)</h4>
 <p align="center">
 <img src="images/example1.png">
 </p>
-<h4 align="center">Super-Timeline Column Examples</h4>
+<h4 align="center">Super-Timeline Column Format</h4>
 <p align="center">
 <img src="images/columnExamples.png">
 </p>
-<h4 align="center">Super-Timeline Artifact Alignment</h4>
+<h4 align="center">Cross-Artifact Super-Timeline Record Examples</h4>
 <p align="center">
 <img src="images/dataExamples.png">
 </p>
-<h4 align="center">Artifact Dump Examples</h4>
+<h4 align="center">Cross-Client Artifact Dump Examples</h4>
 <p align="center">
 <img src="images/example2.png">
 </p>
