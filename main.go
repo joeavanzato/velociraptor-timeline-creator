@@ -1033,7 +1033,7 @@ func GetAppropriateHeaders(artifact string, inputFile string) ([]string, error) 
 		headers = append(headers, artifact_structs.Exchange_Windows_Sys_LoggedInUsers.GetHeaders(artifact_structs.Exchange_Windows_Sys_LoggedInUsers{})...)
 	} else if artifact == "Exchange.Windows.Registry.ScheduledTasks.csv" {
 		headers = append(headers, artifact_structs.Exchange_Windows_Registry_ScheduledTasks.GetHeaders(artifact_structs.Exchange_Windows_Registry_ScheduledTasks{})...)
-	} else if artifact == "Exchange.Windows.System.WindowsErrorReporting.csv" {
+	} else if artifact == "Exchange.Windows.System.WindowsErrorReporting.AppCrashReport.csv" {
 		headers = append(headers, artifact_structs.Exchange_Windows_System_WindowsErrorReporting.GetHeaders(artifact_structs.Exchange_Windows_System_WindowsErrorReporting{})...)
 	} else if artifact == "Exchange.Windows.NTFS.Timestomp.csv" {
 		headers = append(headers, artifact_structs.Exchange_Windows_NTFS_Timestomp.GetHeaders(artifact_structs.Exchange_Windows_NTFS_Timestomp{})...)

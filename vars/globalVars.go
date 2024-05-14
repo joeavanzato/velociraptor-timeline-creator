@@ -167,4 +167,5 @@ var ImplementedArtifacts = map[string]string{
 	"Windows.Forensics.Usn":                                 "USN Entry Created",
 	"Windows.Timeline.MFT":                                  "MFT Timeline Entry",
 	"Windows.Carving.USN":                                   "Carved USN Entry",
+	"Windows.System.Powershell.PSReadline":                  "PS Readline",
 }
