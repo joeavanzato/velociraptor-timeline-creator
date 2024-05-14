@@ -32,6 +32,7 @@ Since MFT can be a very 'heavy' artifact, we exclude related json by default and
 * If you have an artifact you want to include, open an Issue with the name of the artifact as well as a single event from the resultant JSON (usually from a location like C:\VELODATASTORE\clients\C.*\artifacts\ARTIFACTHERE\SomeFile.JSON)
   * Ideally, you provide me the entire JSON output (sanitized where needed) so I can include it in some parsing tests
 
+Build Link: https://github.com/joeavanzato/velociraptor-timeline-creator/releases/download/pre-release/velo-timeline-creator.zip
 
 ### Example Outputs
 
@@ -39,7 +40,7 @@ Since MFT can be a very 'heavy' artifact, we exclude related json by default and
 <p align="center">
 <img src="images/example1.png">
 </p>
-<h4 align="center">SuperTimeline Column Examples</h4>
+<h4 align="center">Super-Timeline Column Examples</h4>
 <p align="center">
 <img src="images/columnExamples.png">
 </p>
