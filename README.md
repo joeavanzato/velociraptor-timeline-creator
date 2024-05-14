@@ -41,13 +41,13 @@ Since MFT can be a very 'heavy' artifact, we exclude related json by default and
 </p>
 <h4 align="center">SuperTimeline Column Examples</h4>
 <p align="center">
-<img src="images/columnExamples.png.png">
+<img src="images/columnExamples.png">
 </p>
 <h4 align="center">Super-Timeline Artifact Alignment</h4>
 <p align="center">
-<img src="images/dataExamples.png.png">
+<img src="images/dataExamples.png">
 </p>
 <h4 align="center">Artifact Dump Examples</h4>
 <p align="center">
-<img src="images/example2.png.png.png">
+<img src="images/example2.png">
 </p>
