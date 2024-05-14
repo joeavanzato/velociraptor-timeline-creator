@@ -24,7 +24,9 @@ While Velociraptor does support certain integrations, I found it easier to work 
 Since MFT can be a very 'heavy' artifact, we exclude related artifacts by default and only parse these when -mftlight or -mftfull is enabled at the command-line.
 
 -mftfull parses the entire artifact without any exclusions.
--mftlight only includes files that have 'interesting' extensions in the output - see https://github.com/joeavanzato/velociraptor-timeline-creator/blob/e913633718b3eda690090dd79c4fcd4416b67b85/vars/globalVars.go#L35 for a list of specific extensions that are included.
+-mftlight only includes files that have 'interesting' extensions in the output
+
+https://github.com/joeavanzato/velociraptor-timeline-creator/blob/e913633718b3eda690090dd79c4fcd4416b67b85/vars/globalVars.go#L35
 
 
 ### My XYZ artifact is not supported?
