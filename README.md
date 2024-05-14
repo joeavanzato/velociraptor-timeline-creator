@@ -12,13 +12,13 @@ While Velociraptor does support certain integrations, I found it easier to work 
 
 ### Use-Cases
 * Building a summarized super-timeline from any supported artifacts present in Velociraptor (per-client)
-  * ```vtc.exe -velodir "C:\velodatastore"```
-  * ```vtc.exe -velodir "C:\velodatastore" -mftlight```
-  * ```vtc.exe -velodir "C:\velodatastore" -mftfull```
+  * ```velo-timeline-creator.exe -velodir "C:\velodatastore"```
+  * ```velo-timeline-creator.exe -velodir "C:\velodatastore" -mftlight```
+  * ```velo-timeline-creator.exe -velodir "C:\velodatastore" -mftfull```
 * Dumping out all supported artifacts across all clients to individual CSV files
-  * ```vtc.exe -velodir "C:\velodatastore" -artifactdump```
-  * ```vtc.exe -velodir "C:\velodatastore" -artifactdump -mftlight```
-  * ```vtc.exe -velodir "C:\velodatastore" -artifactdump -mftfull```
+  * ```velo-timeline-creator.exe -velodir "C:\velodatastore" -artifactdump```
+  * ```velo-timeline-creator.exe -velodir "C:\velodatastore" -artifactdump -mftlight```
+  * ```velo-timeline-creator.exe -velodir "C:\velodatastore" -artifactdump -mftfull```
 
 ### MFT 
 Since MFT can be a very 'heavy' artifact, we exclude related json by default and only parse it when -mftlight or -mftfull is enabled at the command-line.
