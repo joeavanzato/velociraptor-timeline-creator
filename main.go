@@ -616,6 +616,50 @@ func SendRecordsToAppropriateBus(logger zerolog.Logger, records []string, record
 		artifact_structs.Process_Windows_Timeline_MFT(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.Carving.USN" {
 		artifact_structs.Process_Windows_Carving_USN(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Sys.Users" {
+		artifact_structs.Process_Windows_Sys_Users(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.System.Handles" {
+		artifact_structs.Process_Windows_System_Handles(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.System.Shares" {
+		artifact_structs.Process_Windows_System_Shares(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Sys.DiskInfo" {
+		artifact_structs.Process_Windows_Sys_DiskInfo(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.System.AuditPolicy" {
+		artifact_structs.Process_Windows_System_AuditPolicy(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Network.ListeningPorts" {
+		artifact_structs.Process_Windows_Network_ListeningPorts(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Sys.PhysicalMemoryRanges" {
+		artifact_structs.Process_Windows_Sys_PhysicalMemoryRanges(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Sys.Programs" {
+		artifact_structs.Process_Windows_Sys_Programs(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Network.Netstat" {
+		artifact_structs.Process_Windows_Network_Netstat(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Generic.Forensic.Timeline" {
+		artifact_structs.Process_Generic_Forensic_Timeline(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Forensics.PartitionTable" {
+		artifact_structs.Process_Windows_Forensics_PartitionTable(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Generic.System.ProcessSiblings" {
+		artifact_structs.Process_Generic_System_ProcessSiblings(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.System.RootCAStore" {
+		artifact_structs.Process_Windows_System_RootCAStore(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Sys.CertificateAuthorities" {
+		artifact_structs.Process_Windows_Sys_CertificateAuthorities(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Generic.Applications.Chrome.SessionStorage" {
+		artifact_structs.Process_Generic_Applications_Chrome_SessionStorage(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Registry.NTUser" {
+		artifact_structs.Process_Windows_Registry_NTUser(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.System.CatFiles" {
+		artifact_structs.Process_Windows_System_CatFiles(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Exchange.Windows.Applications.DefenderDHParser" {
+		artifact_structs.Process_Exchange_Windows_Applications_DefenderDHParser(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Registry.RecentDocs" {
+		artifact_structs.Process_Windows_Registry_RecentDocs(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Generic.Client.DiskUsage" {
+		artifact_structs.Process_Generic_Client_DiskUsage(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Generic.Applications.Office.Keywords" {
+		artifact_structs.Process_Generic_Applications_Office_Keywords(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.System.Signers" {
+		artifact_structs.Process_Windows_System_Signers(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
 	}
 
 	/*	else {
@@ -1047,6 +1091,50 @@ func GetAppropriateHeaders(artifact string, inputFile string) ([]string, error) 
 		headers = append(headers, artifact_structs.Windows_Timeline_MFT.GetHeaders(artifact_structs.Windows_Timeline_MFT{})...)
 	} else if artifact == "Windows.Carving.USN.csv" {
 		headers = append(headers, artifact_structs.Windows_Carving_USN.GetHeaders(artifact_structs.Windows_Carving_USN{})...)
+	} else if artifact == "Windows.Sys.Users.csv" {
+		headers = append(headers, artifact_structs.Windows_Sys_Users.GetHeaders(artifact_structs.Windows_Sys_Users{})...)
+	} else if artifact == "Windows.System.Handles.csv" {
+		headers = append(headers, artifact_structs.Windows_System_Handles.GetHeaders(artifact_structs.Windows_System_Handles{})...)
+	} else if artifact == "Windows.System.Shares.csv" {
+		headers = append(headers, artifact_structs.Windows_System_Shares.GetHeaders(artifact_structs.Windows_System_Shares{})...)
+	} else if artifact == "Windows.Sys.DiskInfo.csv" {
+		headers = append(headers, artifact_structs.Windows_Sys_DiskInfo.GetHeaders(artifact_structs.Windows_Sys_DiskInfo{})...)
+	} else if artifact == "Windows.System.AuditPolicy.csv" {
+		headers = append(headers, artifact_structs.Windows_System_AuditPolicy.GetHeaders(artifact_structs.Windows_System_AuditPolicy{})...)
+	} else if artifact == "Windows.Network.ListeningPorts.csv" {
+		headers = append(headers, artifact_structs.Windows_Network_ListeningPorts.GetHeaders(artifact_structs.Windows_Network_ListeningPorts{})...)
+	} else if artifact == "Windows.Sys.PhysicalMemoryRanges.csv" {
+		headers = append(headers, artifact_structs.Windows_Sys_PhysicalMemoryRanges.GetHeaders(artifact_structs.Windows_Sys_PhysicalMemoryRanges{})...)
+	} else if artifact == "Windows.Sys.Programs.csv" {
+		headers = append(headers, artifact_structs.Windows_Sys_Programs.GetHeaders(artifact_structs.Windows_Sys_Programs{})...)
+	} else if artifact == "Windows.Network.Netstat.csv" {
+		headers = append(headers, artifact_structs.Windows_Network_Netstat.GetHeaders(artifact_structs.Windows_Network_Netstat{})...)
+	} else if artifact == "Generic.Forensic.Timeline.csv" {
+		headers = append(headers, artifact_structs.Generic_Forensic_Timeline.GetHeaders(artifact_structs.Generic_Forensic_Timeline{})...)
+	} else if artifact == "Windows.Forensics.PartitionTable.csv" {
+		headers = append(headers, artifact_structs.Windows_Forensics_PartitionTable.GetHeaders(artifact_structs.Windows_Forensics_PartitionTable{})...)
+	} else if artifact == "Generic.System.ProcessSiblings.csv" {
+		headers = append(headers, artifact_structs.Generic_System_ProcessSiblings.GetHeaders(artifact_structs.Generic_System_ProcessSiblings{})...)
+	} else if artifact == "Windows.System.RootCAStore.csv" {
+		headers = append(headers, artifact_structs.Windows_System_RootCAStore.GetHeaders(artifact_structs.Windows_System_RootCAStore{})...)
+	} else if artifact == "Windows.Sys.CertificateAuthorities.csv" {
+		headers = append(headers, artifact_structs.Windows_Sys_CertificateAuthorities.GetHeaders(artifact_structs.Windows_Sys_CertificateAuthorities{})...)
+	} else if artifact == "Generic.Applications.Chrome.SessionStorage.csv" {
+		headers = append(headers, artifact_structs.Generic_Applications_Chrome_SessionStorage.GetHeaders(artifact_structs.Generic_Applications_Chrome_SessionStorage{})...)
+	} else if artifact == "Windows.Registry.NTUser.csv" {
+		headers = append(headers, artifact_structs.Windows_Registry_NTUser.GetHeaders(artifact_structs.Windows_Registry_NTUser{})...)
+	} else if artifact == "Windows.System.CatFiles.csv" {
+		headers = append(headers, artifact_structs.Windows_System_CatFiles.GetHeaders(artifact_structs.Windows_System_CatFiles{})...)
+	} else if artifact == "Exchange.Windows.Applications.DefenderDHParser.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_Applications_DefenderDHParser.GetHeaders(artifact_structs.Exchange_Windows_Applications_DefenderDHParser{})...)
+	} else if artifact == "Windows.Registry.RecentDocs.csv" {
+		headers = append(headers, artifact_structs.Windows_Registry_RecentDocs.GetHeaders(artifact_structs.Windows_Registry_RecentDocs{})...)
+	} else if artifact == "Generic.Client.DiskUsage.csv" {
+		headers = append(headers, artifact_structs.Generic_Client_DiskUsage.GetHeaders(artifact_structs.Generic_Client_DiskUsage{})...)
+	} else if artifact == "Generic.Applications.Office.Keywords.csv" {
+		headers = append(headers, artifact_structs.Generic_Applications_Office_Keywords.GetHeaders(artifact_structs.Generic_Applications_Office_Keywords{})...)
+	} else if artifact == "Windows.System.Signers.csv" {
+		headers = append(headers, artifact_structs.Windows_System_Signers.GetHeaders(artifact_structs.Windows_System_Signers{})...)
 	}
 
 	/*	else {
