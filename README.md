@@ -29,6 +29,25 @@ Since MFT can be a very 'heavy' artifact, we exclude related json by default and
 
 ### My XYZ artifact is not supported?
 * I am working on a 'generic' artifact parser to help dump  artifacts to individual CSV but this will not include a presence in the super-timeline.
-* If you have an artifact you want to include, open an Issue with the name of the artifact as well as a single event from the resultant JSON (usually from a location like $VELODATASTORE$\clients\C.*\artifacts\ARTIFACTHERE\SomeFile.JSON)
+* If you have an artifact you want to include, open an Issue with the name of the artifact as well as a single event from the resultant JSON (usually from a location like C:\VELODATASTORE\clients\C.*\artifacts\ARTIFACTHERE\SomeFile.JSON)
   * Ideally, you provide me the entire JSON output (sanitized where needed) so I can include it in some parsing tests
-* 
+
+
+### Example Outputs
+
+<h4 align="center">Creating per-client Super-Timelines</h4>
+<p align="center">
+<img src="images/example1.png">
+</p>
+<h4 align="center">SuperTimeline Column Examples</h4>
+<p align="center">
+<img src="images/columnExamples.png.png">
+</p>
+<h4 align="center">Super-Timeline Artifact Alignment</h4>
+<p align="center">
+<img src="images/dataExamples.png.png">
+</p>
+<h4 align="center">Artifact Dump Examples</h4>
+<p align="center">
+<img src="images/example2.png.png.png">
+</p>
