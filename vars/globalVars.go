@@ -163,4 +163,8 @@ var ImplementedArtifacts = map[string]string{
 	"Exchange.Windows.System.WindowsErrorReporting":         "App Crash Event",
 	"Exchange.Windows.NTFS.Timestomp":                       "Potential Timestomp",
 	"Exchange.Windows.System.BinaryVersion":                 "File Hit (Created)",
+	"Windows.NTFS.MFT":                                      "MFT Entry Created",
+	"Windows.Forensics.Usn":                                 "USN Entry Created",
+	"Windows.Timeline.MFT":                                  "MFT Timeline Entry",
+	"Windows.Carving.USN":                                   "Carved USN Entry",
 }

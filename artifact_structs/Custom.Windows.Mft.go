@@ -70,6 +70,11 @@ func Process_Custom_Windows_MFT(artifactName string, clientIdentifier string, in
 			if !slices.Contains(vars.LightMFTExtensionsOfInterest, strings.ToLower(tmp.Extension)) {
 				continue
 			}
+		} else if arguments["mftfull"].(bool) {
+			// process as normal
+		} else {
+			// we shouldn't even be here - a logic check failed
+			continue
 		}
 
 		if arguments["artifactdump"].(bool) {

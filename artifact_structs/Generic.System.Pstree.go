@@ -66,8 +66,8 @@ type Generic_System_Pstree struct {
 			ID        string    `json:"id"`
 			StartTime time.Time `json:"start_time"`
 			Data      struct {
-				Pid             int       `json:"Pid"`
-				Ppid            int       `json:"Ppid"`
+				Pid             any       `json:"Pid"`
+				Ppid            any       `json:"Ppid"`
 				Name            string    `json:"Name"`
 				Threads         int       `json:"Threads"`
 				Username        string    `json:"Username"`
@@ -102,49 +102,6 @@ type Generic_System_Pstree struct {
 				StartTime      time.Time `json:"StartTime"`
 				EndTime        time.Time `json:"EndTime"`
 			} `json:"data"`
-			Children []struct {
-				Name      string    `json:"name"`
-				ID        string    `json:"id"`
-				StartTime time.Time `json:"start_time"`
-				Data      struct {
-					Pid             int       `json:"Pid"`
-					Ppid            int       `json:"Ppid"`
-					Name            string    `json:"Name"`
-					Threads         int       `json:"Threads"`
-					Username        string    `json:"Username"`
-					OwnerSid        string    `json:"OwnerSid"`
-					CommandLine     string    `json:"CommandLine"`
-					Exe             string    `json:"Exe"`
-					TokenIsElevated bool      `json:"TokenIsElevated"`
-					CreateTime      time.Time `json:"CreateTime"`
-					User            float64   `json:"User"`
-					System          float64   `json:"System"`
-					IoCounters      struct {
-						ReadOperationCount  int `json:"ReadOperationCount"`
-						WriteOperationCount int `json:"WriteOperationCount"`
-						OtherOperationCount int `json:"OtherOperationCount"`
-						ReadTransferCount   int `json:"ReadTransferCount"`
-						WriteTransferCount  int `json:"WriteTransferCount"`
-						OtherTransferCount  int `json:"OtherTransferCount"`
-					} `json:"IoCounters"`
-					Memory struct {
-						PageFaultCount             int `json:"PageFaultCount"`
-						PeakWorkingSetSize         int `json:"PeakWorkingSetSize"`
-						WorkingSetSize             int `json:"WorkingSetSize"`
-						QuotaPeakPagedPoolUsage    int `json:"QuotaPeakPagedPoolUsage"`
-						QuotaPagedPoolUsage        int `json:"QuotaPagedPoolUsage"`
-						QuotaPeakNonPagedPoolUsage int `json:"QuotaPeakNonPagedPoolUsage"`
-						QuotaNonPagedPoolUsage     int `json:"QuotaNonPagedPoolUsage"`
-						PagefileUsage              int `json:"PagefileUsage"`
-						PeakPagefileUsage          int `json:"PeakPagefileUsage"`
-					} `json:"Memory"`
-					PebBaseAddress int64     `json:"PebBaseAddress"`
-					IsWow64        bool      `json:"IsWow64"`
-					StartTime      time.Time `json:"StartTime"`
-					EndTime        time.Time `json:"EndTime"`
-				} `json:"data"`
-				Children any `json:"children"`
-			} `json:"children"`
 		} `json:"children"`
 	} `json:"PSTree"`
 }

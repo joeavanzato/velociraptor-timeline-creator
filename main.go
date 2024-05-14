@@ -27,8 +27,8 @@ func parseArgs(logger zerolog.Logger) (map[string]any, error) {
 	outputdir := flag.String("outputdir", "", "NOT IMPLEMENTED YET")
 	writebuffer := flag.Int("writebuffer", 2000, "How many lines to queue at a time for writing to output CSV")
 	mftlight := flag.Bool("mftlight", false, "Adds a subset of interesting extensions from $MFT to the super timeline")
-	mftfull := flag.Bool("mftfull", false, "NOT IMPLEMENTED YET")
-	artifactdump := flag.Bool("artifactdump", false, "")
+	mftfull := flag.Bool("mftfull", false, "Do not restrict parsing of MFT-related artifacts (Windows.Timeline.MFT, Windows.NTFS.MFT, etc)")
+	artifactdump := flag.Bool("artifactdump", false, "Instead of creating per-client super-timelines, dump all artifacts present into aggregated CSV per-artifact across all clients.")
 
 	flag.Parse()
 
@@ -56,6 +56,10 @@ func parseArgs(logger zerolog.Logger) (map[string]any, error) {
 
 	if arguments["velodir"].(string) == "" {
 		return arguments, fmt.Errorf("No Data Directory Specified - please provide the full path to the Velociraptor Data Storage Directory using -velodir")
+	}
+
+	if arguments["mftlight"].(bool) && arguments["mftfull"].(bool) {
+		return arguments, fmt.Errorf(" Both -mftlight and -mftfull enabled - pick one!")
 	}
 
 	return arguments, nil
@@ -195,12 +199,16 @@ func ProcessArtifactFile(artifactDir string, arguments map[string]any, artifactW
 		logger.Error().Err(readErr)
 	}
 	scanner := bufio.NewScanner(inputFile)
+	buf := make([]byte, 0, 64*1024)
+	scanner.Buffer(buf, 1024*1024)
 
 	var readerWaitGroup sync.WaitGroup
+
 	for scanner.Scan() {
 		// We have each line of a file - we read them into a buffer of fixed size then send this buffer to the appropriate service func to handle unmarshalling/processing
 		// We wait until that is finished to continue to the next buffered set to avoid over-reading into memory
 		//fmt.Printf(scanner.Text() + "\n")
+
 		records = append(records, scanner.Text())
 		if len(records) <= lineBatchSize {
 			continue
@@ -228,6 +236,10 @@ func ProcessArtifactFile(artifactDir string, arguments map[string]any, artifactW
 			records = nil
 		}
 	}
+	if err := scanner.Err(); err != nil {
+		logger.Error().Err(err)
+	}
+
 	readerWaitGroup.Add(1)
 	go SendRecordsToAppropriateBus(logger, records, recordOutputChannel, arguments, &readerWaitGroup, &jobTracker, filepath.Base(artifactDir), clientIdentifier, artifactJSON)
 	readerWaitGroup.Wait()
@@ -596,6 +608,14 @@ func SendRecordsToAppropriateBus(logger zerolog.Logger, records []string, record
 		artifact_structs.Process_Exchange_Windows_NTFS_Timestomp(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Exchange.Windows.System.BinaryVersion" {
 		artifact_structs.Process_Windows_Detection_BinaryVersion(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.NTFS.MFT" && (arguments["mftlight"].(bool) || arguments["mftfull"].(bool)) {
+		artifact_structs.Process_Windows_NTFS_MFT(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Forensics.Usn" {
+		artifact_structs.Process_Windows_Forensics_Usn(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Timeline.MFT" && (arguments["mftlight"].(bool) || arguments["mftfull"].(bool)) {
+		artifact_structs.Process_Windows_Timeline_MFT(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Carving.USN" {
+		artifact_structs.Process_Windows_Carving_USN(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
 	}
 
 	/*	else {
@@ -620,9 +640,14 @@ func SetupArtifactListenChannels(clientArtifactPaths []string, logger zerolog.Lo
 			artifactName := filepath.Base(artifactPath)
 			_, implemented := vars.ImplementedArtifacts[artifactName]
 			if !implemented {
-				logger.Info().Msgf("Generic Parsing Implementation: %v", artifactName)
+				logger.Info().Msgf("No Parsing Implementation, Skipped: %v", artifactName)
 				continue
 			}
+			if (artifactName == "Windows.Timeline.MFT" || artifactName == "Windows.NTFS.MFT" || strings.HasPrefix(artifactName, "Custom.Windows.MFT")) && !arguments["mftlight"].(bool) && !arguments["mftfull"].(bool) {
+				logger.Info().Msgf("No MFT Flag Enabled, Skipped: %v", artifactName)
+				continue
+			}
+
 			JSONFilePaths := helpers.GetAllJSONFromDirectory(artifactPath)
 			for _, JsonFile := range JSONFilePaths {
 				os.Mkdir("artifact_output", 0777)
@@ -1014,6 +1039,14 @@ func GetAppropriateHeaders(artifact string, inputFile string) ([]string, error) 
 		headers = append(headers, artifact_structs.Exchange_Windows_NTFS_Timestomp.GetHeaders(artifact_structs.Exchange_Windows_NTFS_Timestomp{})...)
 	} else if artifact == "Exchange.Windows.System.BinaryVersion.csv" {
 		headers = append(headers, artifact_structs.Exchange_Windows_System_BinaryVersion.GetHeaders(artifact_structs.Exchange_Windows_System_BinaryVersion{})...)
+	} else if artifact == "Windows.NTFS.MFT.csv" {
+		headers = append(headers, artifact_structs.Windows_NTFS_MFT.GetHeaders(artifact_structs.Windows_NTFS_MFT{})...)
+	} else if artifact == "Windows.Forensics.Usn.csv" {
+		headers = append(headers, artifact_structs.Windows_Forensics_Usn.GetHeaders(artifact_structs.Windows_Forensics_Usn{})...)
+	} else if artifact == "Windows.Timeline.MFT.csv" {
+		headers = append(headers, artifact_structs.Windows_Timeline_MFT.GetHeaders(artifact_structs.Windows_Timeline_MFT{})...)
+	} else if artifact == "Windows.Carving.USN.csv" {
+		headers = append(headers, artifact_structs.Windows_Carving_USN.GetHeaders(artifact_structs.Windows_Carving_USN{})...)
 	}
 
 	/*	else {
