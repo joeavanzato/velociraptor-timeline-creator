@@ -282,10 +282,8 @@ func SendRecordsToAppropriateBus(logger zerolog.Logger, records []string, record
 		artifact_structs.Process_Windows_Registry_AppCompatCache(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.Network.NetstatEnriched" {
 		artifact_structs.Process_Windows_Network_NetstatEnriched(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
-	} else if artifactName == "Windows.KapeFiles.Targets" {
-		if JSONFileName == "All File Metadata.json" {
-			artifact_structs.Process_Windows_KapeFiles_Targets_AllFileMetadata(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
-		}
+	} else if artifactName == "Windows.KapeFiles.Targets" && JSONFileName == "All File Metadata.json" {
+		artifact_structs.Process_Windows_KapeFiles_Targets_AllFileMetadata(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.Forensics.Timeline" {
 		artifact_structs.Process_Windows_Forensics_Timeline(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.Forensics.SRUM" {
