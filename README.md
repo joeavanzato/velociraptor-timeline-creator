@@ -10,6 +10,8 @@ It's often useful to use Velociraptor (either online or offline) as a tool for c
 
 While Velociraptor does support certain integrations, I found it easier to work with the data by mass-extracting it from individual JSON files into CSV - hence, VTC.
 
+By default, only a subset of artifacts (listed below) are parsed into the super-timelines - but **all** artifacts, even those without a parser, can be cross-client dumped using -artifactdump into aggregated CSVs.
+
 ### Use-Cases
 * Building a summarized super-timeline from any supported artifacts present in Velociraptor (per-client)
   * ```velo-timeline-creator.exe -velodir "C:\velodatastore"```
@@ -56,7 +58,7 @@ Build Link: https://github.com/joeavanzato/velociraptor-timeline-creator/release
 
 ### What artifacts have native parsers?
 
-Anything not included below will **not** appear in the super-timeline but will appear in an artifact dump using the generic parser.
+Anything not included below will **not** appear in the super-timeline but will appear in an artifact dump using the generic parser.  Anything marked as 'No' below will be cleanly parsed into an artifact dump but will still not appear in the super-timeline due to lack of an appropriate time-based key.
  
 | Artifact   Name                                       | Super Timeline Support | Time Field                             |
 |-------------------------------------------------------|------------------------|----------------------------------------|
