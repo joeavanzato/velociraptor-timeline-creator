@@ -190,4 +190,6 @@ var ImplementedArtifacts = map[string]string{
 	"Generic.Client.DiskUsage":                              "DiskUsage",
 	"Generic.Applications.Office.Keywords":                  "OfficeModified",
 	"Windows.System.Signers":                                "System Signer",
+	"Windows.Detection.EnvironmentVariables":                "Process Environment Variable",
+	"Exchange.Windows.Timeline.Prefetch.Improved":           "Prefetch Created",
 }

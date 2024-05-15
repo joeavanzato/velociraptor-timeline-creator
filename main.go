@@ -664,6 +664,10 @@ func SendRecordsToAppropriateBus(logger zerolog.Logger, records []string, record
 		artifact_structs.Process_Generic_Applications_Office_Keywords(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.System.Signers" {
 		artifact_structs.Process_Windows_System_Signers(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Windows.Detection.EnvironmentVariables" {
+		artifact_structs.Process_Windows_Detection_EnvironmentVariables(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else if artifactName == "Exchange.Windows.Timeline.Prefetch.Improved" {
+		artifact_structs.Process_Exchange_Windows_Timeline_Prefetch_Improved(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else {
 		artifact_structs.Process_Generic_Artifact(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger, genericHeaders)
 	}
@@ -1141,6 +1145,10 @@ func GetAppropriateHeaders(artifact string, inputFile string) ([]string, error) 
 		headers = append(headers, artifact_structs.Generic_Applications_Office_Keywords.GetHeaders(artifact_structs.Generic_Applications_Office_Keywords{})...)
 	} else if artifact == "Windows.System.Signers.csv" {
 		headers = append(headers, artifact_structs.Windows_System_Signers.GetHeaders(artifact_structs.Windows_System_Signers{})...)
+	} else if artifact == "Windows.Detection.EnvironmentVariables.csv" {
+		headers = append(headers, artifact_structs.Windows_Detection_EnvironmentVariables.GetHeaders(artifact_structs.Windows_Detection_EnvironmentVariables{})...)
+	} else if artifact == "Exchange.Windows.Timeline.Prefetch.Improved.csv" {
+		headers = append(headers, artifact_structs.Exchange_Windows_Timeline_Prefetch_Improved.GetHeaders(artifact_structs.Exchange_Windows_Timeline_Prefetch_Improved{})...)
 	} else {
 		// Generic Header Retrieval
 		//fmt.Println(inputFile)
