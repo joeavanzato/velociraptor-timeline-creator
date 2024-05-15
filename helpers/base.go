@@ -11,6 +11,7 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"slices"
 	"strings"
 	"sync"
 	"time"
@@ -143,6 +144,22 @@ func setupReadWrite(inputF *os.File, outputF *os.File) (*csv.Reader, *csv.Writer
 	parser := csv.NewReader(inputF)
 	parser.LazyQuotes = true
 	return parser, writer, nil
+}
+
+func FindIndexInSlice(input string, inputSlice []string) int {
+	for k, v := range inputSlice {
+		if input == v {
+			return k
+		}
+	}
+	return -1
+}
+
+func AddToSliceIfNotPresent(v string, i []string) []string {
+	if !slices.Contains(i, v) {
+		i = append(i, v)
+	}
+	return i
 }
 
 func GetAllJSONFromDirectory(path string) []string {

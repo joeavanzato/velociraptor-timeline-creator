@@ -136,13 +136,14 @@ func ProcessClientArtifactPath(path string, arguments map[string]any, clientWait
 	// This waitgroup is purely for the csv writer and nothing else
 	var writeWG sync.WaitGroup
 	writeWG.Add(1)
+	emptyHeaders := make([]string, 0)
 	go helpers.ListenOnWriteChannel(recordChannel, writer, logger, outputF, arguments["writebuffer"].(int), &writeWG)
 	for _, artifactDir := range artifactPaths {
 		//go ProcessArtifact(artifactDir, arguments, &artifactWaiter, recordChannel, logger, clientIdentifier)
 		paths := helpers.GetAllJSONFromDirectory(artifactDir)
 		for _, artifactJSON := range paths {
 			artifactWaiter.Add(1)
-			go ProcessArtifactFile(artifactDir, arguments, &artifactWaiter, recordChannel, logger, clientIdentifier, artifactJSON)
+			go ProcessArtifactFile(artifactDir, arguments, &artifactWaiter, recordChannel, logger, clientIdentifier, artifactJSON, emptyHeaders)
 		}
 	}
 	helpers.CloseChannelWhenDone(recordChannel, &artifactWaiter)
@@ -153,12 +154,12 @@ func ProcessClientArtifactPath(path string, arguments map[string]any, clientWait
 func ProcessArtifact(artifactDir string, arguments map[string]any, artifactWaiter *sync.WaitGroup, recordChannel chan []string, logger zerolog.Logger, clientIdentifier string) {
 
 	// Here we will actually read the relevant artifact file (if it exists) and process records through the appropriate artifact helper func
-	paths := helpers.GetAllJSONFromDirectory(artifactDir)
-	defer artifactWaiter.Done()
-	for _, artifactJSON := range paths {
-		artifactWaiter.Add(1)
-		go ProcessArtifactFile(artifactDir, arguments, artifactWaiter, recordChannel, logger, clientIdentifier, artifactJSON)
-	}
+	/*	paths := helpers.GetAllJSONFromDirectory(artifactDir)
+		defer artifactWaiter.Done()
+		for _, artifactJSON := range paths {
+			artifactWaiter.Add(1)
+			go ProcessArtifactFile(artifactDir, arguments, artifactWaiter, recordChannel, logger, clientIdentifier, artifactJSON)
+		}*/
 
 	/*	items, _ := os.ReadDir(artifactDir)
 		artifactJSON := ""
@@ -174,15 +175,18 @@ func ProcessArtifact(artifactDir string, arguments map[string]any, artifactWaite
 
 }
 
-func ProcessArtifactFile(artifactDir string, arguments map[string]any, artifactWaiter *sync.WaitGroup, recordOutputChannel chan []string, logger zerolog.Logger, clientIdentifier string, artifactJSON string) {
+func ProcessArtifactFile(artifactDir string, arguments map[string]any, artifactWaiter *sync.WaitGroup, recordOutputChannel chan []string, logger zerolog.Logger, clientIdentifier string, artifactJSON string, genericHeaders []string) {
 	defer artifactWaiter.Done()
 
 	_, implemented := vars.ImplementedArtifacts[filepath.Base(artifactDir)]
-	if !implemented {
+	if !implemented && !arguments["artifactdump"].(bool) {
 		logger.Info().Msgf("Skipping (not implemented): %v", artifactJSON)
 		return
+	} else if !implemented && arguments["artifactdump"].(bool) {
+		logger.Info().Msgf("Processing (Generic): %v", artifactJSON)
+	} else {
+		logger.Info().Msgf("Processing: %v", artifactJSON)
 	}
-	logger.Info().Msgf("Processing: %v", artifactJSON)
 
 	maxRoutinesPerFile := arguments["maxgoperfile"].(int)
 	lineBatchSize := arguments["batchsize"].(int)
@@ -201,6 +205,7 @@ func ProcessArtifactFile(artifactDir string, arguments map[string]any, artifactW
 	scanner := bufio.NewScanner(inputFile)
 	buf := make([]byte, 0, 64*1024)
 	scanner.Buffer(buf, 1024*1024)
+	// TODO - instead of just maxing buffer, let's just wait until we find a long-line error then expand accordingly or read-as-slices and combine for that specific line
 
 	var readerWaitGroup sync.WaitGroup
 
@@ -221,7 +226,7 @@ func ProcessArtifactFile(artifactDir string, arguments map[string]any, artifactW
 					} else {
 						readerWaitGroup.Add(1)
 						jobTracker.AddJob()
-						go SendRecordsToAppropriateBus(logger, records, recordOutputChannel, arguments, &readerWaitGroup, &jobTracker, filepath.Base(artifactDir), clientIdentifier, artifactJSON)
+						go SendRecordsToAppropriateBus(logger, records, recordOutputChannel, arguments, &readerWaitGroup, &jobTracker, filepath.Base(artifactDir), clientIdentifier, artifactJSON, genericHeaders)
 						//go artifact_structs.Process_Windows_System_Service(records, recordOutputChannel, arguments, &readerWaitGroup, &jobTracker)
 						//go helpers.ProcessRecords(logger, records, asnDB, cityDB, countryDB, domainDB, ipAddressColumn, jsonColumn, arguments["regex"].(bool), arguments["dns"].(bool), recordChannel, &fileWG, &jobTracker, tempArgs, dateindex)
 						break waitForOthers
@@ -230,7 +235,7 @@ func ProcessArtifactFile(artifactDir string, arguments map[string]any, artifactW
 			} else {
 				readerWaitGroup.Add(1)
 				jobTracker.AddJob()
-				go SendRecordsToAppropriateBus(logger, records, recordOutputChannel, arguments, &readerWaitGroup, &jobTracker, filepath.Base(artifactDir), clientIdentifier, artifactJSON)
+				go SendRecordsToAppropriateBus(logger, records, recordOutputChannel, arguments, &readerWaitGroup, &jobTracker, filepath.Base(artifactDir), clientIdentifier, artifactJSON, genericHeaders)
 				//go helpers.ProcessRecords(logger, records, asnDB, cityDB, countryDB, domainDB, ipAddressColumn, jsonColumn, arguments["regex"].(bool), arguments["dns"].(bool), recordChannel, &fileWG, &jobTracker, tempArgs, dateindex)
 			}
 			records = nil
@@ -241,12 +246,11 @@ func ProcessArtifactFile(artifactDir string, arguments map[string]any, artifactW
 	}
 
 	readerWaitGroup.Add(1)
-	go SendRecordsToAppropriateBus(logger, records, recordOutputChannel, arguments, &readerWaitGroup, &jobTracker, filepath.Base(artifactDir), clientIdentifier, artifactJSON)
+	go SendRecordsToAppropriateBus(logger, records, recordOutputChannel, arguments, &readerWaitGroup, &jobTracker, filepath.Base(artifactDir), clientIdentifier, artifactJSON, genericHeaders)
 	readerWaitGroup.Wait()
 }
 
-func SendRecordsToAppropriateBus(logger zerolog.Logger, records []string, recordOutputChannel chan<- []string, arguments map[string]any, wg *sync.WaitGroup, jobs *vars.RunningJobs, artifactName string, clientIdentifier string, artifactFile string) {
-
+func SendRecordsToAppropriateBus(logger zerolog.Logger, records []string, recordOutputChannel chan<- []string, arguments map[string]any, wg *sync.WaitGroup, jobs *vars.RunningJobs, artifactName string, clientIdentifier string, artifactFile string, genericHeaders []string) {
 	defer wg.Done()
 	defer jobs.SubJob()
 	JSONFileName := filepath.Base(artifactFile)
@@ -660,11 +664,9 @@ func SendRecordsToAppropriateBus(logger zerolog.Logger, records []string, record
 		artifact_structs.Process_Generic_Applications_Office_Keywords(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
 	} else if artifactName == "Windows.System.Signers" {
 		artifact_structs.Process_Windows_System_Signers(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
+	} else {
+		artifact_structs.Process_Generic_Artifact(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger, genericHeaders)
 	}
-
-	/*	else {
-		//artifact_structs.Process_Generic_Artifact(artifactName, clientIdentifier, records, recordOutputChannel, arguments, logger)
-	}*/
 }
 
 func SetupArtifactListenChannels(clientArtifactPaths []string, logger zerolog.Logger, arguments map[string]any) {
@@ -682,10 +684,14 @@ func SetupArtifactListenChannels(clientArtifactPaths []string, logger zerolog.Lo
 		}
 		for _, artifactPath := range artifactPaths {
 			artifactName := filepath.Base(artifactPath)
+
+			/*			if artifactName != "Test.Generic.Parser" {
+						continue
+					}*/
+
 			_, implemented := vars.ImplementedArtifacts[artifactName]
 			if !implemented {
-				logger.Info().Msgf("No Parsing Implementation, Skipped: %v", artifactName)
-				continue
+				logger.Info().Msgf("No Parsing Implementation, Trying Generic Dump: %v", artifactName)
 			}
 			if (artifactName == "Windows.Timeline.MFT" || artifactName == "Windows.NTFS.MFT" || strings.HasPrefix(artifactName, "Custom.Windows.MFT")) && !arguments["mftlight"].(bool) && !arguments["mftfull"].(bool) {
 				logger.Info().Msgf("No MFT Flag Enabled, Skipped: %v", artifactName)
@@ -736,12 +742,12 @@ func SetupArtifactListenChannels(clientArtifactPaths []string, logger zerolog.Lo
 					writer.Write(artifactHeaders)
 
 					writeWG.Add(1)
-					logger.Info().Msgf("Setting Up Channel: %v", outputDir+outputFile)
+					//logger.Info().Msgf("Setting Up Channel: %v", outputDir+outputFile)
 					go helpers.ListenOnWriteChannel(artifactRecordChannel, writer, logger, outputF, arguments["writebuffer"].(int), &writeWG)
 					// We only want to close a channel once we are done processing all files in their entirety
 					go helpers.CloseChannelWhenDone(artifactRecordChannel, &artifactWaiter)
 				}
-				go ProcessArtifactFile(artifactName, arguments, &artifactWaiter, artifactRecordChannel, logger, clientIdentifier, JsonFile)
+				go ProcessArtifactFile(artifactName, arguments, &artifactWaiter, artifactRecordChannel, logger, clientIdentifier, JsonFile, artifactHeaders)
 			}
 		}
 	}
@@ -1135,17 +1141,15 @@ func GetAppropriateHeaders(artifact string, inputFile string) ([]string, error) 
 		headers = append(headers, artifact_structs.Generic_Applications_Office_Keywords.GetHeaders(artifact_structs.Generic_Applications_Office_Keywords{})...)
 	} else if artifact == "Windows.System.Signers.csv" {
 		headers = append(headers, artifact_structs.Windows_System_Signers.GetHeaders(artifact_structs.Windows_System_Signers{})...)
-	}
-
-	/*	else {
+	} else {
 		// Generic Header Retrieval
 		//fmt.Println(inputFile)
-		//tmpHeaders, headerErr := artifact_structs.Get_Generic_Headers(false, inputFile)
-		//if headerErr != nil {
-		//	return headers, headerErr
-		//}
-		//headers = append(headers, tmpHeaders...)
-	}*/
+		tmpHeaders, headerErr := artifact_structs.Get_Generic_Headers(false, inputFile)
+		if headerErr != nil {
+			return headers, headerErr
+		}
+		headers = append(headers, tmpHeaders...)
+	}
 
 	if len(headers) == 3 {
 		return headers, errors.New("Artifact Not Implemented: " + artifact)

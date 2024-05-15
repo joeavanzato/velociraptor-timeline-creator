@@ -23,38 +23,75 @@ func Get_Generic_Headers(fullparse bool, filepath string) ([]string, error) {
 		if tmpErr != nil {
 			return keys, tmpErr
 		}
-		fmt.Println(tmpMap)
+		keys = extractAllHeadersFromMap(tmpMap, keys, "")
+		break
 
 	}
-
 	return keys, nil
 }
 
-func extractAllHeadersFromMap(inputMap map[string]any, currentHeaders []string) []string {
+// TODO - Implement checking inside []interface{] to see if the objects are of type object and iterate down recursively through those
+func extractAllHeadersFromMap(inputMap map[string]any, currentHeaders []string, baseKey string) []string {
 	for k, v := range inputMap {
+		if baseKey != "" {
+			k = baseKey + "_" + k
+		}
 		keyExists := slices.Contains(currentHeaders, k)
 		if keyExists {
 			continue
 		}
 
-		switch vv := v.(type) {
-		case []interface{}:
-			new, ierr := v.(map[string]any)
-			if !ierr {
-				continue
-			}
-			extractAllHeadersFromMap(new, currentHeaders)
+		// JSON unmarshaller uses the following rules when parsing a JSON strirng
+		/*		bool, for JSON booleans
+				float64, for JSON numbers
+				string, for JSON strings
+				[]interface{}, for JSON arrays
+				map[string]interface{}, for JSON objects
+				nil for JSON null*/
+
+		// For all of these values except for map[string]interface{}, we can just store the key as normal - when it's a map[string]interface, we just recursively handle and build keys as required
+
+		switch v.(type) {
 		case map[string]interface{}:
-			s := make(map[string]string, len(vv))
-			for kk, uu := range vv {
-				s[kk] = fmt.Sprint(uu)
+			nv := v.(map[string]any)
+			newheaders := extractAllHeadersFromMap(nv, currentHeaders, k)
+			for _, v := range newheaders {
+				currentHeaders = helpers.AddToSliceIfNotPresent(v, currentHeaders)
 			}
-			//tempRecord[headerIndex] = fmt.Sprint(s)
 		default:
+			// If it's a 'normal' field, then we just add the header and parse as normal
 			currentHeaders = append(currentHeaders, k)
 		}
 	}
 	return currentHeaders
+}
+
+func buildRecordFromMap(inputMap map[string]any, keys []string, baseKey string, record []string) []string {
+
+	for k, v := range inputMap {
+		if baseKey != "" {
+			k = baseKey + "_" + k
+		}
+		// JSON unmarshaller uses the following rules when parsing a JSON strirng
+		/*		bool, for JSON booleans
+				float64, for JSON numbers
+				string, for JSON strings
+				[]interface{}, for JSON arrays
+				map[string]interface{}, for JSON objects
+				nil for JSON null*/
+		// For all of these values except for map[string]interface{}, we can just store the key as normal - when it's a map[string]interface, we just recursively handle and build keys as required
+
+		switch v.(type) {
+		case map[string]interface{}:
+			nv := v.(map[string]any)
+			record = buildRecordFromMap(nv, keys, k, record)
+		default:
+			// If it's a 'normal' field, then we just check key index and add to record
+			valueIndex := helpers.FindIndexInSlice(k, keys)
+			record[valueIndex] = fmt.Sprint(v)
+		}
+	}
+	return record
 }
 
 func parseJSONtoMap(input string) (map[string]any, error) {
@@ -66,20 +103,22 @@ func parseJSONtoMap(input string) (map[string]any, error) {
 	return result, nil
 }
 
-func Process_Generic_Artifact(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger) {
+func Process_Generic_Artifact(artifactName string, clientIdentifier string, inputLines []string, outputChannel chan<- []string, arguments map[string]any, logger zerolog.Logger, keys []string) {
 	// Receives lines from a file, unmarshalls to appropriate struct and sends the newly constructed array of ShallowRecords string to the output channel
+	// For generic artifact, we build a slice of len(keys), then we walk the full record - if the current key exists, we find it's index and insert into the current record
+	// -3 to account for the initial 3 headers we add to all artifact dumps
+	keys = keys[3:]
 	for _, line := range inputLines {
-		var tmp map[string]any
-		jsonErr := json.Unmarshal([]byte(line), &tmp)
-		if jsonErr != nil {
-			logger.Error().Msgf(jsonErr.Error())
+		jsonMap, jsonParseErr := parseJSONtoMap(line)
+		if jsonParseErr != nil {
+			logger.Error().Err(jsonParseErr)
 			continue
 		}
+		record := make([]string, len(keys))
+		record = buildRecordFromMap(jsonMap, keys, "", record)
 
-		if arguments["artifactdump"].(bool) {
-			helpers.BuildAndSendArtifactRecord("", clientIdentifier, "", []string{}, outputChannel)
-			continue
-		}
+		// We won't ever know which key represents timestamp or hostname for 'generic' parsed artifacts
+		helpers.BuildAndSendArtifactRecord("", clientIdentifier, "", record, outputChannel)
 		// We don't do 'super timeline' for 'generic' artifacts since we don't know their time fields, metadata, etc.
 		// We assume that every 'row' of a particular file will have the same string of keys across all rows
 		// This is not a perfect assumption for deeply nested data but will work 'good enough' for most use cases
